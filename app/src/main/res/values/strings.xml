@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">JobsApp</string>
+
+    <!--action-->
+    <string name="action_find">招聘</string>
+    <string name="action_date">日程</string>
+    <string name="action_discuss">论坛</string>
+    <string name="action_person">个人</string>
+    <string name="action_setting">设置</string>
+    <string name="action_about">关于</string>
+
+
+</resources>
