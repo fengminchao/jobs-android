@@ -6,6 +6,8 @@
 
         <item android:id="@+id/action_find"
               android:icon="@drawable/ic_work_black_24dp"
+              android:checkable="true"
+              android:checked="true"
               android:title="@string/action_find"/>
 
         <item android:id="@+id/action_date"
@@ -22,12 +24,17 @@
 
     </group>
 
-    <item android:id="@+id/action_setting"
-          android:icon="@drawable/ic_settings_black_24dp"
-          android:title="@string/action_setting"/>
+    <group android:id="@+id/group_other"
+           android:checkableBehavior="single">
 
-    <item android:id="@+id/action_about"
-          android:icon="@drawable/ic_info_outline_black_24dp"
-          android:title="@string/action_about"/>
+        <item android:id="@+id/action_setting"
+              android:icon="@drawable/ic_settings_black_24dp"
+              android:title="@string/action_setting"/>
+
+        <item android:id="@+id/action_about"
+              android:icon="@drawable/ic_info_outline_black_24dp"
+              android:title="@string/action_about"/>
+
+    </group>
 
 </menu>

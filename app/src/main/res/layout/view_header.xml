@@ -18,7 +18,7 @@
               android:layout_below="@id/header_view"
               android:layout_centerHorizontal="true"
               android:layout_marginTop="@dimen/activity_vertical_margin"
-              android:text="Feng"
+              android:text="Groovy"
               android:textColor="#ffffff"
               android:textSize="22sp"
     />

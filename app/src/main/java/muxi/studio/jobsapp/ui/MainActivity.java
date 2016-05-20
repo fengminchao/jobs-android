@@ -1,28 +1,41 @@
 package muxi.studio.jobsapp.ui;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import butterknife.BindView;
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import muxi.studio.jobsapp.R;
+import muxi.studio.jobsapp.adapter.FragmentAdapter;
+import muxi.studio.jobsapp.base.BaseActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    @BindView(R.id.toolbar)
+
+    @Bind(R.id.toolbar)
     Toolbar mToolbar;
-    @BindView(R.id.nav_view)
-    NavigationView mNavView;
-    @BindView(R.id.appbar_layout)
+    @Bind(R.id.tab_layout)
+    TabLayout mTabLayout;
+    @Bind(R.id.appbar_layout)
     AppBarLayout mAppbarLayout;
-    @BindView(R.id.drawer_layout)
+    @Bind(R.id.view_pager)
+    ViewPager mViewPager;
+    @Bind(R.id.nav_view)
+    NavigationView mNavView;
+    @Bind(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
 
     @Override
@@ -31,18 +44,45 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+
         initView();
     }
 
     private void initView() {
-        mToolbar = (Toolbar)findViewById(R.id.toolbar);
-        mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+//        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+//        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        mNavView = (NavigationView) findViewById(R.id.nav_view);
         mToolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_menu_white_24dp));
-        mToolbar.setTitle(getResources().getString(R.string.app_name));
+        mToolbar.setTitle(getResources().getString(R.string.action_find));
         setSupportActionBar(mToolbar);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        mNavView.setNavigationItemSelectedListener(this);
+
+        setupViewPager();
+    }
+
+    private void setupViewPager() {
+        List<String> titles = new ArrayList<>();
+        titles.add("宣讲会");
+        titles.add("招聘会");
+        titles.add("网投");
+        for (int i = 0; i < 3; i++) {
+            mTabLayout.addTab(mTabLayout.newTab().setText(titles.get(i)));
+        }
+        mTabLayout.setBackgroundColor(Color.WHITE);
+        mTabLayout.setTabTextColors(Color.BLACK, getResources().getColor(R.color.colorAccent));
+
+        List<Fragment> fragments = new ArrayList<>();
+        fragments.add(new FindFragment());
+        fragments.add(new FindFragment());
+        fragments.add(new FindFragment());
+
+        FragmentAdapter adapter = new FragmentAdapter(getSupportFragmentManager(), fragments, titles);
+        mViewPager.setAdapter(adapter);
+        mTabLayout.setupWithViewPager(mViewPager);
     }
 
 
@@ -58,4 +98,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        item.setChecked(true);
+        mToolbar.setTitle(item.getTitle());
+        mDrawerLayout.closeDrawers();
+        setSupportActionBar(mToolbar);
+
+        return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }
