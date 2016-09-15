@@ -1,5 +1,6 @@
 package muxi.studio.jobsapp.ui;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -12,6 +13,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +24,7 @@ import butterknife.ButterKnife;
 import muxi.studio.jobsapp.R;
 import muxi.studio.jobsapp.adapter.FragmentAdapter;
 import muxi.studio.jobsapp.base.BaseActivity;
+import muxi.studio.jobsapp.mine.MineActivity;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -38,12 +42,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Bind(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
 
+    private String username;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        username = getIntent().getStringExtra("username");
 
         initView();
     }
@@ -60,6 +67,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         mNavView.setNavigationItemSelectedListener(this);
+        View view = mNavView.getHeaderView(0);
+        TextView tvName = (TextView) view.findViewById(R.id.tv_name);
+        tvName.setText(username);
 
         setupViewPager();
     }
@@ -100,11 +110,18 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+        Intent intent;
         int itemId = item.getItemId();
         item.setChecked(true);
         mToolbar.setTitle(item.getTitle());
         mDrawerLayout.closeDrawers();
         setSupportActionBar(mToolbar);
+        switch (itemId){
+            case R.id.action_person:
+                intent = new Intent(MainActivity.this, MineActivity.class);
+                startActivity(intent);
+                break;
+        }
 
         return true;
     }

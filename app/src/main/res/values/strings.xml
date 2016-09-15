@@ -9,8 +9,15 @@
     <string name="action_setting">设置</string>
     <string name="action_about">关于</string>
 
+    <string name="mine_info">个人信息</string>
+    <string name="mine_resume">简历制作</string>
+    <string name="mine_follow">我的关注</string>
+    <string name="mine_history">浏览历史</string>
+
     <string name="tv_company">北京中公教育科技股份有限公司</string>
     <string name="tv_time">时间:2016年5月22日14:30</string>
     <string name="tv_place">地点:华中师范大学就业处招聘大厅</string>
 
+    <string name="username_error">username is error</string>
+    <string name="password_error">password is error</string>
 </resources>
