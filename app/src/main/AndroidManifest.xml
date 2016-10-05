@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="muxi.studio.jobsapp">
+    package="com.muxistudio.jobs">
 
     <uses-permission android:name="android.permission.CAMERA"/>
 
@@ -9,9 +9,9 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:name=".App"
+        android:name="com.muxistudio.com.muxistudio.jobs.App"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.MainActivity">
+        <activity android:name="com.muxistudio.com.muxistudio.jobs.ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
