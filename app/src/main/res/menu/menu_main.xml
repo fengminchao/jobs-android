@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:id="@+id/group"
+           android:checkableBehavior="single">
+
+        <item android:id="@+id/action_find"
+              android:icon="@drawable/ic_work_black_24dp"
+              android:checkable="true"
+              android:checked="true"
+              android:title="@string/action_find"/>
+
+        <item android:id="@+id/action_date"
+              android:icon="@drawable/ic_today_black_24dp"
+              android:title="@string/action_date"/>
+
+        <item android:id="@+id/action_discuss"
+              android:icon="@drawable/ic_group_black_24dp"
+              android:title="@string/action_discuss"/>
+
+        <item android:id="@+id/action_person"
+              android:icon="@drawable/ic_person_black_24dp"
+              android:title="@string/action_person"/>
+
+    </group>
+
+    <group android:id="@+id/group_other"
+           android:checkableBehavior="single">
+
+        <item android:id="@+id/action_setting"
+              android:icon="@drawable/ic_settings_black_24dp"
+              android:title="@string/action_setting"/>
+
+        <item android:id="@+id/action_about"
+              android:icon="@drawable/ic_info_outline_black_24dp"
+              android:title="@string/action_about"/>
+
+    </group>
+
+</menu>
