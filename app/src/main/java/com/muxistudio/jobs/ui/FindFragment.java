@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import butterknife.ButterKnife;
 import com.muxistudio.jobs.R;
 import com.muxistudio.jobs.adapter.RecyclerViewAdapter;
 import com.muxistudio.jobs.base.BaseFragment;

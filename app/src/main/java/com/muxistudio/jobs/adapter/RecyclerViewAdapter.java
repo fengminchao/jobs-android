@@ -12,6 +12,7 @@ import com.muxistudio.jobs.R;
 
 import butterknife.BindView;
 
+
 /**
  * Created by ybao on 16/5/19.
  */

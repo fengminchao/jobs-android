@@ -3,9 +3,9 @@ package com.muxistudio.jobs.mine;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
-import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import com.muxistudio.jobs.R;
 import com.muxistudio.jobs.base.BaseActivity;
