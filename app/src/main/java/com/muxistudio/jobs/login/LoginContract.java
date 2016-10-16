@@ -1,15 +1,12 @@
 package com.muxistudio.jobs.login;
 
-import com.muxistudio.jobs.BasePresenter;
-import com.muxistudio.jobs.BaseView;
-
 /**
  * Created by ybao on 16/10/5.
  */
 
 public interface LoginContract {
 
-    interface View extends BaseView {
+    interface View {
 
         void showLoading();
 

@@ -9,16 +9,9 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:name="com.muxistudio.jobs.App"
+        android:name=".inject.DemoApplication"
         android:theme="@style/AppTheme">
-        <activity android:name="com.muxistudio.jobs.login.LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        
 
     </application>
 
