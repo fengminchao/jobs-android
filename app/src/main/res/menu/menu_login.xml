@@ -4,6 +4,7 @@
 
     <item
         android:title="登录"
+        android:id="@+id/action_login"
         app:showAsAction="always"
     />
 

@@ -1,4 +1,4 @@
-package com.muxistudio.jobs.inject;
+package com.muxistudio.jobs.injector;
 
 import java.lang.annotation.Retention;
 

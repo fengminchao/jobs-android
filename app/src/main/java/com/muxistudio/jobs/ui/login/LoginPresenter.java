@@ -1,6 +1,6 @@
 package com.muxistudio.jobs.ui.login;
 
-import com.muxistudio.jobs.inject.PerActivity;
+import com.muxistudio.jobs.injector.PerActivity;
 
 /**
  * Created by ybao on 16/10/19.

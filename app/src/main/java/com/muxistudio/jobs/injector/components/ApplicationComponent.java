@@ -1,10 +1,10 @@
-package com.muxistudio.jobs.inject.components;
+package com.muxistudio.jobs.injector.components;
 
 import android.content.Context;
 
 import com.muxistudio.jobs.App;
-import com.muxistudio.jobs.inject.modules.ApiModule;
-import com.muxistudio.jobs.inject.modules.ApplicationModule;
+import com.muxistudio.jobs.injector.modules.ApiModule;
+import com.muxistudio.jobs.injector.modules.ApplicationModule;
 import com.muxistudio.jobs.ui.BaseActivity;
 
 import javax.inject.Singleton;

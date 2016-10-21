@@ -1,8 +1,8 @@
 package com.muxistudio.jobs.ui.login;
 
-import com.muxistudio.jobs.inject.PerActivity;
-import com.muxistudio.jobs.inject.components.ApplicationComponent;
-import com.muxistudio.jobs.inject.modules.ActivityModule;
+import com.muxistudio.jobs.injector.PerActivity;
+import com.muxistudio.jobs.injector.components.ApplicationComponent;
+import com.muxistudio.jobs.injector.modules.ActivityModule;
 
 import dagger.Component;
 

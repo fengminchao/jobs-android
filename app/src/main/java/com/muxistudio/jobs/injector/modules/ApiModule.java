@@ -1,4 +1,4 @@
-package com.muxistudio.jobs.inject.modules;
+package com.muxistudio.jobs.injector.modules;
 
 import com.muxistudio.jobs.api.user.UserApi;
 

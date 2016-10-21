@@ -11,7 +11,7 @@ public class LoginContract {
 
     interface View extends BaseView {
 
-        void showError();
+        void showError(String err);
 
         void showLoading();
 

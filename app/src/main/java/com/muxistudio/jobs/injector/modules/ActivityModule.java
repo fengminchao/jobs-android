@@ -1,8 +1,8 @@
-package com.muxistudio.jobs.inject.modules;
+package com.muxistudio.jobs.injector.modules;
 
 import android.app.Activity;
 
-import com.muxistudio.jobs.inject.PerActivity;
+import com.muxistudio.jobs.injector.PerActivity;
 
 import dagger.Module;
 import dagger.Provides;

@@ -1,4 +1,4 @@
-package com.muxistudio.jobs.inject;
+package com.muxistudio.jobs.injector;
 
 /**
  * Created by ybao on 16/10/16.

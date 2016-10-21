@@ -3,9 +3,9 @@ package com.muxistudio.jobs;
 import android.app.Application;
 import android.content.Context;
 
-import com.muxistudio.jobs.inject.components.ApplicationComponent;
-import com.muxistudio.jobs.inject.components.DaggerApplicationComponent;
-import com.muxistudio.jobs.inject.modules.ApplicationModule;
+import com.muxistudio.jobs.injector.components.ApplicationComponent;
+import com.muxistudio.jobs.injector.components.DaggerApplicationComponent;
+import com.muxistudio.jobs.injector.modules.ApplicationModule;
 
 import javax.inject.Inject;
 
@@ -25,7 +25,7 @@ public class App extends Application{
     @Override
     public void onCreate() {
         super.onCreate();
-        sContext = getApplicationContext();
+        sContext = this;
         initInjector();
     }
 
@@ -34,10 +34,6 @@ public class App extends Application{
                 .applicationModule(new ApplicationModule(this))
                 .build();
         mApplicationComponent.inject(this);
-    }
-
-    public static Context getContext(){
-        return sContext;
     }
 
     public ApplicationComponent getApplicationComponent(){
