@@ -5,4 +5,7 @@ package com.muxistudio.jobs;
  */
 
 public class Constant {
+
+    public static final String BASE_USER_API = "182.254.247.206:3000/api/";
+
 }

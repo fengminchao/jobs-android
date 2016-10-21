@@ -1,10 +1,11 @@
 package com.muxistudio.jobs.inject.components;
 
-import android.app.Application;
 import android.content.Context;
 
-import com.muxistudio.jobs.base.BaseActivity;
+import com.muxistudio.jobs.App;
+import com.muxistudio.jobs.inject.modules.ApiModule;
 import com.muxistudio.jobs.inject.modules.ApplicationModule;
+import com.muxistudio.jobs.ui.BaseActivity;
 
 import javax.inject.Singleton;
 
@@ -15,12 +16,12 @@ import dagger.Component;
  */
 
 @Singleton
-@Component(modules = ApplicationModule.class)
+@Component(modules = {ApplicationModule.class, ApiModule.class})
 public interface ApplicationComponent {
 
     Context getContext();
 
-    void inject(Application application);
+    void inject(App application);
 
     void inject(BaseActivity baseActivity);
 }
