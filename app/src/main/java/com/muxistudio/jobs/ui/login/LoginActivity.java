@@ -11,7 +11,6 @@ import android.widget.EditText;
 
 import com.muxistudio.jobs.R;
 import com.muxistudio.jobs.ui.ToolbarActivity;
-import com.muxistudio.jobs.ui.main.MainActivity;
 import com.muxistudio.jobs.util.ToastUtil;
 
 import javax.inject.Inject;
@@ -79,7 +78,7 @@ public class LoginActivity extends ToolbarActivity implements LoginContract.View
 
     @Override
     public void loginSuccess() {
-        MainActivity.startActivity(this);
+//        MainActivity.startActivity(this);
     }
 
     @Override

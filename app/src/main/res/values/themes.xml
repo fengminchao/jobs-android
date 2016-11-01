@@ -3,7 +3,7 @@
 
     <style name="BaseAppThemeLight" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">?attr/themeColorPrimary</item>
-        <item name="colorPrimaryDark">?attr/themeColorDark</item>
+        <item name="colorPrimaryDark">?attr/themeColorPrimaryDark</item>
         <item name="colorAccent">?attr/themeColorAccent</item>
         <item name="android:windowActionModeOverlay">true</item>
         <item name="android:windowBackground">@color/window_background_light</item>
@@ -17,12 +17,12 @@
     <style name="AppThemeLight" parent="BaseAppThemeLight">
         <item name="themeColorPrimary">@color/colorPrimary</item>
         <item name="themeColorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="themeColorkAccent">@color/colorAccent</item>
+        <item name="themeColorAccent">@color/colorAccent</item>
     </style>
 
     <style name="BaseAppThemeDark" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">?attr/themeColorPrimary</item>
-        <item name="colorPrimaryDark">?attr/themeColorDark</item>
+        <item name="colorPrimaryDark">?attr/themeColorPrimaryDark</item>
         <item name="colorAccent">?attr/themeColorAccent</item>
         <item name="android:windowActionModeOverlay">true</item>
         <item name="android:windowBackground">@color/window_background_dark</item>
@@ -33,10 +33,10 @@
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
-    <style name="AppThemeDark" parent="BaseAppThemeLight">
+    <style name="AppThemeDark" parent="BaseAppThemeDark">
         <item name="themeColorPrimary">@color/colorDarkPrimary</item>
         <item name="themeColorPrimaryDark">@color/colorDarkPrimaryDark</item>
-        <item name="themeColorkAccent">@color/colorDarkAccent</item>
+        <item name="themeColorAccent">@color/colorDarkAccent</item>
     </style>
 
     <style name="AppThemeSplash" parent="Theme.AppCompat.NoActionBar">

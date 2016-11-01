@@ -1,6 +1,7 @@
 package com.muxistudio.jobs.ui;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.muxistudio.jobs.App;
+import com.muxistudio.jobs.AppManager;
 import com.muxistudio.jobs.R;
 import com.muxistudio.jobs.injector.components.ApplicationComponent;
 import com.muxistudio.jobs.injector.modules.ActivityModule;
@@ -29,6 +31,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         initInjector();
         initView();
         mProgressDialog = new ProgressDialog(this);
+        AppManager.getAppManager().addActivity(this);
     }
 
     public void initTheme() {
@@ -79,6 +82,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        AppManager.getAppManager().finishActivity(this);
     }
 
     protected void showLoadingDialog(String msg) {
@@ -94,7 +98,12 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     public void reload() {
-
+        Intent intent = getIntent();
+        overridePendingTransition(0,0);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        finish();
+        overridePendingTransition(0,0);
+        startActivity(intent);
     }
 
 }
