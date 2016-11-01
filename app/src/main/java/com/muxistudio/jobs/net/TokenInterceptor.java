@@ -2,7 +2,7 @@ package com.muxistudio.jobs.net;
 
 import android.text.TextUtils;
 
-import com.muxistudio.jobs.data.UserAuth;
+import com.muxistudio.jobs.api.UserAuth;
 
 import java.io.IOException;
 

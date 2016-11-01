@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+    <include android:id="@+id/view_toolbar"
+             layout="@layout/view_toolbar"/>
+
+    <include
+        android:id="@+id/view_account"
+        layout="@layout/view_account"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view_account"
+        android:id="@+id/et_auth"
+        android:layout_toLeftOf="@+id/tv_auth"
+        android:hint="请输入验证码"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:id="@+id/tv_auth"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:text="获取验证码"
+        android:textSize="16sp"
+        android:layout_below="@+id/view_account"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

@@ -1,30 +1,47 @@
 package com.muxistudio.jobs.ui;
 
 import android.app.ProgressDialog;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.muxistudio.jobs.App;
+import com.muxistudio.jobs.R;
 import com.muxistudio.jobs.injector.components.ApplicationComponent;
 import com.muxistudio.jobs.injector.modules.ActivityModule;
+import com.muxistudio.jobs.util.PreferUtil;
 
 /**
  * Created by ybao on 16/10/16.
  */
 
-public abstract class BaseActivity extends AppCompatActivity{
+public abstract class BaseActivity extends AppCompatActivity {
 
     private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         getApplicationComponent().inject(this);
+        initTheme();
         super.onCreate(savedInstanceState);
         initInjector();
         initView();
         mProgressDialog = new ProgressDialog(this);
+    }
+
+    public void initTheme() {
+        int theme;
+        try {
+            theme = getPackageManager().getActivityInfo(getComponentName(), 0).theme;
+        } catch (PackageManager.NameNotFoundException e) {
+            return;
+        }
+        if (theme != R.style.AppThemeSplash) {
+            theme = PreferUtil.getBoolean(PreferUtil.IS_NIGHT_THEME) ? R.style.AppThemeDark : R.style.AppThemeLight;
+        }
+        setTheme(theme);
     }
 
     protected abstract void initView();
@@ -32,17 +49,17 @@ public abstract class BaseActivity extends AppCompatActivity{
     protected abstract void initInjector();
 
 
-    public ApplicationComponent getApplicationComponent(){
+    public ApplicationComponent getApplicationComponent() {
         return ((App) getApplication()).getApplicationComponent();
     }
 
-    protected ActivityModule getActivityModule(){
+    protected ActivityModule getActivityModule() {
         return new ActivityModule(this);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
         }
@@ -64,16 +81,20 @@ public abstract class BaseActivity extends AppCompatActivity{
         super.onDestroy();
     }
 
-    protected void showLoadingDialog(String msg){
-        if (! mProgressDialog.isShowing()) {
-            mProgressDialog.show(this,null,msg);
+    protected void showLoadingDialog(String msg) {
+        if (!mProgressDialog.isShowing()) {
+            mProgressDialog.show(this, null, msg);
         }
     }
 
-    protected void hideLoadingDialog(){
-        if (mProgressDialog.isShowing()){
+    protected void hideLoadingDialog() {
+        if (mProgressDialog.isShowing()) {
             mProgressDialog.hide();
         }
+    }
+
+    public void reload() {
+
     }
 
 }

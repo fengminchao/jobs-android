@@ -2,7 +2,7 @@ package com.muxistudio.jobs.injector.modules;
 
 import android.content.Context;
 
-import com.muxistudio.jobs.data.UserAuth;
+import com.muxistudio.jobs.api.UserAuth;
 import com.muxistudio.jobs.net.HttpLoggingInterceptor;
 import com.muxistudio.jobs.net.TokenInterceptor;
 
@@ -33,28 +33,39 @@ public class ApplicationModule {
         return this.context;
     }
 
-    @Provides
-    @Singleton
-    public OkHttpClient provideOkHttpClient(OkHttpClient client){
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient.Builder builder = client.newBuilder()
-                .connectTimeout(15, TimeUnit.SECONDS)
-                .addInterceptor(interceptor);
-        return builder.build();
-    }
+//    @Provides
+//    @Singleton
+//    public OkHttpClient provideOkHttpClient(OkHttpClient client){
+//        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+//        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+//        OkHttpClient.Builder builder = client.newBuilder()
+//                .connectTimeout(15, TimeUnit.SECONDS)
+//                .addInterceptor(interceptor);
+//        return builder.build();
+//    }
 
     @Provides
     @Singleton
-    public OkHttpClient provideTokenClient(UserAuth auth){
+    public OkHttpClient provideTokenClient(TokenInterceptor tokenInterceptor){
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(interceptor)
                 .connectTimeout(15,TimeUnit.SECONDS)
-                .addNetworkInterceptor(new TokenInterceptor(auth))
+                .addNetworkInterceptor(tokenInterceptor)
                 .build();
         return client;
+    }
+
+    @Provides
+    @Singleton TokenInterceptor provideTokenInterceptor(UserAuth userAuth){
+        return new TokenInterceptor(userAuth);
+    }
+
+    @Provides
+    @Singleton
+    public UserAuth provideUserAuth(Context context){
+        return new UserAuth(context);
     }
 
 

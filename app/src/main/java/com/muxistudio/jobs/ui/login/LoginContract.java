@@ -24,5 +24,6 @@ public class LoginContract {
     interface Presenter extends BasePresenter<View> {
 
         void login(String username, String pwd);
+
     }
 }

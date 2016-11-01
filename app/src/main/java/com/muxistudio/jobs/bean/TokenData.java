@@ -6,13 +6,13 @@ package com.muxistudio.jobs.bean;
 
 public class TokenData extends BaseData{
 
-    private int token;
+    private String token;
 
-    public int getToken() {
+    public String getToken() {
         return token;
     }
 
-    public void setToken(int token) {
+    public void setToken(String token) {
         this.token = token;
     }
 }

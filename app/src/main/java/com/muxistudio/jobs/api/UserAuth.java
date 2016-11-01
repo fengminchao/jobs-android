@@ -1,4 +1,8 @@
-package com.muxistudio.jobs.data;
+package com.muxistudio.jobs.api;
+
+import android.content.Context;
+
+import com.muxistudio.jobs.data.User;
 
 /**
  * Created by ybao on 16/10/18.
@@ -9,9 +13,10 @@ public class UserAuth {
     private User mUser;
     private String token;
 
-    public UserAuth(User user,String token){
-        this.mUser = user;
-        this.token = token;
+    private Context mContext;
+
+    public UserAuth(Context context){
+        mContext = context;
     }
 
     public User getUser() {

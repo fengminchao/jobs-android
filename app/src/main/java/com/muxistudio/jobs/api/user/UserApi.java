@@ -13,7 +13,7 @@ public class UserApi {
 
     private UserService mUserService;
 
-    private static final String BASE_USER_URL = "182.254.247.206:3000/api/";
+    private static final String BASE_USER_URL = "http://182.254.247.206:3000/api/";
 
     public UserApi(OkHttpClient client) {
 //        OkHttpClient client = new OkHttpClient.Builder()

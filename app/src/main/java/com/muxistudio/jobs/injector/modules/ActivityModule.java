@@ -4,6 +4,8 @@ import android.app.Activity;
 
 import com.muxistudio.jobs.injector.PerActivity;
 
+import javax.inject.Inject;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -16,6 +18,7 @@ public class ActivityModule {
 
     private final Activity mActivity;
 
+    @Inject
     public ActivityModule(Activity activity) {
         mActivity = activity;
     }

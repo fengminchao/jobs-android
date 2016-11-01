@@ -2,7 +2,6 @@ package com.muxistudio.jobs.ui.login;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -29,8 +28,6 @@ public class LoginActivity extends ToolbarActivity implements LoginContract.View
     LoginPresenter mPresenter;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @BindView(R.id.appbar_layout)
-    AppBarLayout mAppbarLayout;
     @BindView(R.id.edit_name)
     EditText mEditName;
     @BindView(R.id.layout_name)
@@ -45,9 +42,6 @@ public class LoginActivity extends ToolbarActivity implements LoginContract.View
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        ButterKnife.bind(this);
-
     }
 
     @Override
@@ -61,6 +55,8 @@ public class LoginActivity extends ToolbarActivity implements LoginContract.View
 
     @Override
     protected void initView() {
+        setContentView(R.layout.activity_login);
+        ButterKnife.bind(this);
         mPresenter.attachView(this);
         initToolbar(mToolbar);
         setTitle("登录");

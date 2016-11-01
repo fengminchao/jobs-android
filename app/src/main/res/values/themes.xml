@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="BaseAppThemeLight" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">?attr/themeColorPrimary</item>
+        <item name="colorPrimaryDark">?attr/themeColorDark</item>
+        <item name="colorAccent">?attr/themeColorAccent</item>
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:windowBackground">@color/window_background_light</item>
+        <item name="android:listDivider">@color/list_divider_light</item>
+        <item name="widgetBackground">@color/selectable_item_background_light_normal</item>
+        <item name="widgetBackgroundDark">@color/selectable_item_background_light_pressed</item>
+        <item name="widgetBackgroundTitle">@android:color/white</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+    
+    <style name="AppThemeLight" parent="BaseAppThemeLight">
+        <item name="themeColorPrimary">@color/colorPrimary</item>
+        <item name="themeColorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="themeColorkAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="BaseAppThemeDark" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">?attr/themeColorPrimary</item>
+        <item name="colorPrimaryDark">?attr/themeColorDark</item>
+        <item name="colorAccent">?attr/themeColorAccent</item>
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:windowBackground">@color/window_background_dark</item>
+        <item name="android:listDivider">@color/list_divider_dark</item>
+        <item name="widgetBackground">@color/selectable_item_background_dark_normal</item>
+        <item name="widgetBackgroundDark">@color/selectable_item_background_dark_pressed</item>
+        <item name="widgetBackgroundTitle">@color/colorPrimary</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="AppThemeDark" parent="BaseAppThemeLight">
+        <item name="themeColorPrimary">@color/colorDarkPrimary</item>
+        <item name="themeColorPrimaryDark">@color/colorDarkPrimaryDark</item>
+        <item name="themeColorkAccent">@color/colorDarkAccent</item>
+    </style>
+
+    <style name="AppThemeSplash" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
+</resources>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="themeColorPrimary" format="reference|color"/>
+    <attr name="themeColorDark" format="reference|color"/>
+    <attr name="themeColorAccent" format="reference|color"/>
+
+    <attr name="widgetBackground" format="color|reference"/>
+    <attr name="widgetBackgroundDark" format="color|reference"/>
+    <attr name="wiggetBackgroundTitle" format="color|reference"/>
+</resources>

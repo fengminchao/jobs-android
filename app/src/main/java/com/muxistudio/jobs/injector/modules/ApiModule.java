@@ -1,5 +1,6 @@
 package com.muxistudio.jobs.injector.modules;
 
+import com.muxistudio.jobs.api.jobs.JobsApi;
 import com.muxistudio.jobs.api.user.UserApi;
 
 import javax.inject.Singleton;
@@ -19,4 +20,11 @@ public class ApiModule {
     public UserApi provideUserApi(OkHttpClient client){
         return new UserApi(client);
     }
+
+    @Provides
+    @Singleton
+    public JobsApi provideJobsApi(OkHttpClient client) {
+        return new JobsApi(client);
+    }
+
 }

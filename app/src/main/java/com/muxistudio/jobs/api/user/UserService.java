@@ -2,6 +2,7 @@ package com.muxistudio.jobs.api.user;
 
 import com.muxistudio.jobs.bean.BaseData;
 import com.muxistudio.jobs.bean.TokenData;
+import com.muxistudio.jobs.data.User;
 
 import retrofit2.http.Body;
 import retrofit2.http.POST;
@@ -24,8 +25,7 @@ public interface UserService {
                                         @Body String authCode);
 
     @POST("user/login")
-    Observable<TokenData> login(@Body String mail,
-                                @Body String pwd);
+    Observable<TokenData> login(@Body User user);
 
     @POST("user/findAuth")
     Observable<BaseData> findAuth(@Body String mail);

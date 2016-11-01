@@ -6,6 +6,7 @@
         android:title="登录"
         android:id="@+id/action_login"
         app:showAsAction="always"
+        android:icon="@drawable/ic_send_white_24dp"
     />
 
 </menu>

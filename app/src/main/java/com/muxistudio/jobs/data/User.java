@@ -5,7 +5,9 @@ package com.muxistudio.jobs.data;
  */
 public class User {
 
-    private String name;
+    private String mail;
+
+    private String pwd;
 
     public String getPwd() {
         return pwd;
@@ -15,13 +17,11 @@ public class User {
         this.pwd = pwd;
     }
 
-    private String pwd;
-
-    public String getName() {
-        return name;
+    public String getMail() {
+        return mail;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 }
