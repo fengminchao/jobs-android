@@ -18,9 +18,8 @@
               android:layout_below="@id/header_view"
               android:layout_centerHorizontal="true"
               android:layout_marginTop="@dimen/activity_vertical_margin"
-              android:text="Groovy"
+              android:text="未登录"
               android:textColor="#ffffff"
-              android:textSize="22sp"
-    />
+              android:textSize="22sp"/>
 
 </RelativeLayout>

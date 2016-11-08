@@ -20,7 +20,7 @@
         <item name="themeColorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="BaseAppThemeDark" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="BaseAppThemeDark" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">?attr/themeColorPrimary</item>
         <item name="colorPrimaryDark">?attr/themeColorPrimaryDark</item>
         <item name="colorAccent">?attr/themeColorAccent</item>

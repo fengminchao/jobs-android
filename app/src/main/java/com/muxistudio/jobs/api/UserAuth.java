@@ -15,8 +15,7 @@ public class UserAuth {
 
     private Context mContext;
 
-    public UserAuth(Context context){
-        mContext = context;
+    public UserAuth(){
     }
 
     public User getUser() {

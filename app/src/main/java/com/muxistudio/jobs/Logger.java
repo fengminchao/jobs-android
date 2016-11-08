@@ -1,5 +1,6 @@
 package com.muxistudio.jobs;
 
+import android.content.res.Resources;
 import android.util.Log;
 
 /**

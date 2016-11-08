@@ -20,4 +20,19 @@
 
     <string name="username_error">username is error</string>
     <string name="password_error">password is error</string>
+    
+    <string name="setting_general">常规</string>
+    <string name="setting_push">通知</string>
+    <string name="setting_other">其他</string>
+    <string name="setting_change_accout">切换账号</string>
+    <string name="setting_change_theme">开启夜间模式</string>
+    <string name="setting_logout">退出登录</string>
+    <string name="setting_notify">开启通知</string>
+    <string name="setting_clear_cache">清除缓存</string>
+
+    <string name="key_theme">key_theme</string>
+    <string name="key_notify">key_notify</string>
+    <string name="key_cache">key_cache</string>
+    <string name="key_account">key_account</string>
+    <string name="key_logout">key_logout</string>
 </resources>

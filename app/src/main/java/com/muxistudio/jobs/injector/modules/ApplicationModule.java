@@ -64,8 +64,8 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    public UserAuth provideUserAuth(Context context){
-        return new UserAuth(context);
+    public UserAuth provideUserAuth(){
+        return new UserAuth();
     }
 
 

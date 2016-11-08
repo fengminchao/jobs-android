@@ -50,14 +50,10 @@ public class SettingActiviy extends ToolbarActivity {
         mButton.setOnClickListener(v -> {
             PreferUtil.putBoolean(PreferUtil.IS_NIGHT_THEME, false);
             reload();
-//            SettingActiviy.this.finish();
-//            startActivity(getIntent());
         });
         mButton2.setOnClickListener(v -> {
             PreferUtil.putBoolean(PreferUtil.IS_NIGHT_THEME, true);
             reload();
-//            SettingActiviy.this.finish();
-//            startActivity(getIntent());
         });
     }
 
