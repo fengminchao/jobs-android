@@ -4,12 +4,17 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
+import android.view.Gravity;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.FrameLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.muxistudio.jobs.Logger;
 import com.muxistudio.jobs.R;
 import com.muxistudio.jobs.ui.ToolbarActivity;
+import com.muxistudio.jobs.ui.find.FindFragment;
 import javax.inject.Inject;
 
 /**
@@ -22,11 +27,16 @@ public class MainActivity extends ToolbarActivity implements MainContract.View{
   @BindView(R.id.nav_view) NavigationView navView;
   @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
 
+  //指示当前的 fragment 是否是findfragment
+  private boolean isFindFragment = true;
+
+  @Inject MainPresenter mPresenter;
 
   @Override protected void initView() {
     setContentView(R.layout.activity_main);
     ButterKnife.bind(this);
-
+    showFragment(new FindFragment());
+    mPresenter.attachView(this);
   }
 
   @Override protected void initInjector() {
@@ -34,13 +44,8 @@ public class MainActivity extends ToolbarActivity implements MainContract.View{
   }
 
   @Override protected boolean canBack() {
-    return super.canBack();
+    return false;
   }
-
-  public void showFragment(Fragment fragment) {
-    getSupportFragmentManager().beginTransaction().replace(R.id.content, fragment).commit();
-  }
-
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -49,16 +54,35 @@ public class MainActivity extends ToolbarActivity implements MainContract.View{
   }
 
   @Override public boolean onPrepareOptionsMenu(Menu menu) {
-
+    menu.clear();
+    if (isFindFragment) {
+      getMenuInflater().inflate(R.menu.menu_search,menu);
+    }
     return super.onPrepareOptionsMenu(menu);
+  }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()){
+      case android.R.id.home:
+        drawerLayout.openDrawer(Gravity.LEFT);
+        break;
+      case R.id.action_search:
+        mPresenter.onSearchClick();
+        break;
+    }
+    return super.onOptionsItemSelected(item);
   }
 
   @Override public void showAccountUi() {
 
   }
 
-  @Override public void showFragment() {
-
+  @Override public void showFragment(Fragment fragment) {
+    getSupportFragmentManager().beginTransaction().replace(R.id.content, fragment).commit();
+    Logger.d((fragment instanceof FindFragment) + "");
+    if (fragment instanceof FindFragment){
+      invalidateOptionsMenu();
+    }
   }
 
   @Override public void showSearchView() {
@@ -69,4 +93,8 @@ public class MainActivity extends ToolbarActivity implements MainContract.View{
 
   }
 
+  @Override protected void onDestroy() {
+    super.onDestroy();
+    mPresenter.detachView();
+  }
 }

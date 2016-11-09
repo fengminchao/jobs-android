@@ -1,5 +1,6 @@
 package com.muxistudio.jobs.api.jobs;
 
+import com.muxistudio.jobs.bean.CareerList;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -13,7 +14,7 @@ public class JobsApi {
 
     private JobsService mJobsService;
 
-    private static final String BASE_JOBS_URL = "";
+    private static final String BASE_JOBS_URL = "http://api.haitou.cc/";
 
     public JobsApi(OkHttpClient client) {
         Retrofit retrofit = new Retrofit.Builder()

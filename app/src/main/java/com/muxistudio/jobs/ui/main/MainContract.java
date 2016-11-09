@@ -1,5 +1,7 @@
 package com.muxistudio.jobs.ui.main;
 
+import android.support.v4.app.Fragment;
+import android.view.MenuItem;
 import com.muxistudio.jobs.ui.BasePresenter;
 import com.muxistudio.jobs.ui.BaseView;
 
@@ -13,7 +15,7 @@ public class MainContract {
 
     void showAccountUi();
 
-    void showFragment();
+    void showFragment(Fragment fragment);
 
     void showSearchView();
 
@@ -23,13 +25,13 @@ public class MainContract {
 
   }
 
-  interface Presenter extends BasePresenter{
+  interface Presenter extends BasePresenter<View>{
 
     void onAccountClick();
 
     void onSearchClick();
 
-    void onNavigationClick();
+    void onNavigationClick(MenuItem item);
 
     void exist();
   }

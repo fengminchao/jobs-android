@@ -3,7 +3,6 @@ package com.muxistudio.jobs.ui.login;
 import com.muxistudio.jobs.Logger;
 import com.muxistudio.jobs.api.UserAuth;
 import com.muxistudio.jobs.api.user.UserApi;
-import com.muxistudio.jobs.bean.TokenData;
 import com.muxistudio.jobs.data.User;
 import com.muxistudio.jobs.injector.PerActivity;
 

@@ -1,7 +1,6 @@
 package com.muxistudio.jobs.api.user;
 
 import com.muxistudio.jobs.bean.BaseData;
-import com.muxistudio.jobs.bean.TokenData;
 import com.muxistudio.jobs.data.User;
 
 import retrofit2.http.Body;

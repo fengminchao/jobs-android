@@ -8,6 +8,7 @@
     <string name="action_person">个人</string>
     <string name="action_setting">设置</string>
     <string name="action_about">关于</string>
+    <string name="action_search">搜索</string>
 
     <string name="mine_info">个人信息</string>
     <string name="mine_resume">简历制作</string>
