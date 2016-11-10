@@ -1,5 +1,7 @@
 package com.muxistudio.jobs.ui.main;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -16,6 +18,9 @@ import com.muxistudio.jobs.R;
 import com.muxistudio.jobs.ui.ToolbarActivity;
 import com.muxistudio.jobs.ui.find.FindFragment;
 import javax.inject.Inject;
+import rx.Observable;
+import rx.functions.Action1;
+import rx.functions.Func1;
 
 /**
  * Created by ybao on 16/11/1.
@@ -40,7 +45,7 @@ public class MainActivity extends ToolbarActivity implements MainContract.View{
   }
 
   @Override protected void initInjector() {
-
+  //
   }
 
   @Override protected boolean canBack() {

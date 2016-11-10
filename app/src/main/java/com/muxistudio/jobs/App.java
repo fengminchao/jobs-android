@@ -4,9 +4,9 @@ import android.app.Application;
 import android.content.Context;
 
 import com.muxistudio.jobs.injector.components.ApplicationComponent;
+
 import com.muxistudio.jobs.injector.components.DaggerApplicationComponent;
 import com.muxistudio.jobs.injector.modules.ApplicationModule;
-
 import javax.inject.Inject;
 
 import okhttp3.OkHttpClient;
