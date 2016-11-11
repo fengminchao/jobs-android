@@ -12,8 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.muxistudio.jobs.Logger;
 import com.muxistudio.jobs.R;
 import com.muxistudio.jobs.ui.BaseFragment;
+import com.muxistudio.jobs.ui.main.MainActivity;
+import com.muxistudio.jobs.ui.main.MainComponent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,14 +53,19 @@ public class FindFragment extends BaseFragment {
     mTabLayout.setBackgroundColor(Color.WHITE);
     mTabLayout.setTabTextColors(Color.BLACK, getResources().getColor(R.color.colorAccent));
     List<Fragment> fragments = new ArrayList<>();
-    fragments.add(new FindFragment());
-    fragments.add(new FindFragment());
-    fragments.add(new FindFragment());
+    fragments.add(InfoFragment.newInstance(1));
+    fragments.add(InfoFragment.newInstance(2));
+    fragments.add(InfoFragment.newInstance(3));
     FragmentAdapter adapter = new FragmentAdapter(getActivity().getSupportFragmentManager(), fragments, titles);
     mViewPager.setAdapter(adapter);
     mTabLayout.setupWithViewPager(mViewPager);
+    Logger.d("setup fragments");
   }
 
+  @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    super.onViewCreated(view, savedInstanceState);
+    getComponent(MainComponent.class).inject((MainActivity) getActivity());
+  }
 
   @Override public void onPrepareOptionsMenu(Menu menu) {
     super.onPrepareOptionsMenu(menu);

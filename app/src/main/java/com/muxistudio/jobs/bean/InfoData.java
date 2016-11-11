@@ -11,5 +11,5 @@ public class InfoData {
   public String title;
   public String time;
   public String place;
-  public String clicks;
+  public int clicks;
 }

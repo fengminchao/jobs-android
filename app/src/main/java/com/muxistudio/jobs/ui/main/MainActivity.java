@@ -15,6 +15,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.muxistudio.jobs.Logger;
 import com.muxistudio.jobs.R;
+import com.muxistudio.jobs.injector.HasComponent;
 import com.muxistudio.jobs.ui.ToolbarActivity;
 import com.muxistudio.jobs.ui.find.FindFragment;
 import javax.inject.Inject;
@@ -26,7 +27,7 @@ import rx.functions.Func1;
  * Created by ybao on 16/11/1.
  */
 
-public class MainActivity extends ToolbarActivity implements MainContract.View{
+public class MainActivity extends ToolbarActivity implements MainContract.View,HasComponent<MainComponent>{
 
   @BindView(R.id.content) FrameLayout content;
   @BindView(R.id.nav_view) NavigationView navView;
@@ -35,6 +36,7 @@ public class MainActivity extends ToolbarActivity implements MainContract.View{
   //指示当前的 fragment 是否是findfragment
   private boolean isFindFragment = true;
 
+  private MainComponent mMainComponent;
   @Inject MainPresenter mPresenter;
 
   @Override protected void initView() {
@@ -45,7 +47,10 @@ public class MainActivity extends ToolbarActivity implements MainContract.View{
   }
 
   @Override protected void initInjector() {
-  //
+    mMainComponent = DaggerMainComponent.builder().applicationComponent(getApplicationComponent())
+        .mainModule(new MainModule())
+        .build();
+    mMainComponent.inject(this);
   }
 
   @Override protected boolean canBack() {
@@ -101,5 +106,9 @@ public class MainActivity extends ToolbarActivity implements MainContract.View{
   @Override protected void onDestroy() {
     super.onDestroy();
     mPresenter.detachView();
+  }
+
+  @Override public MainComponent getComponent() {
+    return mMainComponent;
   }
 }

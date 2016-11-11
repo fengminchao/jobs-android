@@ -16,6 +16,7 @@ public class FulltimeList extends JobsBase{
     public String title;
     public List<String> positionCities;
     public String logoUrl;
+    public List<String> positionNames;
 
   }
 }

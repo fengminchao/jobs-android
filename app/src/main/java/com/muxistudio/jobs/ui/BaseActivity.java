@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import com.muxistudio.jobs.App;
 import com.muxistudio.jobs.AppManager;
 import com.muxistudio.jobs.R;
+import com.muxistudio.jobs.injector.HasComponent;
 import com.muxistudio.jobs.injector.components.ApplicationComponent;
 import com.muxistudio.jobs.injector.modules.ActivityModule;
 import com.muxistudio.jobs.util.PreferUtil;
@@ -21,89 +22,85 @@ import com.muxistudio.jobs.util.PreferUtil;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
-    private ProgressDialog mProgressDialog;
+  private ProgressDialog mProgressDialog;
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        getApplicationComponent().inject(this);
-        initTheme();
-        super.onCreate(savedInstanceState);
-        initInjector();
-        initView();
-        mProgressDialog = new ProgressDialog(this);
-        AppManager.getAppManager().addActivity(this);
+  @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
+    getApplicationComponent().inject(this);
+    initTheme();
+    super.onCreate(savedInstanceState);
+    initInjector();
+    initView();
+    mProgressDialog = new ProgressDialog(this);
+    AppManager.getAppManager().addActivity(this);
+  }
+
+  public void initTheme() {
+    int theme;
+    try {
+      theme = getPackageManager().getActivityInfo(getComponentName(), 0).theme;
+    } catch (PackageManager.NameNotFoundException e) {
+      return;
     }
-
-    public void initTheme() {
-        int theme;
-        try {
-            theme = getPackageManager().getActivityInfo(getComponentName(), 0).theme;
-        } catch (PackageManager.NameNotFoundException e) {
-            return;
-        }
-        if (theme != R.style.AppThemeSplash) {
-            theme = PreferUtil.getBoolean(PreferUtil.IS_NIGHT_THEME) ? R.style.AppThemeDark : R.style.AppThemeLight;
-        }
-        setTheme(theme);
+    if (theme != R.style.AppThemeSplash) {
+      theme = PreferUtil.getBoolean(PreferUtil.IS_NIGHT_THEME) ? R.style.AppThemeDark
+          : R.style.AppThemeLight;
     }
+    setTheme(theme);
+  }
 
-    protected abstract void initView();
+  protected abstract void initView();
 
-    protected abstract void initInjector();
+  protected abstract void initInjector();
 
+  public ApplicationComponent getApplicationComponent() {
+    return ((App) getApplication()).getApplicationComponent();
+  }
 
-    public ApplicationComponent getApplicationComponent() {
-        return ((App) getApplication()).getApplicationComponent();
+  protected ActivityModule getActivityModule() {
+    return new ActivityModule(this);
+  }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    if (item.getItemId() == android.R.id.home) {
+      finish();
+      return true;
     }
+    return super.onOptionsItemSelected(item);
+  }
 
-    protected ActivityModule getActivityModule() {
-        return new ActivityModule(this);
-    }
+  @Override protected void onPause() {
+    super.onPause();
+  }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+  @Override protected void onResume() {
+    super.onResume();
+  }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
+  @Override protected void onDestroy() {
+    super.onDestroy();
+    AppManager.getAppManager().finishActivity(this);
+  }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+  protected void showLoadingDialog(String msg) {
+    if (!mProgressDialog.isShowing()) {
+      mProgressDialog.show(this, null, msg);
     }
+  }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        AppManager.getAppManager().finishActivity(this);
+  protected void hideLoadingDialog() {
+    if (mProgressDialog.isShowing()) {
+      mProgressDialog.hide();
     }
+  }
 
-    protected void showLoadingDialog(String msg) {
-        if (!mProgressDialog.isShowing()) {
-            mProgressDialog.show(this, null, msg);
-        }
-    }
+  public void reload() {
+    Intent intent = getIntent();
+    overridePendingTransition(0, 0);
+    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+    finish();
+    overridePendingTransition(0, 0);
+    startActivity(intent);
+  }
 
-    protected void hideLoadingDialog() {
-        if (mProgressDialog.isShowing()) {
-            mProgressDialog.hide();
-        }
-    }
-
-    public void reload() {
-        Intent intent = getIntent();
-        overridePendingTransition(0,0);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        finish();
-        overridePendingTransition(0,0);
-        startActivity(intent);
-    }
 
 }

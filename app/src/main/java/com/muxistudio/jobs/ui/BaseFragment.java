@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.muxistudio.jobs.R;
+import com.muxistudio.jobs.injector.HasComponent;
 
 /**
  * Created by ybao on 16/10/16.
@@ -28,7 +29,15 @@ public class BaseFragment extends Fragment{
     super.onViewCreated(view, savedInstanceState);
   }
 
+  @Override public void onDestroyView() {
+    super.onDestroyView();
+  }
+
   public void startFragment(Fragment fragment){
     getFragmentManager().beginTransaction().replace(R.id.content,fragment).commit();
+  }
+
+  @SuppressWarnings("unchecked") protected <C> C getComponent(Class<C> componentType) {
+    return componentType.cast(((HasComponent<C>) getActivity()).getComponent());
   }
 }
