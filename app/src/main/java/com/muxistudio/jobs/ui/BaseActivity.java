@@ -11,10 +11,9 @@ import android.view.MenuItem;
 import com.muxistudio.jobs.App;
 import com.muxistudio.jobs.AppManager;
 import com.muxistudio.jobs.R;
-import com.muxistudio.jobs.injector.HasComponent;
 import com.muxistudio.jobs.injector.components.ApplicationComponent;
 import com.muxistudio.jobs.injector.modules.ActivityModule;
-import com.muxistudio.jobs.util.PreferUtil;
+import com.muxistudio.jobs.util.PreferenceUtil;
 
 /**
  * Created by ybao on 16/10/16.
@@ -42,7 +41,7 @@ public abstract class BaseActivity extends AppCompatActivity {
       return;
     }
     if (theme != R.style.AppThemeSplash) {
-      theme = PreferUtil.getBoolean(PreferUtil.IS_NIGHT_THEME) ? R.style.AppThemeDark
+      theme = PreferenceUtil.getBoolean(PreferenceUtil.IS_NIGHT_THEME) ? R.style.AppThemeDark
           : R.style.AppThemeLight;
     }
     setTheme(theme);

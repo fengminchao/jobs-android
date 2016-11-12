@@ -13,20 +13,33 @@ import com.muxistudio.jobs.injector.HasComponent;
  * Created by ybao on 16/10/16.
  */
 
-public class BaseFragment extends Fragment{
+public abstract class BaseFragment extends Fragment{
 
   @Override public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
   }
 
+  public abstract void initInjector();
+
+  /**
+   * 加载 fragment 对应的 view
+   * @return
+   */
+  public abstract int loadContentView();
+
   @Nullable @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
-    return super.onCreateView(inflater, container, savedInstanceState);
+    View view = inflater.inflate(loadContentView(),container,false);
+    return view;
   }
+
+  protected abstract void initView(View view);
 
   @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
+    initInjector();
+    initView(view);
   }
 
   @Override public void onDestroyView() {

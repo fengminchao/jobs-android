@@ -12,8 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.muxistudio.jobs.App;
 import com.muxistudio.jobs.Logger;
 import com.muxistudio.jobs.R;
+import com.muxistudio.jobs.ui.BaseActivity;
 import com.muxistudio.jobs.ui.BaseFragment;
 import com.muxistudio.jobs.ui.main.MainActivity;
 import com.muxistudio.jobs.ui.main.MainComponent;
@@ -29,17 +31,20 @@ public class FindFragment extends BaseFragment {
   @BindView(R.id.tab_layout) TabLayout mTabLayout;
   @BindView(R.id.view_pager) ViewPager mViewPager;
 
-  @Nullable @Override
-  public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-      @Nullable Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.fragment_find, container, false);
-    ButterKnife.bind(this, view);
-    initView();
-    return view;
+
+  @Override public int loadContentView() {
+    return R.layout.fragment_find;
   }
 
-  private void initView() {
+  @Override protected void initView(View view) {
+    ButterKnife.bind(this,view);
     setupViewPager();
+  }
+
+  @Override public void initInjector() {
+      DaggerFindComponent.builder()
+        .applicationComponent(((MainActivity)getActivity()).getApplicationComponent())
+        .build();
   }
 
   private void setupViewPager() {

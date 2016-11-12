@@ -14,7 +14,7 @@
         android:theme="@style/AppThemeLight">
 
         <activity android:name=".ui.main.MainActivity"
-                  android:theme="@style/AppThemeSplash">
+                  android:theme="@style/AppThemeLight">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

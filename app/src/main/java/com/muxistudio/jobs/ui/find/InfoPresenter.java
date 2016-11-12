@@ -20,8 +20,7 @@ import rx.schedulers.Schedulers;
  * Created by ybao on 16/11/10.
  */
 
-@PerActivity
-public class InfoPresenter implements InfoContract.Presenter {
+@PerActivity public class InfoPresenter implements InfoContract.Presenter {
 
   private InfoContract.View mView;
   private JobsApi mJobsApi;
@@ -53,9 +52,11 @@ public class InfoPresenter implements InfoContract.Presenter {
               infoData.clicks = careerData.totalClicks;
               return infoData;
             })
-            .toSortedList()
+            .toSortedList((infoData, infoData2) -> infoData2.id.compareTo(infoData.id))
             .subscribe(infoDatas -> {
               mView.renderInfoList(infoDatas);
+            }, throwable -> {
+              throwable.printStackTrace();
             });
         break;
       case 2:
@@ -75,9 +76,11 @@ public class InfoPresenter implements InfoContract.Presenter {
               infoData.clicks = employData.totalClicks;
               return infoData;
             })
-            .toSortedList()
+            .toSortedList((infoData, infoData2) -> infoData2.id.compareTo(infoData.id))
             .subscribe(infoDatas -> {
               mView.renderInfoList(infoDatas);
+            }, throwable -> {
+              throwable.printStackTrace();
             });
         break;
       case 3:
@@ -97,9 +100,11 @@ public class InfoPresenter implements InfoContract.Presenter {
               infoData.clicks = -1;
               return infoData;
             })
-            .toSortedList()
+            .toSortedList((infoData, infoData2) -> infoData2.id.compareTo(infoData.id))
             .subscribe(infoDatas -> {
               mView.renderInfoList(infoDatas);
+            }, throwable -> {
+              throwable.printStackTrace();
             });
         break;
     }
@@ -116,8 +121,8 @@ public class InfoPresenter implements InfoContract.Presenter {
   @Override public void detachView() {
     mView = null;
 
-    if (mSubscription != null && mSubscription.isUnsubscribed() != false) {
-      mSubscription.unsubscribe();
-    }
+    //if (mSubscription != null && mSubscription.isUnsubscribed() != false) {
+    //  mSubscription.unsubscribe();
+    //}
   }
 }

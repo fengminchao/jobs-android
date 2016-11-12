@@ -1,8 +1,10 @@
 package com.muxistudio.jobs.ui.find;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.view.ViewGroup;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.muxistudio.jobs.App;
+import com.muxistudio.jobs.Logger;
 import com.muxistudio.jobs.R;
 import com.muxistudio.jobs.bean.InfoData;
 import com.muxistudio.jobs.ui.BaseFragment;
@@ -30,6 +33,9 @@ public class InfoFragment extends BaseFragment implements InfoContract.View {
   private int mType;
   private static final String TYPE = "type";
 
+
+  private LinearLayoutManager mLayoutManager;
+
   @Inject InfoPresenter mPresenter;
 
   public static InfoFragment newInstance(int type) {
@@ -40,24 +46,29 @@ public class InfoFragment extends BaseFragment implements InfoContract.View {
     return fragment;
   }
 
-  @Override public void onCreate(@Nullable Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-
-    //DaggerInfoComponent.builder().applicationComponent()
-
+  @Override protected void initView(View view) {
+    ButterKnife.bind(this,view);
+    mType = getArguments().getInt("type");
+    initRecyclerView();
+    mPresenter.attachView(this);
+    mPresenter.getInfoDataList(mType);
   }
 
-  @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-    super.onViewCreated(view, savedInstanceState);
-    mType = getArguments().getInt(TYPE);
-    getComponent(MainComponent.class).inject((MainActivity) getActivity());
-    mPresenter.attachView(this);
+  @Override public void initInjector() {
+        DaggerInfoComponent.builder()
+        .applicationComponent(((MainActivity) getActivity()).getApplicationComponent())
+        .build()
+        .inject(this);
+  }
+
+  @Override public int loadContentView() {
+    return R.layout.fragment_info;
   }
 
   @Override public void renderInfoList(List<InfoData> infoDatas) {
-    mRecyclerView.setHasFixedSize(true);
-    InfoAdapter adapter = new InfoAdapter(infoDatas,mType);
+    InfoAdapter adapter = new InfoAdapter(infoDatas, mType);
     mRecyclerView.setAdapter(adapter);
+    Logger.d(mType + " begin render list");
   }
 
   @Override public void onDestroyView() {
@@ -65,12 +76,10 @@ public class InfoFragment extends BaseFragment implements InfoContract.View {
     mPresenter.detachView();
   }
 
-  @Nullable @Override
-  public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-      @Nullable Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.fragment_info, container, false);
-    ButterKnife.bind(this, view);
-    return view;
+  private void initRecyclerView() {
+    mRecyclerView.setHasFixedSize(true);
+    mLayoutManager = new LinearLayoutManager(App.sContext);
+    mRecyclerView.setLayoutManager(mLayoutManager);
+    Logger.d("recyclerview init");
   }
-
 }

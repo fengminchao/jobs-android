@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.muxistudio.jobs.Logger;
 import com.muxistudio.jobs.R;
 import com.muxistudio.jobs.bean.CareerList;
 import com.muxistudio.jobs.bean.InfoData;
@@ -40,6 +41,11 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.ViewHolder> {
   @Override public void onBindViewHolder(ViewHolder holder, int position) {
     holder.mContent.setOnClickListener(
         v -> mItemClickListener.onItemClick(mInfoDatas.get(position).id));
+    Logger.d(position + "");
+    holder.mTvTitle.setText(mInfoDatas.get(position).title);
+    holder.mTvTime.setText(mInfoDatas.get(position).time);
+    holder.mTvPlace.setText(mInfoDatas.get(position).place);
+    holder.mTvClick.setText(mInfoDatas.get(position).clicks + "");
   }
 
 

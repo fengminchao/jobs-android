@@ -10,7 +10,6 @@
     tools:context=".ui.main.MainActivity"
     >
 
-
   <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="match_parent"
@@ -19,7 +18,9 @@
 
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
-        android:background="?attr/colorPrimary"
+        android:background="?attr/themeColorPrimary"
+        android:id="@+id/toolbar"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         android:layout_height="?attr/actionBarSize"/>
 
     <FrameLayout
@@ -40,6 +41,5 @@
       app:headerLayout="@layout/view_header"
       app:menu="@menu/menu_main"
       />
-
 
 </android.support.v4.widget.DrawerLayout>

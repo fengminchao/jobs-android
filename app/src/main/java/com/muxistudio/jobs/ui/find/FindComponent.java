@@ -5,12 +5,11 @@ import com.muxistudio.jobs.injector.components.ApplicationComponent;
 import dagger.Component;
 
 /**
- * Created by ybao on 16/11/11.
+ * Created by ybao on 16/11/12.
  */
 
 @PerActivity
 @Component(dependencies = ApplicationComponent.class)
-public interface InfoComponent {
+public interface FindComponent {
 
-  void inject(InfoFragment infoFragment);
 }

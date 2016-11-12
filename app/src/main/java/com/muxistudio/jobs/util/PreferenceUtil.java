@@ -9,7 +9,7 @@ import com.muxistudio.jobs.App;
  * Created by ybao on 16/11/1.
  */
 
-public class PreferUtil {
+public class PreferenceUtil {
 
     public static final String IS_NIGHT_THEME = "is_night_theme";
 

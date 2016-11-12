@@ -1,16 +1,14 @@
 package com.muxistudio.jobs.ui.setting;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
 import android.preference.SwitchPreference;
 import com.muxistudio.jobs.App;
 import com.muxistudio.jobs.R;
 import com.muxistudio.jobs.ui.BaseActivity;
-import com.muxistudio.jobs.util.PreferUtil;
+import com.muxistudio.jobs.util.PreferenceUtil;
 import javax.inject.Inject;
 
 
@@ -27,7 +25,7 @@ public class SettingFragment extends PreferenceFragment
   private Preference accountPreference;
   private Preference logoutPreference;
 
-  private PreferUtil sp;
+  private PreferenceUtil sp;
 
   @Inject Context mContext;
 
@@ -35,7 +33,7 @@ public class SettingFragment extends PreferenceFragment
     super.onCreate(savedInstanceState);
     mContext = App.sContext;
     addPreferencesFromResource(R.xml.preference_setting);
-    sp = new PreferUtil();
+    sp = new PreferenceUtil();
     themePreference = (SwitchPreference) findPreference(getString(R.string.setting_change_theme));
     themePreference.setOnPreferenceChangeListener(this);
     notifyPreference = (SwitchPreference) findPreference(getString(R.string.setting_notify));
