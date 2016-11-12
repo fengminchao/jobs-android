@@ -1,10 +1,9 @@
 package com.muxistudio.jobs.ui.login;
 
 import com.muxistudio.jobs.Logger;
-import com.muxistudio.jobs.api.UserAuth;
+import com.muxistudio.jobs.api.UserStorge;
 import com.muxistudio.jobs.api.user.UserApi;
 import com.muxistudio.jobs.bean.TokenData;
-import com.muxistudio.jobs.data.User;
 import com.muxistudio.jobs.injector.PerActivity;
 
 import javax.inject.Inject;
@@ -21,12 +20,12 @@ import rx.schedulers.Schedulers;
 public class LoginPresenter implements LoginContract.Presenter{
 
     private UserApi mUserApi;
-    private UserAuth mUserAuth;
+    private UserStorge mUserAuth;
 
     private LoginContract.View mLoginView;
 
     @Inject
-    public LoginPresenter(UserApi userApi, UserAuth userAuth) {
+    public LoginPresenter(UserApi userApi, UserStorge userAuth) {
         mUserApi = userApi;
         mUserAuth = userAuth;
     }
@@ -43,7 +42,7 @@ public class LoginPresenter implements LoginContract.Presenter{
 
     @Override
     public void login(String username, String pwd) {
-        User user = new User();
+        com.muxistudio.jobs.data.UserStorge user = new com.muxistudio.jobs.data.UserStorge();
         user.setMail("jobsmailer@163.com");
         user.setPwd("123");
         mUserApi.getUserService().login(user)

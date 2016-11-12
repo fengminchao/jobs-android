@@ -3,10 +3,9 @@ package com.muxistudio.jobs.ui.main;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.MenuItem;
-import com.muxistudio.jobs.R;
-import com.muxistudio.jobs.api.UserAuth;
+import com.muxistudio.jobs.App;
+import com.muxistudio.jobs.api.UserStorge;
 import com.muxistudio.jobs.db.UserDao;
-import com.muxistudio.jobs.ui.BaseView;
 import javax.inject.Inject;
 
 /**
@@ -15,14 +14,14 @@ import javax.inject.Inject;
 
 public class MainPresenter implements MainContract.Presenter{
 
-  private UserAuth mUserAuth;
   private UserDao mUserDao;
   private Context mContext;
+  private UserStorge mUserStorge;
 
   private MainContract.View mMainView;
 
-  @Inject public MainPresenter(UserAuth userAuth, UserDao userDao, Context context) {
-    mUserAuth = userAuth;
+  @Inject public MainPresenter(UserStorge userStorge,UserDao userDao, Context context) {
+    mUserStorge = userStorge;
     mUserDao = userDao;
     mContext = context;
   }
@@ -47,6 +46,15 @@ public class MainPresenter implements MainContract.Presenter{
 
   @Override public void attachView(@NonNull MainContract.View view) {
     mMainView = view;
+    initUserInfo();
+  }
+
+  private void initUserInfo() {
+    if (mUserStorge.isLogin()) {
+      String url = mUserStorge.getUserInfo().getAvator();
+      String name = mUserStorge.getUserInfo().getName();
+      mMainView.renderAccount(url,name);
+    }
   }
 
   @Override public void detachView() {

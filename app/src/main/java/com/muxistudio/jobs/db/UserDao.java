@@ -25,6 +25,8 @@ public class UserDao extends AbstractDao<User, Long> {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property Mail = new Property(1, String.class, "mail", false, "MAIL");
         public final static Property Pwd = new Property(2, String.class, "pwd", false, "PWD");
+        public final static Property Token = new Property(3, String.class, "token", false, "TOKEN");
+        public final static Property AuthCode = new Property(4, Integer.class, "authCode", false, "AUTH_CODE");
     }
 
 
@@ -42,7 +44,9 @@ public class UserDao extends AbstractDao<User, Long> {
         db.execSQL("CREATE TABLE " + constraint + "\"USER\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY ," + // 0: id
                 "\"MAIL\" TEXT," + // 1: mail
-                "\"PWD\" TEXT);"); // 2: pwd
+                "\"PWD\" TEXT," + // 2: pwd
+                "\"TOKEN\" TEXT," + // 3: token
+                "\"AUTH_CODE\" INTEGER);"); // 4: authCode
     }
 
     /** Drops the underlying database table. */
@@ -69,6 +73,16 @@ public class UserDao extends AbstractDao<User, Long> {
         if (pwd != null) {
             stmt.bindString(3, pwd);
         }
+ 
+        String token = entity.getToken();
+        if (token != null) {
+            stmt.bindString(4, token);
+        }
+ 
+        Integer authCode = entity.getAuthCode();
+        if (authCode != null) {
+            stmt.bindLong(5, authCode);
+        }
     }
 
     @Override
@@ -89,6 +103,16 @@ public class UserDao extends AbstractDao<User, Long> {
         if (pwd != null) {
             stmt.bindString(3, pwd);
         }
+ 
+        String token = entity.getToken();
+        if (token != null) {
+            stmt.bindString(4, token);
+        }
+ 
+        Integer authCode = entity.getAuthCode();
+        if (authCode != null) {
+            stmt.bindLong(5, authCode);
+        }
     }
 
     @Override
@@ -101,7 +125,9 @@ public class UserDao extends AbstractDao<User, Long> {
         User entity = new User( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // mail
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2) // pwd
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // pwd
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // token
+            cursor.isNull(offset + 4) ? null : cursor.getInt(offset + 4) // authCode
         );
         return entity;
     }
@@ -111,6 +137,8 @@ public class UserDao extends AbstractDao<User, Long> {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setMail(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setPwd(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setToken(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setAuthCode(cursor.isNull(offset + 4) ? null : cursor.getInt(offset + 4));
      }
     
     @Override

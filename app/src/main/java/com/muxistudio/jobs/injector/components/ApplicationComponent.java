@@ -3,10 +3,13 @@ package com.muxistudio.jobs.injector.components;
 import android.content.Context;
 
 import com.muxistudio.jobs.App;
-import com.muxistudio.jobs.api.UserAuth;
+import com.muxistudio.jobs.api.UserStorge;
 import com.muxistudio.jobs.api.jobs.JobsApi;
 import com.muxistudio.jobs.api.user.UserApi;
+import com.muxistudio.jobs.db.CollectionDao;
+import com.muxistudio.jobs.db.JobsDao;
 import com.muxistudio.jobs.db.UserDao;
+import com.muxistudio.jobs.db.UserInfoDao;
 import com.muxistudio.jobs.injector.modules.ApiModule;
 import com.muxistudio.jobs.injector.modules.ApplicationModule;
 import com.muxistudio.jobs.injector.modules.DBModule;
@@ -29,9 +32,15 @@ public interface ApplicationComponent {
 
   JobsApi getJobsApi();
 
-  UserAuth getUserAuth();
+  UserStorge getUserStorge();
 
   UserDao getUserDao();
+
+  JobsDao getJobsDao();
+
+  UserInfoDao getInfoDao();
+
+  CollectionDao getCollectionDao();
 
   void inject(App application);
 

@@ -14,7 +14,7 @@ public class JobsApi {
 
     private JobsService mJobsService;
 
-    private static final String BASE_JOBS_URL = "http://api.haitou.cc/";
+    public static final String BASE_JOBS_URL = "http://api.haitou.cc/";
 
     public JobsApi(OkHttpClient client) {
         Retrofit retrofit = new Retrofit.Builder()

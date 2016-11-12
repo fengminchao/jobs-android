@@ -1,9 +1,13 @@
 package com.muxistudio.jobs.injector.modules;
 
 import android.content.Context;
+import com.muxistudio.jobs.db.CollectionDao;
 import com.muxistudio.jobs.db.DaoMaster;
 import com.muxistudio.jobs.db.DaoSession;
+import com.muxistudio.jobs.db.JobsDao;
 import com.muxistudio.jobs.db.UserDao;
+import com.muxistudio.jobs.db.UserInfo;
+import com.muxistudio.jobs.db.UserInfoDao;
 import dagger.Module;
 import dagger.Provides;
 import javax.inject.Singleton;
@@ -29,5 +33,17 @@ public class DBModule {
 
   @Provides @Singleton UserDao provideUserDao(DaoSession daoSession){
     return daoSession.getUserDao();
+  }
+
+  @Provides @Singleton UserInfoDao provideUserInfo(DaoSession daoSession){
+    return daoSession.getUserInfoDao();
+  }
+
+  @Provides @Singleton CollectionDao getCollection(DaoSession daoSession){
+    return daoSession.getCollectionDao();
+  }
+
+  @Provides @Singleton JobsDao provideJob(DaoSession daoSession){
+    return daoSession.getJobsDao();
   }
 }

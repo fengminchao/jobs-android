@@ -11,6 +11,7 @@ import com.muxistudio.jobs.App;
 
 public class PreferenceUtil {
 
+    public static final String USER_MAIL = "user_mail";
     public static final String IS_NIGHT_THEME = "is_night_theme";
 
     public static void putInt(String key,int value){
@@ -26,6 +27,11 @@ public class PreferenceUtil {
     public static void putString(String key,String value) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(App.sContext);
         sp.edit().putString(key,value).apply();
+    }
+
+     public static String getString(String key){
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(App.sContext);
+        return sp.getString(key,"");
     }
 
     public static void putBoolean(String key,boolean b){

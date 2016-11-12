@@ -21,7 +21,7 @@ public class MainContract {
 
     void reload();
 
-    void renderAccount();
+    void renderAccount(String avatorUrl,String name);
 
   }
 

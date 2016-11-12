@@ -16,7 +16,40 @@ public class GreenDaoGenerator {
     Entity user = schema.addEntity("User");
     user.addIdProperty();
     user.addStringProperty("mail");
+    //加密存储和发送
     user.addStringProperty("pwd");
+    user.addStringProperty("token");
+    user.addIntProperty("authCode");
+
+    Entity userInfo = schema.addEntity("UserInfo");
+    userInfo.addIdProperty();
+    userInfo.addStringProperty("mail");
+    userInfo.addStringProperty("avator");
+    userInfo.addStringProperty("name");
+    userInfo.addStringProperty("gender");
+    userInfo.addStringProperty("live");
+    userInfo.addStringProperty("birth");
+    userInfo.addStringProperty("politic");
+    userInfo.addStringProperty("college");
+    userInfo.addStringProperty("mobile");
+
+    Entity collection = schema.addEntity("Collection");
+    collection.addStringProperty("mail");
+    collection.addIntProperty("id");
+    collection.addStringProperty("title");
+    collection.addStringProperty("place");
+    collection.addStringProperty("school");
+    collection.addStringProperty("date");
+    collection.addStringProperty("time");
+    collection.addStringProperty("type");
+
+    Entity job = schema.addEntity("Jobs");
+    job.addIntProperty("id");
+    job.addStringProperty("logoUrl");
+    job.addStringProperty("title");
+    job.addStringProperty("place");
+    job.addStringProperty("time");
+    job.addIntProperty("clicks");
 
     new DaoGenerator().generateAll(schema, GENERATE_CODE_PATH);
   }

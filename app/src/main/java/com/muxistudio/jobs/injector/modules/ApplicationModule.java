@@ -2,8 +2,8 @@ package com.muxistudio.jobs.injector.modules;
 
 import android.content.Context;
 
-import com.muxistudio.jobs.api.UserAuth;
-import com.muxistudio.jobs.db.UserDao;
+import com.muxistudio.jobs.api.UserStorge;
+import com.muxistudio.jobs.db.UserInfo;
 import com.muxistudio.jobs.net.HttpLoggingInterceptor;
 import com.muxistudio.jobs.net.TokenInterceptor;
 
@@ -31,16 +31,13 @@ import okhttp3.OkHttpClient;
     return this.context;
   }
 
-  //    @Provides
-  //    @Singleton
-  //    public OkHttpClient provideOkHttpClient(OkHttpClient client){
-  //        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-  //        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-  //        OkHttpClient.Builder builder = client.newBuilder()
-  //                .connectTimeout(15, TimeUnit.SECONDS)
-  //                .addInterceptor(interceptor);
-  //        return builder.build();
-  //    }
+  //@Provides @Singleton public OkHttpClient provideOkHttpClient(OkHttpClient client) {
+  //  HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+  //  interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+  //  OkHttpClient.Builder builder =
+  //      client.newBuilder().connectTimeout(15, TimeUnit.SECONDS).addInterceptor(interceptor);
+  //  return builder.build();
+  //}
 
   @Provides @Singleton public OkHttpClient provideTokenClient(TokenInterceptor tokenInterceptor) {
     HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -52,12 +49,16 @@ import okhttp3.OkHttpClient;
     return client;
   }
 
-  @Provides @Singleton TokenInterceptor provideTokenInterceptor(UserAuth userAuth) {
+  @Provides @Singleton TokenInterceptor provideTokenInterceptor(UserStorge userAuth) {
     return new TokenInterceptor(userAuth);
   }
 
-  @Provides @Singleton public UserAuth provideUserAuth() {
-    return new UserAuth();
+  @Provides @Singleton public UserStorge provideUserAuth() {
+    return new UserStorge();
+  }
+
+  @Provides @Singleton public UserInfo provideUserInfo(){
+    return new UserInfo();
   }
 
 }

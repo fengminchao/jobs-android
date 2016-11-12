@@ -3,6 +3,7 @@ package com.muxistudio.jobs.ui;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -10,10 +11,12 @@ import android.view.MenuItem;
 
 import com.muxistudio.jobs.App;
 import com.muxistudio.jobs.AppManager;
+import com.muxistudio.jobs.BuildConfig;
 import com.muxistudio.jobs.R;
 import com.muxistudio.jobs.injector.components.ApplicationComponent;
 import com.muxistudio.jobs.injector.modules.ActivityModule;
 import com.muxistudio.jobs.util.PreferenceUtil;
+import java.util.Random;
 
 /**
  * Created by ybao on 16/10/16.
@@ -44,6 +47,12 @@ public abstract class BaseActivity extends AppCompatActivity {
       theme = PreferenceUtil.getBoolean(PreferenceUtil.IS_NIGHT_THEME) ? R.style.AppThemeDark
           : R.style.AppThemeLight;
     }
+
+    if (BuildConfig.DEBUG) {
+      Random r = new Random();
+      theme = r.nextBoolean() ? R.style.AppThemeDark : R.style.AppThemeLight;
+    }
+
     setTheme(theme);
   }
 

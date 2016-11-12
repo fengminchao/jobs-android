@@ -14,6 +14,8 @@ public class User {
     private Long id;
     private String mail;
     private String pwd;
+    private String token;
+    private Integer authCode;
 
     @Generated
     public User() {
@@ -24,10 +26,12 @@ public class User {
     }
 
     @Generated
-    public User(Long id, String mail, String pwd) {
+    public User(Long id, String mail, String pwd, String token, Integer authCode) {
         this.id = id;
         this.mail = mail;
         this.pwd = pwd;
+        this.token = token;
+        this.authCode = authCode;
     }
 
     public Long getId() {
@@ -52,6 +56,22 @@ public class User {
 
     public void setPwd(String pwd) {
         this.pwd = pwd;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public Integer getAuthCode() {
+        return authCode;
+    }
+
+    public void setAuthCode(Integer authCode) {
+        this.authCode = authCode;
     }
 
 }
