@@ -15,7 +15,7 @@
     <color name="text_color_light">#b3ffffff</color>
     <color name="text_color_dark">#de000000</color>
 
-    <color name="list_divider_light">#ffe0e0e0</color>
+    <color name="list_divider_light">#C5C5C5</color>
     <color name="list_divider_dark">#ff666666</color>
 
     <color name="selectable_item_background_light_normal">@android:color/white</color>

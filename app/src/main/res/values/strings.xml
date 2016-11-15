@@ -15,6 +15,15 @@
     <string name="mine_follow">我的关注</string>
     <string name="mine_history">浏览历史</string>
 
+    <string name="account_name">姓名</string>
+    <string name="account_gender">性别</string>
+    <string name="account_birth">出生年月</string>
+    <string name="account_live">现居地</string>
+    <string name="account_politic">籍贯</string>
+    <string name="account_mobile">手机号</string>
+    <string name="account_mail">邮箱</string>
+    <string name="account_college">毕业院校</string>
+
     <string name="tv_company">北京中公教育科技股份有限公司</string>
     <string name="tv_time">时间:2016年5月22日14:30</string>
     <string name="tv_place">地点:华中师范大学就业处招聘大厅</string>

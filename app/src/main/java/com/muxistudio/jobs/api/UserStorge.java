@@ -1,8 +1,6 @@
 package com.muxistudio.jobs.api;
 
-import android.content.Context;
 import android.text.TextUtils;
-import com.muxistudio.jobs.bean.UserData;
 import com.muxistudio.jobs.db.User;
 import com.muxistudio.jobs.db.UserInfo;
 import com.muxistudio.jobs.util.PreferenceUtil;
@@ -19,7 +17,8 @@ public class UserStorge {
     private int authCode;
 
     public UserStorge(){
-
+        user = new User();
+        mUserInfo = new UserInfo();
     }
 
     public void setUser(User user){
@@ -47,6 +46,7 @@ public class UserStorge {
 
     public void setToken(String token) {
         this.token = token;
+        this.user.setToken(token);
     }
 
     public int getAuthCode() {
@@ -77,4 +77,5 @@ public class UserStorge {
         this.setAuthCode(0);
         PreferenceUtil.putString(PreferenceUtil.USER_MAIL,"");
     }
+
 }

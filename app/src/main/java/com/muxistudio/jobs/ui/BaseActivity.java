@@ -48,11 +48,6 @@ public abstract class BaseActivity extends AppCompatActivity {
           : R.style.AppThemeLight;
     }
 
-    if (BuildConfig.DEBUG) {
-      Random r = new Random();
-      theme = r.nextBoolean() ? R.style.AppThemeDark : R.style.AppThemeLight;
-    }
-
     setTheme(theme);
   }
 

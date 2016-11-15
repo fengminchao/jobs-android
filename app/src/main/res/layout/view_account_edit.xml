@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/account_layout_height"
+      android:layout_marginLeft="@dimen/activity_horizontal_margin"
+      android:layout_marginRight="@dimen/activity_horizontal_margin"
+      android:orientation="horizontal"
+      >
+
+    <ImageView
+        android:layout_width="@dimen/account_edit_drawable_height"
+        android:layout_height="@dimen/account_edit_drawable_height"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="@dimen/account_edit_drawable_margin"
+        android:scaleType="fitXY"
+        android:src="@drawable/cat"
+        />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/name_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+      <android.support.design.widget.TextInputEditText
+          android:id="@+id/et_name"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          style="@style/AccountEditText"
+          />
+
+    </android.support.design.widget.TextInputLayout>
+
+  </LinearLayout>
+
+  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/account_layout_height"
+      android:layout_marginLeft="@dimen/activity_horizontal_margin"
+      android:layout_marginRight="@dimen/activity_horizontal_margin"
+      android:orientation="horizontal"
+      >
+
+    <ImageView
+        android:layout_width="@dimen/account_edit_drawable_height"
+        android:layout_height="@dimen/account_edit_drawable_height"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="@dimen/account_edit_drawable_margin"
+        android:scaleType="fitXY"
+        android:src="@drawable/cat"
+        />
+
+    <android.support.v7.widget.AppCompatCheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="男"
+        android:id="@+id/cb_man"
+        android:textColor="?android:attr/textColorPrimary"
+        />
+
+    <android.support.v7.widget.AppCompatCheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="女"
+        android:id="@+id/cb_woman"
+        android:textColor="?android:attr/textColorPrimary"
+        />
+
+  </LinearLayout>
+
+  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/account_layout_height"
+      android:layout_marginLeft="@dimen/activity_horizontal_margin"
+      android:layout_marginRight="@dimen/activity_horizontal_margin"
+      android:orientation="horizontal"
+      >
+
+    <ImageView
+        android:layout_width="@dimen/account_edit_drawable_height"
+        android:layout_height="@dimen/account_edit_drawable_height"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="@dimen/account_edit_drawable_margin"
+        android:scaleType="fitXY"
+        android:src="@drawable/cat"
+        />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/place_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+      <android.support.design.widget.TextInputEditText
+          android:id="@+id/et_place"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          style="@style/AccountEditText"
+          />
+
+    </android.support.design.widget.TextInputLayout>
+
+  </LinearLayout>
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/account_layout_height"
+      android:layout_marginLeft="@dimen/activity_horizontal_margin"
+      android:layout_marginRight="@dimen/activity_horizontal_margin"
+      android:orientation="horizontal"
+      >
+
+    <ImageView
+        android:layout_width="@dimen/account_edit_drawable_height"
+        android:layout_height="@dimen/account_edit_drawable_height"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="@dimen/account_edit_drawable_margin"
+        android:scaleType="fitXY"
+        android:src="@drawable/cat"
+        />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/birth_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+      <android.support.design.widget.TextInputEditText
+          android:id="@+id/et_birth"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          style="@style/AccountEditText"
+          />
+
+    </android.support.design.widget.TextInputLayout>
+
+  </LinearLayout>
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/account_layout_height"
+      android:layout_marginLeft="@dimen/activity_horizontal_margin"
+      android:layout_marginRight="@dimen/activity_horizontal_margin"
+      android:orientation="horizontal"
+      >
+
+    <ImageView
+        android:layout_width="@dimen/account_edit_drawable_height"
+        android:layout_height="@dimen/account_edit_drawable_height"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="@dimen/account_edit_drawable_margin"
+        android:scaleType="fitXY"
+        android:src="@drawable/cat"
+        />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/politc_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+      <android.support.design.widget.TextInputEditText
+          android:id="@+id/et_politic"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          style="@style/AccountEditText"
+          />
+
+    </android.support.design.widget.TextInputLayout>
+
+  </LinearLayout>
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/account_layout_height"
+      android:layout_marginLeft="@dimen/activity_horizontal_margin"
+      android:layout_marginRight="@dimen/activity_horizontal_margin"
+      android:orientation="horizontal"
+      >
+
+    <ImageView
+        android:layout_width="@dimen/account_edit_drawable_height"
+        android:layout_height="@dimen/account_edit_drawable_height"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="@dimen/account_edit_drawable_margin"
+        android:scaleType="fitXY"
+        android:src="@drawable/cat"
+        />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/college_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+      <android.support.design.widget.TextInputEditText
+          android:id="@+id/et_college"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          style="@style/AccountEditText"
+          />
+
+    </android.support.design.widget.TextInputLayout>
+
+  </LinearLayout>
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/account_layout_height"
+      android:layout_marginLeft="@dimen/activity_horizontal_margin"
+      android:layout_marginRight="@dimen/activity_horizontal_margin"
+      android:orientation="horizontal"
+      >
+
+    <ImageView
+        android:layout_width="@dimen/account_edit_drawable_height"
+        android:layout_height="@dimen/account_edit_drawable_height"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="@dimen/account_edit_drawable_margin"
+        android:scaleType="fitXY"
+        android:src="@drawable/cat"
+        />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/phone_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+      <android.support.design.widget.TextInputEditText
+          android:id="@+id/et_phone"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          style="@style/AccountEditText"
+          />
+
+    </android.support.design.widget.TextInputLayout>
+
+  </LinearLayout>
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/account_layout_height"
+      android:layout_marginLeft="@dimen/activity_horizontal_margin"
+      android:layout_marginRight="@dimen/activity_horizontal_margin"
+      android:orientation="horizontal"
+      >
+
+    <ImageView
+        android:layout_width="@dimen/account_edit_drawable_height"
+        android:layout_height="@dimen/account_edit_drawable_height"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="@dimen/account_edit_drawable_margin"
+        android:scaleType="fitXY"
+        android:src="@drawable/cat"
+        />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/mail_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+      <android.support.design.widget.TextInputEditText
+          android:id="@+id/et_mail"
+          android:layout_width="match_parent"
+          android:editable="false"
+          android:layout_height="wrap_content"
+          style="@style/AccountEditText"
+          />
+
+    </android.support.design.widget.TextInputLayout>
+
+  </LinearLayout>
+
+
+
+</LinearLayout>

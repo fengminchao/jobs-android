@@ -3,13 +3,18 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     >
 
   <android.support.design.widget.TabLayout
       android:id="@+id/tab_layout"
       android:layout_width="match_parent"
-      android:layout_height="28dp"
+      android:layout_height="48dp"
+      android:background="?attr/widgetBackground"
+      app:tabTextColor="?android:attr/textColorPrimary"
+      app:tabSelectedTextColor="?attr/colorAccent"
+      app:tabIndicatorColor="?attr/colorAccent"
       ></android.support.design.widget.TabLayout>
 
   <android.support.v4.view.ViewPager

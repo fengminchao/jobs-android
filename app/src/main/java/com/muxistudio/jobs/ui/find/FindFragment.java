@@ -31,19 +31,25 @@ public class FindFragment extends BaseFragment {
   @BindView(R.id.tab_layout) TabLayout mTabLayout;
   @BindView(R.id.view_pager) ViewPager mViewPager;
 
+  public static FindFragment newInstance() {
+    Bundle args = new Bundle();
+    FindFragment fragment = new FindFragment();
+    fragment.setArguments(args);
+    return fragment;
+  }
 
   @Override public int loadContentView() {
     return R.layout.fragment_find;
   }
 
   @Override protected void initView(View view) {
-    ButterKnife.bind(this,view);
+    ButterKnife.bind(this, view);
     setupViewPager();
   }
 
   @Override public void initInjector() {
-      DaggerFindComponent.builder()
-        .applicationComponent(((MainActivity)getActivity()).getApplicationComponent())
+    DaggerFindComponent.builder()
+        .applicationComponent(((MainActivity) getActivity()).getApplicationComponent())
         .build();
   }
 
@@ -61,7 +67,8 @@ public class FindFragment extends BaseFragment {
     fragments.add(InfoFragment.newInstance(1));
     fragments.add(InfoFragment.newInstance(2));
     fragments.add(InfoFragment.newInstance(3));
-    FragmentAdapter adapter = new FragmentAdapter(getActivity().getSupportFragmentManager(), fragments, titles);
+    FragmentAdapter adapter =
+        new FragmentAdapter(getActivity().getSupportFragmentManager(), fragments, titles);
     mViewPager.setAdapter(adapter);
     mTabLayout.setupWithViewPager(mViewPager);
     Logger.d("setup fragments");

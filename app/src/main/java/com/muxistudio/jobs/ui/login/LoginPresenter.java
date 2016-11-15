@@ -1,69 +1,91 @@
 package com.muxistudio.jobs.ui.login;
 
+import android.util.Log;
 import com.muxistudio.jobs.Logger;
 import com.muxistudio.jobs.api.UserStorge;
 import com.muxistudio.jobs.api.user.UserApi;
-import com.muxistudio.jobs.bean.TokenData;
+import com.muxistudio.jobs.bean.TokenResult;
+import com.muxistudio.jobs.db.User;
+import com.muxistudio.jobs.db.UserDao;
+import com.muxistudio.jobs.db.UserInfoDao;
 import com.muxistudio.jobs.injector.PerActivity;
 
+import com.muxistudio.jobs.ui.SubscriptionPresenter;
+import com.muxistudio.jobs.util.MD5Util;
+import com.muxistudio.jobs.util.ToastUtil;
+import java.security.NoSuchAlgorithmException;
 import javax.inject.Inject;
 
 import rx.Observer;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by ybao on 16/10/19.
  */
 
-@PerActivity
-public class LoginPresenter implements LoginContract.Presenter{
+@PerActivity public class LoginPresenter extends SubscriptionPresenter
+    implements LoginContract.Presenter {
 
-    private UserApi mUserApi;
-    private UserStorge mUserAuth;
+  private UserApi mUserApi;
+  @Inject UserStorge mUserStorge;
+  @Inject UserDao mUserDao;
+  @Inject UserInfoDao mUserInfoDao;
 
-    private LoginContract.View mLoginView;
+  private LoginContract.View mLoginView;
 
-    @Inject
-    public LoginPresenter(UserApi userApi, UserStorge userAuth) {
-        mUserApi = userApi;
-        mUserAuth = userAuth;
+  @Inject public LoginPresenter(UserApi userApi, UserStorge userStorge) {
+    mUserApi = userApi;
+    mUserStorge = userStorge;
+  }
+
+  @Override public void attachView(LoginContract.View view) {
+    mLoginView = view;
+  }
+
+  @Override public void login(String mail, String pwd) {
+    User user = new User();
+    user.setMail(mail);
+    try {
+      user.setPwd(MD5Util.getMD5(pwd));
+    } catch (NoSuchAlgorithmException e) {
+      e.printStackTrace();
     }
+    mUserStorge.setUser(user);
+    Subscription s = mUserApi.getUserService()
+        .login(mUserStorge.getUser())
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(tokenResult -> {
+          if (tokenResult.code == 0) {
+            mUserStorge.setToken(tokenResult.token);
+            mUserStorge.setUser(user);
+            getuserInfo();
+            Logger.d("begin insert user");
+            mLoginView.showMainActivity();
+            mUserDao.insert(user);
+            Logger.d("get user");
+          }
+        }, throwable -> {
+          throwable.printStackTrace();
+          ToastUtil.toastShort("邮箱或密码错误");
+        });
+    addSubscription(s);
+  }
 
-    @Override
-    public void attachView(LoginContract.View view) {
-        mLoginView = view;
-    }
-
-    @Override
-    public void detachView() {
-        mLoginView = null;
-    }
-
-    @Override
-    public void login(String username, String pwd) {
-        com.muxistudio.jobs.data.UserStorge user = new com.muxistudio.jobs.data.UserStorge();
-        user.setMail("jobsmailer@163.com");
-        user.setPwd("123");
-        mUserApi.getUserService().login(user)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<TokenData>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onNext(TokenData tokenData) {
-                        Logger.d("get the token");
-                        Logger.d(tokenData.token + "");
-                    }
-                });
-    }
+  private void getuserInfo() {
+    Subscription s = mUserApi.getUserService()
+        .getUserInfo()
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribeOn(Schedulers.io())
+        .subscribe(userInfoResult -> {
+          mUserStorge.setUserInfo(userInfoResult.data);
+          mUserInfoDao.insert(userInfoResult.data);
+        }, throwable -> {
+          throwable.printStackTrace();
+        });
+    addSubscription(s);
+  }
 }

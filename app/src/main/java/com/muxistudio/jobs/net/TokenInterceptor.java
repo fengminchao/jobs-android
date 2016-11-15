@@ -30,7 +30,7 @@ public class TokenInterceptor implements Interceptor {
         //Logger.d(mUserStorge.getToken());
         Request authorised = null;
         Logger.d(originRequest.url().host());
-        if (!originRequest.url().host().equals("api.haitou.cc")) {
+        if (!originRequest.url().host().equals("api.haitou.cc") && mUserStorge.getToken() != null) {
             authorised = originRequest.newBuilder()
                     .header("Authorization", mUserStorge.getToken())
                     .build();

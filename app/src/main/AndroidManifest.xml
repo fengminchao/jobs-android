@@ -23,6 +23,12 @@
 
         <activity android:name=".ui.setting.SettingActiviy"/>
 
+        <activity android:name=".ui.accout.AccountActivity"/>
+
+        <activity android:name=".ui.accout.AccountEditActivity"/>
+
+        <activity android:name=".ui.login.LoginActivity"/>
+
     </application>
 
 

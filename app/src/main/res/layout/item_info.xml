@@ -27,7 +27,7 @@
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
-        android:textColor="?android:attr/textColorSecondary"
+        android:textColor="?android:attr/textColorPrimary"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/iv_logo"
         tools:text="title"
@@ -36,7 +36,7 @@
     <TextView
         android:id="@+id/tv_time"
         android:layout_width="wrap_content"
-        android:textColor="?android:attr/textColorPrimary"
+        android:textColor="?android:attr/textColorSecondary"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_title"
         android:layout_toRightOf="@id/iv_logo"
@@ -48,6 +48,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_time"
+        android:textColor="?android:attr/textColorSecondary"
         android:layout_toRightOf="@id/iv_logo"
         tools:text="place"
         />

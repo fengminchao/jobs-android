@@ -1,7 +1,8 @@
 package com.muxistudio.jobs.ui.main;
 
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -19,9 +20,10 @@ import butterknife.ButterKnife;
 import com.muxistudio.jobs.Logger;
 import com.muxistudio.jobs.R;
 import com.muxistudio.jobs.injector.HasComponent;
-import com.muxistudio.jobs.ui.BaseActivity;
 import com.muxistudio.jobs.ui.ToolbarActivity;
+import com.muxistudio.jobs.ui.accout.AccountActivity;
 import com.muxistudio.jobs.ui.find.FindFragment;
+import com.muxistudio.jobs.ui.login.LoginActivity;
 import com.squareup.picasso.Picasso;
 import javax.inject.Inject;
 
@@ -30,7 +32,8 @@ import javax.inject.Inject;
  */
 
 public class MainActivity extends ToolbarActivity
-    implements MainContract.View, HasComponent<MainComponent>,NavigationView.OnNavigationItemSelectedListener {
+    implements MainContract.View, HasComponent<MainComponent>,
+    NavigationView.OnNavigationItemSelectedListener {
 
   @BindView(R.id.content) FrameLayout content;
   @BindView(R.id.nav_view) NavigationView navView;
@@ -46,26 +49,34 @@ public class MainActivity extends ToolbarActivity
   private MainComponent mMainComponent;
   @Inject MainPresenter mPresenter;
 
+  public static void startActivity(Context context) {
+    Intent intent = new Intent(context, MainActivity.class);
+    context.startActivity(intent);
+  }
+
   @Override protected void initView() {
     setContentView(R.layout.activity_main);
     ButterKnife.bind(this);
     showFragment(new FindFragment());
     mToolbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
     mToolbar.setTitle("招聘");
+    initToolbar(mToolbar);
     navView.setNavigationItemSelectedListener(this);
     View headerLayout = navView.getHeaderView(0);
-    mAvatorView = (ImageView)headerLayout.findViewById(R.id.header_view);
+    mAvatorView = (ImageView) headerLayout.findViewById(R.id.header_view);
+
     mTvName = (TextView) headerLayout.findViewById(R.id.tv_name);
     mPresenter.attachView(this);
+     mAvatorView.setOnClickListener(v -> {
+      mPresenter.onAccountClick();
+    });
   }
 
   @Override protected void initInjector() {
-    mMainComponent = DaggerMainComponent.builder()
-        .applicationComponent(getApplicationComponent())
-        .build();
+    mMainComponent =
+        DaggerMainComponent.builder().applicationComponent(getApplicationComponent()).build();
     mMainComponent.inject(this);
   }
-
 
   @Override public boolean onPrepareOptionsMenu(Menu menu) {
     menu.clear();
@@ -83,18 +94,26 @@ public class MainActivity extends ToolbarActivity
         return true;
       case R.id.action_search:
         mPresenter.onSearchClick();
-        break;
+        return true;
     }
     return super.onOptionsItemSelected(item);
   }
 
   @Override public boolean onNavigationItemSelected(@NonNull MenuItem item) {
     drawerLayout.closeDrawer(Gravity.LEFT);
-    mPresenter.onNavigationClick(item);
+    mPresenter.onNavigationItemClick(item);
     return true;
   }
 
   @Override public void showAccountUi() {
+    AccountActivity.startActivity(MainActivity.this);
+  }
+
+  @Override public void showLoginUi() {
+    LoginActivity.startActivity(this);
+  }
+
+  @Override public void updateFindFragment(String key) {
 
   }
 
@@ -110,7 +129,11 @@ public class MainActivity extends ToolbarActivity
 
   }
 
-  @Override public void renderAccount(String avatorUrl,String name) {
+  @Override public void setTitle(String title) {
+    mToolbar.setTitle(title);
+  }
+
+  @Override public void renderAccount(String avatorUrl, String name) {
     Picasso.with(this).load(Uri.parse(avatorUrl)).into(mAvatorView);
     mTvName.setText(name);
   }
@@ -123,5 +146,4 @@ public class MainActivity extends ToolbarActivity
   @Override public MainComponent getComponent() {
     return mMainComponent;
   }
-
 }

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+  <android.support.design.widget.AppBarLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      >
+
+
+    <android.support.design.widget.CollapsingToolbarLayout
+        android:layout_width="match_parent"
+        android:layout_height="168dp"
+        >
+
+      <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          >
+
+        <ImageView
+            android:id="@+id/iv_avator"
+            android:layout_width="@dimen/account_drawable_height"
+            android:layout_height="@dimen/account_drawable_height"
+            android:layout_centerInParent="true"
+            />
+
+      </RelativeLayout>
+
+      <android.support.v7.widget.Toolbar
+          android:layout_width="match_parent"
+          android:layout_height="?android:attr/actionBarSize"
+
+          ></android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.CollapsingToolbarLayout>
+
+  </android.support.design.widget.AppBarLayout>
+
+  <ScrollView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      >
+
+    <include
+        layout="@layout/view_person"
+        android:id="@+id/view_layout"
+        />
+
+  </ScrollView>
+
+</LinearLayout>

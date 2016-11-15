@@ -13,6 +13,8 @@ public class MainContract {
 
   interface View extends BaseView{
 
+    void showLoginUi();
+
     void showAccountUi();
 
     void showFragment(Fragment fragment);
@@ -21,8 +23,11 @@ public class MainContract {
 
     void reload();
 
+    void setTitle(String title);
+
     void renderAccount(String avatorUrl,String name);
 
+    void updateFindFragment(String key);
   }
 
   interface Presenter extends BasePresenter<View>{
@@ -31,7 +36,7 @@ public class MainContract {
 
     void onSearchClick();
 
-    void onNavigationClick(MenuItem item);
+    void onNavigationItemClick(MenuItem item);
 
     void exist();
   }

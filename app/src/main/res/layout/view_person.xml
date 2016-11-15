@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp"
+    android:layout_marginTop="16dp"
+    android:background="?attr/widgetBackground"
+    android:elevation="8dp"
+    android:orientation="vertical"
+    >
+
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/account_widget_height"
+      android:layout_marginLeft="@dimen/activity_horizontal_margin"
+      android:layout_marginRight="@dimen/activity_horizontal_margin"
+      >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_person_black_24dp"
+        android:drawablePadding="8dp"
+        android:gravity="center_vertical"
+        android:layout_centerVertical="true"
+        android:text="姓名"
+        android:textColor="?android:attr/textColorPrimary"
+        />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        tools:text="ybao"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/list_divider_light"
+        android:layout_alignParentBottom="true"
+        />
+
+  </RelativeLayout>
+
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/account_widget_height"
+      android:layout_marginLeft="@dimen/activity_horizontal_margin"
+      android:layout_marginRight="@dimen/activity_horizontal_margin"
+      >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_person_black_24dp"
+        android:drawablePadding="8dp"
+        android:layout_centerVertical="true"
+        android:gravity="center_vertical"
+        android:text="性别"
+        android:textColor="?android:attr/textColorPrimary"
+        />
+
+    <TextView
+        android:id="@+id/tv_gender"
+        android:layout_width="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        tools:text="ybao"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/list_divider_light"
+        android:layout_alignParentBottom="true"
+        />
+
+  </RelativeLayout>
+
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/account_widget_height"
+      android:layout_marginLeft="@dimen/activity_horizontal_margin"
+      android:layout_marginRight="@dimen/activity_horizontal_margin"
+      >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_person_black_24dp"
+        android:layout_centerVertical="true"
+        android:drawablePadding="8dp"
+        android:gravity="center_vertical"
+        android:text="居住地"
+        android:textColor="?android:attr/textColorPrimary"
+        />
+
+    <TextView
+        android:id="@+id/tv_place"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        tools:text="ybao"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/list_divider_light"
+        android:layout_alignParentBottom="true"
+        />
+
+  </RelativeLayout>
+
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/account_widget_height"
+      android:layout_marginLeft="@dimen/activity_horizontal_margin"
+      android:layout_marginRight="@dimen/activity_horizontal_margin"
+      >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_person_black_24dp"
+        android:drawablePadding="8dp"
+        android:gravity="center_vertical"
+        android:text="出生年月"
+        android:layout_centerVertical="true"
+        android:textColor="?android:attr/textColorPrimary"
+        />
+
+    <TextView
+        android:id="@+id/tv_birth"
+        android:layout_width="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        tools:text="ybao"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/list_divider_light"
+        android:layout_alignParentBottom="true"
+        />
+
+  </RelativeLayout>
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/account_widget_height"
+      android:layout_marginLeft="@dimen/activity_horizontal_margin"
+      android:layout_marginRight="@dimen/activity_horizontal_margin"
+      >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:drawableLeft="@drawable/ic_person_black_24dp"
+        android:drawablePadding="8dp"
+        android:gravity="center_vertical"
+        android:text="籍贯"
+        android:textColor="?android:attr/textColorPrimary"
+        />
+
+    <TextView
+        android:id="@+id/tv_politic"
+        android:layout_width="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        tools:text="ybao"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/list_divider_light"
+        android:layout_alignParentBottom="true"
+        />
+
+  </RelativeLayout>
+
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/account_widget_height"
+      android:layout_marginLeft="@dimen/activity_horizontal_margin"
+      android:layout_marginRight="@dimen/activity_horizontal_margin"
+      >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:drawableLeft="@drawable/ic_person_black_24dp"
+        android:drawablePadding="8dp"
+        android:gravity="center_vertical"
+        android:text="毕业院校"
+        android:textColor="?android:attr/textColorPrimary"
+        />
+
+    <TextView
+        android:id="@+id/tv_college"
+        android:layout_width="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        tools:text="ybao"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/list_divider_light"
+        android:layout_alignParentBottom="true"
+        />
+
+  </RelativeLayout>
+
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/account_widget_height"
+      android:layout_marginLeft="@dimen/activity_horizontal_margin"
+      android:layout_marginRight="@dimen/activity_horizontal_margin"
+      >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_person_black_24dp"
+        android:drawablePadding="8dp"
+        android:gravity="center_vertical"
+        android:text="手机"
+        android:layout_centerVertical="true"
+        android:textColor="?android:attr/textColorPrimary"
+        />
+
+    <TextView
+        android:id="@+id/tv_phone"
+        android:layout_width="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        tools:text="ybao"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/list_divider_light"
+        android:layout_alignParentBottom="true"
+        />
+
+  </RelativeLayout>
+
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/account_widget_height"
+      android:layout_marginLeft="@dimen/activity_horizontal_margin"
+      android:layout_marginRight="@dimen/activity_horizontal_margin"
+      >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_person_black_24dp"
+        android:drawablePadding="8dp"
+        android:layout_centerVertical="true"
+        android:gravity="center_vertical"
+        android:text="邮箱"
+        android:textColor="?android:attr/textColorPrimary"
+        />
+
+    <TextView
+        android:id="@+id/tv_mail"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        tools:text="ybao"
+        />
+
+  </RelativeLayout>
+
+
+</LinearLayout>

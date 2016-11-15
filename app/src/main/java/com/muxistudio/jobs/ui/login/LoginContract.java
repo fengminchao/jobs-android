@@ -17,7 +17,7 @@ public class LoginContract {
 
         void hideLoading();
 
-        void loginSuccess();
+        void showMainActivity();
 
     }
 
