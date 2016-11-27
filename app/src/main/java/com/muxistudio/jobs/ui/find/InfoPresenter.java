@@ -2,18 +2,14 @@ package com.muxistudio.jobs.ui.find;
 
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import com.muxistudio.jobs.Logger;
+import com.muxistudio.jobs.util.Logger;
 import com.muxistudio.jobs.api.jobs.JobsApi;
-import com.muxistudio.jobs.bean.CareerList;
 import com.muxistudio.jobs.bean.InfoData;
 import com.muxistudio.jobs.injector.PerActivity;
-import java.util.List;
 import javax.inject.Inject;
 import rx.Observable;
-import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**

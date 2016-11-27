@@ -3,7 +3,7 @@ package com.muxistudio.jobs.ui.accout;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,13 +15,15 @@ import com.muxistudio.jobs.R;
 import com.muxistudio.jobs.api.UserStorge;
 import com.muxistudio.jobs.injector.PerActivity;
 import com.muxistudio.jobs.ui.BaseActivity;
+import com.muxistudio.jobs.ui.ToolbarActivity;
+import com.muxistudio.jobs.util.CircleTransformation;
 import com.squareup.picasso.Picasso;
 import javax.inject.Inject;
 
 /**
  * Created by ybao on 16/11/12.
  */
-@PerActivity public class AccountActivity extends BaseActivity {
+@PerActivity public class AccountActivity extends ToolbarActivity{
 
   @Inject UserStorge mUserStorge;
   @BindView(R.id.iv_avator) ImageView mIvAvator;
@@ -45,8 +47,17 @@ import javax.inject.Inject;
     renderUserInfo();
   }
 
+  @Override protected void onStart() {
+    super.onStart();
+    this.reload();
+  }
+
   private void renderUserInfo() {
-    Picasso.with(this).load(Uri.parse(mUserStorge.getUserInfo().getAvator())).into(mIvAvator);
+    if (!TextUtils.isEmpty(mUserStorge.getUserInfo().getAvator())){
+      Picasso.with(this).load(Uri.parse(mUserStorge.getUserInfo().getAvator())).transform(new CircleTransformation()).into(mIvAvator);
+    }else {
+      Picasso.with(this).load(R.drawable.cat).transform(new CircleTransformation()).into(mIvAvator);
+    }
     mTvName.setText(mUserStorge.getUserInfo().getName());
     mTvGender.setText(mUserStorge.getUserInfo().getGender());
     mTvPlace.setText(mUserStorge.getUserInfo().getLive());

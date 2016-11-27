@@ -8,6 +8,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,13 +18,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import com.muxistudio.jobs.Logger;
+import com.muxistudio.jobs.ui.accout.AccountEditActivity;
+import com.muxistudio.jobs.util.Logger;
 import com.muxistudio.jobs.R;
 import com.muxistudio.jobs.injector.HasComponent;
 import com.muxistudio.jobs.ui.ToolbarActivity;
 import com.muxistudio.jobs.ui.accout.AccountActivity;
 import com.muxistudio.jobs.ui.find.FindFragment;
 import com.muxistudio.jobs.ui.login.LoginActivity;
+import com.muxistudio.jobs.util.CircleTransformation;
 import com.squareup.picasso.Picasso;
 import javax.inject.Inject;
 
@@ -66,10 +69,12 @@ public class MainActivity extends ToolbarActivity
     mAvatorView = (ImageView) headerLayout.findViewById(R.id.header_view);
 
     mTvName = (TextView) headerLayout.findViewById(R.id.tv_name);
-    mPresenter.attachView(this);
-     mAvatorView.setOnClickListener(v -> {
-      mPresenter.onAccountClick();
+    mAvatorView.setOnClickListener(v -> {
+      //mPresenter.onAccountClick();
+      AccountActivity.startActivity(MainActivity.this);
     });
+    mPresenter.attachView(this);
+
   }
 
   @Override protected void initInjector() {
@@ -106,7 +111,10 @@ public class MainActivity extends ToolbarActivity
   }
 
   @Override public void showAccountUi() {
-    AccountActivity.startActivity(MainActivity.this);
+    //AccountActivity.startActivity(this);
+    Intent intent = new Intent(this, AccountActivity.class);
+    startActivity(intent);
+    Logger.d("accountactivity show");
   }
 
   @Override public void showLoginUi() {
@@ -133,10 +141,22 @@ public class MainActivity extends ToolbarActivity
     mToolbar.setTitle(title);
   }
 
-  @Override public void renderAccount(String avatorUrl, String name) {
-    Picasso.with(this).load(Uri.parse(avatorUrl)).into(mAvatorView);
+  @Override public void renderAccountName(String name) {
     mTvName.setText(name);
   }
+
+  @Override public void closeNavView() {
+    drawerLayout.closeDrawer(Gravity.LEFT);
+  }
+
+  @Override public void renderAccountAvator(String url) {
+    if (TextUtils.isEmpty(url)){
+      Picasso.with(this).load(R.drawable.cat).transform(new CircleTransformation()).into(mAvatorView);
+      return;
+    }
+    Picasso.with(this).load(Uri.parse(url)).transform(new CircleTransformation()).into(mAvatorView);
+  }
+
 
   @Override protected void onDestroy() {
     super.onDestroy();

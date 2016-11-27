@@ -2,10 +2,9 @@ package com.muxistudio.jobs.net;
 
 import android.text.TextUtils;
 
-import com.muxistudio.jobs.Logger;
+import com.muxistudio.jobs.util.Logger;
 import com.muxistudio.jobs.api.UserStorge;
 
-import com.muxistudio.jobs.api.jobs.JobsApi;
 import java.io.IOException;
 
 import okhttp3.Interceptor;

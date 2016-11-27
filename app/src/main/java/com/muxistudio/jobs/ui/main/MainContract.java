@@ -25,9 +25,13 @@ public class MainContract {
 
     void setTitle(String title);
 
-    void renderAccount(String avatorUrl,String name);
+    void renderAccountName(String name);
 
     void updateFindFragment(String key);
+
+    void closeNavView();
+
+    void renderAccountAvator(String url);
   }
 
   interface Presenter extends BasePresenter<View>{

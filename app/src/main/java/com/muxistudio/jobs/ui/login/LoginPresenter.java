@@ -1,10 +1,8 @@
 package com.muxistudio.jobs.ui.login;
 
-import android.util.Log;
-import com.muxistudio.jobs.Logger;
+import com.muxistudio.jobs.util.Logger;
 import com.muxistudio.jobs.api.UserStorge;
 import com.muxistudio.jobs.api.user.UserApi;
-import com.muxistudio.jobs.bean.TokenResult;
 import com.muxistudio.jobs.db.User;
 import com.muxistudio.jobs.db.UserDao;
 import com.muxistudio.jobs.db.UserInfoDao;
@@ -12,15 +10,14 @@ import com.muxistudio.jobs.injector.PerActivity;
 
 import com.muxistudio.jobs.ui.SubscriptionPresenter;
 import com.muxistudio.jobs.util.MD5Util;
+import com.muxistudio.jobs.util.PreferenceUtil;
 import com.muxistudio.jobs.util.ToastUtil;
 import java.security.NoSuchAlgorithmException;
 import javax.inject.Inject;
 
-import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by ybao on 16/10/19.
@@ -62,6 +59,7 @@ import rx.subscriptions.CompositeSubscription;
           if (tokenResult.code == 0) {
             mUserStorge.setToken(tokenResult.token);
             mUserStorge.setUser(user);
+            PreferenceUtil.putString(PreferenceUtil.USER_MAIL,mUserStorge.getUser().getMail());
             getuserInfo();
             Logger.d("begin insert user");
             mLoginView.showMainActivity();

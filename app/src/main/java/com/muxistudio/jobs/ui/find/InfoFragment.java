@@ -1,23 +1,18 @@
 package com.muxistudio.jobs.ui.find;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.muxistudio.jobs.App;
-import com.muxistudio.jobs.Logger;
+import com.muxistudio.jobs.util.Logger;
 import com.muxistudio.jobs.R;
 import com.muxistudio.jobs.bean.InfoData;
 import com.muxistudio.jobs.ui.BaseFragment;
 import com.muxistudio.jobs.ui.main.MainActivity;
-import com.muxistudio.jobs.ui.main.MainComponent;
 import java.util.List;
 import javax.inject.Inject;
 

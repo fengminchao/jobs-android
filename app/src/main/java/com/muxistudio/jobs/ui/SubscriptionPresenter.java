@@ -19,6 +19,8 @@ public class SubscriptionPresenter {
   }
 
   public void detachView(){
-    mCompositeSubscription.unsubscribe();
+    if (mCompositeSubscription != null && !mCompositeSubscription.isUnsubscribed()) {
+      mCompositeSubscription.unsubscribe();
+    }
   }
 }

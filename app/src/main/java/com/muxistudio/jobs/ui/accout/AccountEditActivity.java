@@ -77,6 +77,9 @@ import rx.subscriptions.CompositeSubscription;
     }else {
       Picasso.with(this).load(Constant.DEFAULT_AVATOR_URL).into(mIvAvator);
     }
+    mTvChangeAvator.setOnClickListener(v -> {
+
+    });
   }
 
   private void initInputLayout() {
@@ -91,6 +94,7 @@ import rx.subscriptions.CompositeSubscription;
 
   @Override protected void initInjector() {
     DaggerAccountEditComponent.builder()
+        .applicationComponent(getApplicationComponent())
         .build()
         .inject(this);
   }

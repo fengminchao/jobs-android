@@ -53,10 +53,10 @@ public interface UserService {
                                     @Body String oldPwd,
                                     @Body String newPwd);
 
-    @GET("info/")
+    @GET("user/info/")
     Observable<UserInfoResult> getUserInfo();
 
-    @PUT("info/")
+    @PUT("user/info/")
     Observable<BaseData> updateUserInfo(@Body UserInfo userInfo);
 
     //key为要上传的文件名 格式为：avator/usermail.png

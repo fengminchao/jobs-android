@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.muxistudio.jobs.App;
-import com.muxistudio.jobs.AppManager;
 import com.muxistudio.jobs.BuildConfig;
 import com.muxistudio.jobs.R;
 import com.muxistudio.jobs.injector.components.ApplicationComponent;
@@ -33,7 +32,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     initInjector();
     initView();
     mProgressDialog = new ProgressDialog(this);
-    AppManager.getAppManager().addActivity(this);
+    //AppManager.getAppManager().addActivity(this);
   }
 
   public void initTheme() {
@@ -81,7 +80,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
   @Override protected void onDestroy() {
     super.onDestroy();
-    AppManager.getAppManager().finishActivity(this);
+    //AppManager.getAppManager().finishActivity(this);
   }
 
   protected void showLoadingDialog(String msg) {

@@ -1,7 +1,8 @@
-package com.muxistudio.jobs;
+package com.muxistudio.jobs.util;
 
 import android.content.res.Resources;
 import android.util.Log;
+import com.muxistudio.jobs.BuildConfig;
 
 /**
  * Created by ybao on 16/10/16.

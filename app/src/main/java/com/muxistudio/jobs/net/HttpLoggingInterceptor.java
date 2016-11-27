@@ -20,7 +20,7 @@ import okhttp3.internal.platform.Platform;
 import okio.Buffer;
 import okio.BufferedSource;
 
-import static com.muxistudio.jobs.Logger.INFO;
+import static com.muxistudio.jobs.util.Logger.INFO;
 
 /**
  * Created by ybao on 16/10/18.

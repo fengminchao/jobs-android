@@ -9,7 +9,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.muxistudio.jobs.Logger;
+import com.muxistudio.jobs.util.Logger;
 import com.muxistudio.jobs.R;
 import com.muxistudio.jobs.injector.components.ApplicationComponent;
 import com.muxistudio.jobs.injector.modules.ActivityModule;

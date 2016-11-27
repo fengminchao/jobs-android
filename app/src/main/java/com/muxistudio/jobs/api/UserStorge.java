@@ -11,71 +11,97 @@ import com.muxistudio.jobs.util.PreferenceUtil;
 
 public class UserStorge {
 
-    private User user;
-    private UserInfo mUserInfo;
-    private String token;
-    private int authCode;
+  private User user;
+  private UserInfo mUserInfo;
+  private String token;
+  private int authCode;
 
-    public UserStorge(){
-        user = new User();
-        mUserInfo = new UserInfo();
+  public UserStorge() {
+    user = new User();
+    mUserInfo = new UserInfo();
+  }
+
+  public void setUser(User user) {
+    this.user = user;
+  }
+
+  public User getUser() {
+    return user;
+  }
+
+  public String getToken() {
+    if (token != null && !token.equals("")) {
+      return token;
     }
+    return user.getToken();
+  }
 
-    public void setUser(User user){
-        this.user = user;
+  public UserInfo getUserInfo() {
+    return mUserInfo;
+  }
+
+  public void setUserInfo(UserInfo userInfo) {
+    mUserInfo = userInfo;
+    if (mUserInfo.getAvator() == null) {
+      mUserInfo.setAvator("");
     }
-
-    public User getUser() {
-        return user;
+    if (mUserInfo.getBirth() == null) {
+      mUserInfo.setBirth("");
     }
-
-    public String getToken() {
-        if(token != null && !token.equals("")){
-            return token;
-        }
-        return user.getToken();
+    if (mUserInfo.getCollege() == null) {
+      mUserInfo.setCollege("");
     }
-
-    public UserInfo getUserInfo() {
-        return mUserInfo;
+    if (mUserInfo.getGender() == null) {
+      mUserInfo.setGender("");
     }
-
-    public void setUserInfo(UserInfo userInfo) {
-        mUserInfo = userInfo;
+    if (mUserInfo.getLive() == null) {
+      mUserInfo.setLive("");
     }
-
-    public void setToken(String token) {
-        this.token = token;
-        this.user.setToken(token);
+    if (mUserInfo.getMail() == null) {
+      mUserInfo.setMail("");
     }
-
-    public int getAuthCode() {
-        return user.getAuthCode();
+    if (mUserInfo.getMobile() == null) {
+      mUserInfo.setMobile("");
     }
-
-    public void setAuthCode(int authCode) {
-        this.authCode = authCode;
+    if (mUserInfo.getPolitic() == null) {
+      mUserInfo.setPolitic("");
     }
-
-    public boolean isLogin(){
-        if (user != null && !TextUtils.isEmpty(user.getMail())){
-            return true;
-        }
-        return false;
+    if (mUserInfo.getName() == null){
+      mUserInfo.setName("");
     }
+  }
 
-    public void login(User user,UserInfo userInfo){
-        this.user = user;
-        this.mUserInfo = userInfo;
-        PreferenceUtil.putString(PreferenceUtil.USER_MAIL,user.getMail());
+  public void setToken(String token) {
+    this.token = token;
+    this.user.setToken(token);
+  }
+
+  public int getAuthCode() {
+    return user.getAuthCode();
+  }
+
+  public void setAuthCode(int authCode) {
+    this.authCode = authCode;
+  }
+
+  public boolean isLogin() {
+    if (user != null && !TextUtils.isEmpty(user.getMail())) {
+      return true;
     }
+    return false;
+  }
 
-    public void logout(){
-        this.user = null;
-        this.mUserInfo = null;
-        this.setToken("");
-        this.setAuthCode(0);
-        PreferenceUtil.putString(PreferenceUtil.USER_MAIL,"");
-    }
+  public void login(User user, UserInfo userInfo) {
+    this.user = user;
+    this.mUserInfo = userInfo;
+    PreferenceUtil.putString(PreferenceUtil.USER_MAIL, user.getMail());
+  }
 
+  public void logout() {
+    this.user = null;
+    this.mUserInfo = null;
+    this.setToken("");
+    this.setAuthCode(0);
+    PreferenceUtil.putString(PreferenceUtil.USER_MAIL, "");
+  }
 }
