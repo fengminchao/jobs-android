@@ -70,8 +70,7 @@ public class MainActivity extends ToolbarActivity
 
     mTvName = (TextView) headerLayout.findViewById(R.id.tv_name);
     mAvatorView.setOnClickListener(v -> {
-      //mPresenter.onAccountClick();
-      AccountActivity.startActivity(MainActivity.this);
+      mPresenter.onAccountClick();
     });
     mPresenter.attachView(this);
 
@@ -111,10 +110,7 @@ public class MainActivity extends ToolbarActivity
   }
 
   @Override public void showAccountUi() {
-    //AccountActivity.startActivity(this);
-    Intent intent = new Intent(this, AccountActivity.class);
-    startActivity(intent);
-    Logger.d("accountactivity show");
+    AccountActivity.startActivity(this);
   }
 
   @Override public void showLoginUi() {

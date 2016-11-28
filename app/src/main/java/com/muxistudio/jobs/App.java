@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import android.text.TextUtils;
+import com.antfortune.freeline.FreelineCore;
 import com.muxistudio.jobs.api.UserStorge;
 import com.muxistudio.jobs.db.User;
 import com.muxistudio.jobs.db.UserDao;
@@ -36,6 +37,7 @@ public class App extends Application {
   @Override public void onCreate() {
     super.onCreate();
     sContext = this;
+    FreelineCore.init(this);
     initInjector();
     initUser();
   }

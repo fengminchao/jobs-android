@@ -74,7 +74,8 @@ public class LoginActivity extends ToolbarActivity implements LoginContract.View
   }
 
   @Override public void showMainActivity() {
-            MainActivity.startActivity(this);
+    MainActivity.startActivity(this);
+    this.finish();
   }
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {

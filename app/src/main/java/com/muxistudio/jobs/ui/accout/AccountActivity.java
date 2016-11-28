@@ -14,7 +14,6 @@ import butterknife.ButterKnife;
 import com.muxistudio.jobs.R;
 import com.muxistudio.jobs.api.UserStorge;
 import com.muxistudio.jobs.injector.PerActivity;
-import com.muxistudio.jobs.ui.BaseActivity;
 import com.muxistudio.jobs.ui.ToolbarActivity;
 import com.muxistudio.jobs.util.CircleTransformation;
 import com.squareup.picasso.Picasso;
@@ -49,7 +48,6 @@ import javax.inject.Inject;
 
   @Override protected void onStart() {
     super.onStart();
-    this.reload();
   }
 
   private void renderUserInfo() {
