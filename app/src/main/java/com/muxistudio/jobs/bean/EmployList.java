@@ -19,7 +19,7 @@ public class EmployList {
     public int totalClicks;
 
     public String getTime(){
-      return holdtime + detailtime;
+      return holdtime + " " + detailtime;
     }
   }
 }

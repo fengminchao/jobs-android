@@ -1,6 +1,7 @@
 package com.muxistudio.jobs.ui;
 
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 /**
  * Created by ybao on 16/10/21.
@@ -28,5 +29,12 @@ public abstract class ToolbarActivity extends BaseActivity {
 
     protected boolean canBack() {
         return true;
+    }
+
+    @Override public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home){
+            this.onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

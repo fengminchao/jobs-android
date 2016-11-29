@@ -9,9 +9,19 @@
   <include layout="@layout/view_toolbar"
       />
 
+  <ImageView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="200dp"
+      android:id="@+id/iv_empty"
+      android:visibility="gone"
+      />
+
   <ScrollView
       android:layout_width="match_parent"
       android:layout_height="match_parent"
+      android:id="@+id/scrollView"
+      android:visibility="gone"
       >
 
     <LinearLayout

@@ -8,6 +8,10 @@ import android.view.View;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.muxistudio.jobs.App;
+import com.muxistudio.jobs.Constant;
+import com.muxistudio.jobs.ui.find.detail.CareerDetailActivity;
+import com.muxistudio.jobs.ui.find.detail.EmployDetailActivity;
+import com.muxistudio.jobs.ui.find.detail.FulltimeDetailAcitivity;
 import com.muxistudio.jobs.util.Logger;
 import com.muxistudio.jobs.R;
 import com.muxistudio.jobs.bean.InfoData;
@@ -48,9 +52,15 @@ public class InfoFragment extends BaseFragment implements InfoContract.View {
   @Override protected void initView(View view) {
     ButterKnife.bind(this, view);
     mType = getArguments().getInt("type");
+    Logger.d(mType + "");
     initRecyclerView();
     mPresenter.attachView(this);
-    mPresenter.loadData(mType, mPage);
+    mPresenter.loadData(mType, mPage,true);
+    mRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
+    mRefreshLayout.setOnRefreshListener(() -> {
+      mPage = 1;
+      mPresenter.loadData(mType,1,true);
+    });
   }
 
   @Override public void initInjector() {
@@ -67,6 +77,20 @@ public class InfoFragment extends BaseFragment implements InfoContract.View {
   @Override public void renderInfoList(List<InfoData> infoDatas) {
     mInfoDataList = infoDatas;
     mInfoAdapter = new InfoAdapter(mInfoDataList, mType);
+    mInfoAdapter.setOnItemClickListener(id -> {
+      Logger.d(mType + "");
+      switch (mType){
+        case Constant.TYPE_XJH:
+          CareerDetailActivity.start(getActivity(),id);
+          break;
+        case Constant.TYPE_ZP:
+          EmployDetailActivity.start(getActivity(),id);
+          break;
+        case Constant.TYPE_XZ:
+          FulltimeDetailAcitivity.start(getActivity(),id);
+          break;
+      }
+    });
     mRecyclerView.setAdapter(mInfoAdapter);
     Logger.d(mType + " begin render list");
   }
@@ -117,7 +141,7 @@ public class InfoFragment extends BaseFragment implements InfoContract.View {
         boolean isBottom = layoutManager.findLastCompletelyVisibleItemPosition()
             >= mInfoAdapter.getItemCount() - 1;
         if (isBottom) {
-          mPresenter.loadData(mType, ++mPage);
+          mPresenter.loadData(mType, ++mPage,false);
         }
       }
     };

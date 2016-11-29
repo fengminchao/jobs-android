@@ -1,7 +1,10 @@
 package com.muxistudio.jobs.ui.find.detail;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +20,7 @@ import com.muxistudio.jobs.api.jobs.JobsApi;
 import com.muxistudio.jobs.bean.CareerDetail;
 import com.muxistudio.jobs.db.Collection;
 import com.muxistudio.jobs.db.CollectionDao;
+import com.muxistudio.jobs.injector.PerActivity;
 import com.muxistudio.jobs.ui.ToolbarActivity;
 import com.muxistudio.jobs.util.TimeUtil;
 import javax.inject.Inject;
@@ -29,7 +33,14 @@ import static android.view.View.GONE;
  * Created by ybao on 16/11/29.
  */
 
+@PerActivity
 public class CareerDetailActivity extends ToolbarActivity {
+
+  public static void start(Context context,int id) {
+      Intent starter = new Intent(context, CareerDetailActivity.class);
+      starter.putExtra("id",id);
+      context.startActivity(starter);
+  }
 
   @BindView(R.id.toolbar) Toolbar mToolbar;
   @BindView(R.id.tv_title) TextView mTvTitle;
@@ -50,6 +61,7 @@ public class CareerDetailActivity extends ToolbarActivity {
 
   @Override protected void initView() {
     setContentView(R.layout.activity_career_detail);
+    ButterKnife.bind(this);
     initToolbar(mToolbar);
     mToolbar.setTitle("宣讲会");
     if (getIntent().hasExtra("id")) {
@@ -73,7 +85,7 @@ public class CareerDetailActivity extends ToolbarActivity {
           mTvCollege.setText(careerDetail.data.universityName);
           mTvPlace.setText(careerDetail.data.address);
           mTvTime.setText(careerDetail.data.holdtime);
-          mTvContent.setText(careerDetail.data.content);
+          mTvContent.setText(Html.fromHtml(careerDetail.data.content));
         }, throwable -> {
           throwable.printStackTrace();
           showEmptyView();

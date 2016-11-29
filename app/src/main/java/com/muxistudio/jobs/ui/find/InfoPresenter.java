@@ -28,7 +28,9 @@ import rx.schedulers.Schedulers;
     mJobsApi = jobsApi;
   }
 
-  @Override public void loadData(int type, int page) {
+
+  @Override public void loadData(int type, int page,boolean clean) {
+    mView.showLoading();
     Logger.d(type + "");
     switch (type) {
       case 1:
@@ -43,14 +45,20 @@ import rx.schedulers.Schedulers;
               infoData.id = careerData.id;
               infoData.title = careerData.title;
               infoData.place = careerData.address;
-              infoData.time = careerData.holdTime;
+              infoData.time = careerData.holdtime;
               infoData.logoUrl = careerData.logoUrl;
               infoData.clicks = careerData.totalClicks;
+              mView.hideLoading();
               return infoData;
             })
-            .toSortedList((infoData, infoData2) -> infoData2.id.compareTo(infoData.id))
+            .toList()
+            //.toSortedList((infoData, infoData2) -> infoData2.id.compareTo(infoData.id))
             .subscribe(infoDatas -> {
-              mView.renderInfoList(infoDatas);
+              if (clean){
+                mView.renderInfoList(infoDatas);
+                return;
+              }
+              mView.renderMoreData(infoDatas);
             }, throwable -> {
               throwable.printStackTrace();
             });
@@ -70,11 +78,17 @@ import rx.schedulers.Schedulers;
               infoData.time = employData.getTime();
               infoData.logoUrl = "";
               infoData.clicks = employData.totalClicks;
+              mView.hideLoading();
               return infoData;
             })
-            .toSortedList((infoData, infoData2) -> infoData2.id.compareTo(infoData.id))
+            .toList()
+            //.toSortedList((infoData, infoData2) -> infoData2.id.compareTo(infoData.id))
             .subscribe(infoDatas -> {
-              mView.renderInfoList(infoDatas);
+              if (clean) {
+                mView.renderInfoList(infoDatas);
+                return;
+              }
+              mView.renderMoreData(infoDatas);
             }, throwable -> {
               throwable.printStackTrace();
             });
@@ -94,11 +108,17 @@ import rx.schedulers.Schedulers;
               infoData.time = TextUtils.join(",", fulltimeData.positionNames);
               infoData.logoUrl = fulltimeData.logoUrl;
               infoData.clicks = -1;
+              mView.hideLoading();
               return infoData;
             })
-            .toSortedList((infoData, infoData2) -> infoData2.id.compareTo(infoData.id))
+            .toList()
+            //.toSortedList((infoData, infoData2) -> infoData2.id.compareTo(infoData.id))
             .subscribe(infoDatas -> {
-              mView.renderInfoList(infoDatas);
+              if (clean) {
+                mView.renderInfoList(infoDatas);
+                return;
+              }
+              mView.renderMoreData(infoDatas);
             }, throwable -> {
               throwable.printStackTrace();
             });
@@ -117,6 +137,7 @@ import rx.schedulers.Schedulers;
   @Override public void detachView() {
     mView = null;
     if (mSubscription != null && !mSubscription.isUnsubscribed()) {
+      mView.hideLoading();
       mSubscription.unsubscribe();
     }
   }

@@ -1,6 +1,10 @@
 package com.muxistudio.jobs.ui.find.detail;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -8,14 +12,17 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import com.muxistudio.jobs.Constant;
 import com.muxistudio.jobs.R;
 import com.muxistudio.jobs.api.UserStorge;
 import com.muxistudio.jobs.api.jobs.JobsApi;
 import com.muxistudio.jobs.bean.CareerDetail;
+import com.muxistudio.jobs.bean.FulltimeDetail;
 import com.muxistudio.jobs.db.Collection;
 import com.muxistudio.jobs.db.CollectionDao;
 import com.muxistudio.jobs.ui.ToolbarActivity;
+import com.muxistudio.jobs.ui.web.WebActivity;
 import com.muxistudio.jobs.util.TimeUtil;
 import javax.inject.Inject;
 import rx.android.schedulers.AndroidSchedulers;
@@ -29,27 +36,35 @@ import static android.view.View.GONE;
 
 public class FulltimeDetailAcitivity extends ToolbarActivity {
 
-  @BindView(R.id.toolbar) Toolbar mToolbar;
-  @BindView(R.id.tv_title) TextView mTvTitle;
-  @BindView(R.id.tv_college) TextView mTvCollege;
-  @BindView(R.id.tv_time) TextView mTvTime;
-  @BindView(R.id.tv_place) TextView mTvPlace;
-  @BindView(R.id.tv_content) TextView mTvContent;
-  @BindView(R.id.iv_empty) ImageView mIvEmpty;
-  @BindView(R.id.scrollView) ScrollView mScrollView;
+  public static void start(Context context,int id) {
+      Intent starter = new Intent(context, FulltimeDetailAcitivity.class);
+      starter.putExtra("id",id);
+      context.startActivity(starter);
+  }
 
   @Inject JobsApi mJobsApi;
   @Inject CollectionDao mCollectionDao;
   @Inject UserStorge mUserStorge;
+  @BindView(R.id.toolbar) Toolbar mToolbar;
+  @BindView(R.id.iv_empty) ImageView mIvEmpty;
+  @BindView(R.id.tv_title) TextView mTvTitle;
+  @BindView(R.id.tv_company) TextView mTvCompany;
+  @BindView(R.id.tv_place) TextView mTvPlace;
+  @BindView(R.id.tv_type) TextView mTvType;
+  @BindView(R.id.tv_content) TextView mTvContent;
+  @BindView(R.id.scrollView) ScrollView mScrollView;
 
   private Collection mCollection;
+
+  private String submitUrl;
 
   private int mId;
 
   @Override protected void initView() {
-    setContentView(R.layout.activity_career_detail);
+    setContentView(R.layout.activity_fulltime_detail);
+    ButterKnife.bind(this);
     initToolbar(mToolbar);
-    mToolbar.setTitle("宣讲会");
+    mToolbar.setTitle("");
     if (getIntent().hasExtra("id")) {
       loadDetailData(getIntent().getIntExtra("id", -1));
       mId = getIntent().getIntExtra("id", -1);
@@ -61,32 +76,33 @@ public class FulltimeDetailAcitivity extends ToolbarActivity {
       return;
     }
     mJobsApi.getJobsService()
-        .getCareerDetail(id)
+        .getFulltimeDetail(id)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(careerDetail -> {
+        .subscribe(fulltimeDetail -> {
           hideEmptyView();
-          setCollection(careerDetail);
-          mTvTitle.setText(careerDetail.data.title);
-          mTvCollege.setText(careerDetail.data.universityName);
-          mTvPlace.setText(careerDetail.data.address);
-          mTvTime.setText(careerDetail.data.holdtime);
-          mTvContent.setText(careerDetail.data.content);
+          setCollection(fulltimeDetail);
+          mTvTitle.setText(fulltimeDetail.data.title);
+          mTvCompany.setText(fulltimeDetail.data.companyFullname);
+          mTvPlace.setText(fulltimeDetail.data.companyLocationName);
+          mTvType.setText(fulltimeDetail.data.companyTradeTypeName);
+          mTvContent.setText(Html.fromHtml(fulltimeDetail.data.content));
+          submitUrl = fulltimeDetail.data.positions.get(0).postUrl;
         }, throwable -> {
           throwable.printStackTrace();
           showEmptyView();
         });
   }
 
-  private void setCollection(CareerDetail careerDetail) {
+  private void setCollection(FulltimeDetail fulltimeDetail) {
     mCollection = new Collection();
-    mCollection.setDate(TimeUtil.parseDate(careerDetail.data.holdtime));
+    mCollection.setDate("");
+    mCollection.setTime("");
     mCollection.setMail(mUserStorge.getUser().getMail());
-    mCollection.setPlace(careerDetail.data.address);
-    mCollection.setSchool(careerDetail.data.universityName);
-    mCollection.setTitle(careerDetail.data.title);
-    mCollection.setTime(TimeUtil.parseTime(careerDetail.data.holdtime));
-    mCollection.setType(Constant.TYPE_XJH);
+    mCollection.setPlace(fulltimeDetail.data.companyLocationName);
+    mCollection.setSchool("");
+    mCollection.setTitle(fulltimeDetail.data.title);
+    mCollection.setType(Constant.TYPE_XZ);
   }
 
   private void showEmptyView() {
@@ -109,9 +125,9 @@ public class FulltimeDetailAcitivity extends ToolbarActivity {
   @Override public boolean onPrepareOptionsMenu(Menu menu) {
     if (mCollectionDao.queryBuilder().where(CollectionDao.Properties.Id.eq(mId)).list().size()
         > 0) {
-      getMenuInflater().inflate(R.menu.info_detail_collected, menu);
+      getMenuInflater().inflate(R.menu.full_detail_collected, menu);
     } else {
-      getMenuInflater().inflate(R.menu.info_detail, menu);
+      getMenuInflater().inflate(R.menu.full_detail, menu);
     }
     return super.onPrepareOptionsMenu(menu);
   }
@@ -128,8 +144,12 @@ public class FulltimeDetailAcitivity extends ToolbarActivity {
           mCollectionDao.delete(mCollection);
         }
         break;
+      case R.id.action_submit:
+        WebActivity.start(FulltimeDetailAcitivity.this,submitUrl);
+        break;
     }
     invalidateOptionsMenu();
     return true;
   }
+
 }

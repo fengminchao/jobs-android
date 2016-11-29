@@ -1,7 +1,10 @@
 package com.muxistudio.jobs.ui.find.detail;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,6 +34,12 @@ import static android.view.View.GONE;
 
 public class EmployDetailActivity extends ToolbarActivity {
 
+  public static void start(Context context,int id) {
+      Intent starter = new Intent(context, EmployDetailActivity.class);
+      starter.putExtra("id",id);
+      context.startActivity(starter);
+  }
+
   @Inject JobsApi mJobsApi;
   @Inject CollectionDao mCollectionDao;
   @Inject UserStorge mUserStorge;
@@ -50,6 +59,7 @@ public class EmployDetailActivity extends ToolbarActivity {
 
   @Override protected void initView() {
     setContentView(R.layout.activity_employ_detail);
+    ButterKnife.bind(this);
     initToolbar(mToolbar);
     mToolbar.setTitle("招聘会");
     if (getIntent().hasExtra("id")) {
@@ -72,8 +82,8 @@ public class EmployDetailActivity extends ToolbarActivity {
           mTvTitle.setText(employDetail.data.title);
           mTvVenue.setText(employDetail.data.venueName);
           mTvPlace.setText(employDetail.data.venueAddress);
-          mTvTime.setText(employDetail.data.holdtime);
-          mTvContent.setText(employDetail.data.content);
+          mTvTime.setText(employDetail.data.holdtime + mCollection.getTime());
+          mTvContent.setText(Html.fromHtml(employDetail.data.content));
         }, throwable -> {
           throwable.printStackTrace();
           showEmptyView();
@@ -87,8 +97,8 @@ public class EmployDetailActivity extends ToolbarActivity {
     mCollection.setPlace(employDetail.data.venueAddress);
     mCollection.setSchool("");
     mCollection.setTitle(employDetail.data.title);
-    mCollection.setTime(employDetail.data.detailtime.substring());
-    mCollection.setType(Constant.TYPE_XJH);
+    mCollection.setTime(TimeUtil.parseTime(employDetail.data.detailtime));
+    mCollection.setType(Constant.TYPE_ZP);
   }
 
   private void showEmptyView() {

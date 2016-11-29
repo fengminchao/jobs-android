@@ -1,5 +1,7 @@
 package com.muxistudio.jobs.ui.find;
 
+import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import butterknife.ButterKnife;
 import com.muxistudio.jobs.util.Logger;
 import com.muxistudio.jobs.R;
 import com.muxistudio.jobs.bean.InfoData;
+import com.squareup.picasso.Picasso;
 import java.util.List;
 
 /**
@@ -24,6 +27,8 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.ViewHolder> {
   //传进来的类型
   private int type;
 
+  private Context mContext;
+
   private ItemClickListener mItemClickListener;
 
   public InfoAdapter(List<InfoData> infoDatas, int type) {
@@ -32,6 +37,7 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.ViewHolder> {
   }
 
   @Override public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    mContext = parent.getContext();
     return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(
         R.layout.item_info,parent,false
     ));
@@ -43,10 +49,13 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.ViewHolder> {
           v -> mItemClickListener.onItemClick(mInfoDatas.get(position).id));
     }
     Logger.d(position + "");
+    Picasso.with(mContext).load(Uri.parse(mInfoDatas.get(position).logoUrl)).into(holder.mIvLogo);
     holder.mTvTitle.setText(mInfoDatas.get(position).title);
     holder.mTvTime.setText(mInfoDatas.get(position).time);
     holder.mTvPlace.setText(mInfoDatas.get(position).place);
-    holder.mTvClick.setText(mInfoDatas.get(position).clicks + "");
+    if (mInfoDatas.get(position).clicks >= 0) {
+      holder.mTvClick.setText(mInfoDatas.get(position).clicks + "");
+    }
   }
 
 

@@ -19,7 +19,7 @@ public class CareerList extends JobsBase{
   public class CareerData {
     public int id;
     public String title;
-    public String holdTime;
+    public String holdtime;
     public String universityShortName;
     public String address;
     public String logoUrl;

@@ -30,7 +30,7 @@ public class InfoContract{
 
     void onItemClick(int id);
 
-    void loadData(int page,int type);
+    void loadData(int page,int type,boolean clean);
 
   }
 }

@@ -39,6 +39,8 @@
 
     <activity android:name=".ui.find.detail.EmployDetailActivity"/>
 
+    <activity android:name=".ui.web.WebActivity"/>
+
   </application>
 
 

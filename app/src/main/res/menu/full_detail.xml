@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
   <item
+      android:id="@+id/action_submit"
+      android:title="投递简历"
+      app:showAsAction="always"
+      />
+
+  <item
       android:id="@+id/action_star"
       android:icon="@drawable/ic_star_border_white_24dp"
       android:title="收藏"
