@@ -6,7 +6,7 @@
     android:layout_marginBottom="16dp"
     android:layout_marginTop="16dp"
     android:background="?attr/widgetBackground"
-    android:elevation="8dp"
+    android:elevation="4dp"
     android:orientation="vertical"
     >
 
@@ -20,12 +20,12 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/ic_person_black_24dp"
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
         android:layout_centerVertical="true"
+        android:drawableLeft="@drawable/ic_person_grey_500_24dp"
         android:text="姓名"
-        android:textColor="?android:attr/textColorPrimary"
+        android:textColor="?android:attr/textColorSecondary"
         />
 
     <TextView
@@ -34,13 +34,13 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        tools:text="ybao"
+        android:text="无"
         />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/list_divider_light"
+        android:background="?android:attr/listDivider"
         android:layout_alignParentBottom="true"
         />
 
@@ -56,12 +56,12 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/ic_person_black_24dp"
+        android:drawableLeft="@drawable/ic_face_grey_500_24dp"
         android:drawablePadding="8dp"
         android:layout_centerVertical="true"
         android:gravity="center_vertical"
         android:text="性别"
-        android:textColor="?android:attr/textColorPrimary"
+        android:textColor="?android:attr/textColorSecondary"
         />
 
     <TextView
@@ -92,12 +92,11 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/ic_person_black_24dp"
+        android:drawableLeft="@drawable/ic_place_grey_500_24dp"
         android:layout_centerVertical="true"
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
         android:text="居住地"
-        android:textColor="?android:attr/textColorPrimary"
         />
 
     <TextView
@@ -128,12 +127,11 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/ic_person_black_24dp"
+        android:drawableLeft="@drawable/ic_date_range_grey_500_24dp"
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
         android:text="出生年月"
         android:layout_centerVertical="true"
-        android:textColor="?android:attr/textColorPrimary"
         />
 
     <TextView
@@ -164,11 +162,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:drawableLeft="@drawable/ic_person_black_24dp"
+        android:drawableLeft="@drawable/ic_group_grey_500_24dp"
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
         android:text="籍贯"
-        android:textColor="?android:attr/textColorPrimary"
         />
 
     <TextView
@@ -200,11 +197,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:drawableLeft="@drawable/ic_person_black_24dp"
+        android:drawableLeft="@drawable/ic_school_grey_500_24dp"
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
         android:text="毕业院校"
-        android:textColor="?android:attr/textColorPrimary"
         />
 
     <TextView
@@ -235,12 +231,11 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/ic_person_black_24dp"
+        android:drawableLeft="@drawable/ic_phone_android_grey_500_24dp"
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
         android:text="手机"
         android:layout_centerVertical="true"
-        android:textColor="?android:attr/textColorPrimary"
         />
 
     <TextView
@@ -271,12 +266,11 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/ic_person_black_24dp"
+        android:drawableLeft="@drawable/ic_mail_outline_grey_500_24dp"
         android:drawablePadding="8dp"
         android:layout_centerVertical="true"
         android:gravity="center_vertical"
         android:text="邮箱"
-        android:textColor="?android:attr/textColorPrimary"
         />
 
     <TextView

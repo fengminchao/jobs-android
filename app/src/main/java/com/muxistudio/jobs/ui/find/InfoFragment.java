@@ -13,6 +13,7 @@ import com.muxistudio.jobs.R;
 import com.muxistudio.jobs.bean.InfoData;
 import com.muxistudio.jobs.ui.BaseFragment;
 import com.muxistudio.jobs.ui.main.MainActivity;
+import com.muxistudio.jobs.util.ToastUtil;
 import java.util.List;
 import javax.inject.Inject;
 
@@ -27,7 +28,10 @@ public class InfoFragment extends BaseFragment implements InfoContract.View {
   //类型为宣讲会，招聘会，或网投
   private int mType;
   private static final String TYPE = "type";
+  private InfoAdapter mInfoAdapter;
+  private List<InfoData> mInfoDataList;
 
+  private int mPage = 1;
 
   private LinearLayoutManager mLayoutManager;
 
@@ -42,15 +46,15 @@ public class InfoFragment extends BaseFragment implements InfoContract.View {
   }
 
   @Override protected void initView(View view) {
-    ButterKnife.bind(this,view);
+    ButterKnife.bind(this, view);
     mType = getArguments().getInt("type");
     initRecyclerView();
     mPresenter.attachView(this);
-    mPresenter.getInfoDataList(mType);
+    mPresenter.loadData(mType, mPage);
   }
 
   @Override public void initInjector() {
-        DaggerInfoComponent.builder()
+    DaggerInfoComponent.builder()
         .applicationComponent(((MainActivity) getActivity()).getApplicationComponent())
         .build()
         .inject(this);
@@ -61,9 +65,35 @@ public class InfoFragment extends BaseFragment implements InfoContract.View {
   }
 
   @Override public void renderInfoList(List<InfoData> infoDatas) {
-    InfoAdapter adapter = new InfoAdapter(infoDatas, mType);
-    mRecyclerView.setAdapter(adapter);
+    mInfoDataList = infoDatas;
+    mInfoAdapter = new InfoAdapter(mInfoDataList, mType);
+    mRecyclerView.setAdapter(mInfoAdapter);
     Logger.d(mType + " begin render list");
+  }
+
+  @Override public void renderMoreData(List<InfoData> infoDatas) {
+    mInfoDataList.addAll(infoDatas);
+    mInfoAdapter.notifyDataSetChanged();
+  }
+
+  @Override public void showEnd() {
+    ToastUtil.toastShort("已没有更多内容");
+  }
+
+  @Override public void showLoading() {
+    if (!mRefreshLayout.isRefreshing()) {
+      mRefreshLayout.post(() -> mRefreshLayout.setRefreshing(true));
+    }
+  }
+
+  @Override public void hideLoading() {
+    if (mRefreshLayout.isRefreshing()) {
+      mRefreshLayout.post(() -> mRefreshLayout.setRefreshing(false));
+    }
+  }
+
+  @Override public void enterDetailPage(int id, int type) {
+
   }
 
   @Override public void onDestroyView() {
@@ -75,6 +105,21 @@ public class InfoFragment extends BaseFragment implements InfoContract.View {
     mRecyclerView.setHasFixedSize(true);
     mLayoutManager = new LinearLayoutManager(App.sContext);
     mRecyclerView.setLayoutManager(mLayoutManager);
+    mRecyclerView.setOnScrollListener(getOnBottomListener(mLayoutManager));
     Logger.d("recyclerview init");
+  }
+
+  private RecyclerView.OnScrollListener getOnBottomListener(LinearLayoutManager layoutManager) {
+    return new RecyclerView.OnScrollListener() {
+
+      @Override public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+        super.onScrolled(recyclerView, dx, dy);
+        boolean isBottom = layoutManager.findLastCompletelyVisibleItemPosition()
+            >= mInfoAdapter.getItemCount() - 1;
+        if (isBottom) {
+          mPresenter.loadData(mType, ++mPage);
+        }
+      }
+    };
   }
 }

@@ -3,9 +3,10 @@ package com.muxistudio.jobs.ui.accout;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,7 +23,7 @@ import javax.inject.Inject;
 /**
  * Created by ybao on 16/11/12.
  */
-@PerActivity public class AccountActivity extends ToolbarActivity{
+@PerActivity public class AccountActivity extends ToolbarActivity {
 
   @Inject UserStorge mUserStorge;
   @BindView(R.id.iv_avator) ImageView mIvAvator;
@@ -34,6 +35,7 @@ import javax.inject.Inject;
   @BindView(R.id.tv_college) TextView mTvCollege;
   @BindView(R.id.tv_phone) TextView mTvPhone;
   @BindView(R.id.tv_mail) TextView mTvMail;
+  @BindView(R.id.toolbar) Toolbar mToolbar;
 
   public static void startActivity(Context context) {
     Intent intent = new Intent(context, AccountActivity.class);
@@ -43,6 +45,7 @@ import javax.inject.Inject;
   @Override protected void initView() {
     setContentView(R.layout.activity_account);
     ButterKnife.bind(this);
+    initToolbar(mToolbar);
     renderUserInfo();
   }
 
@@ -51,9 +54,12 @@ import javax.inject.Inject;
   }
 
   private void renderUserInfo() {
-    if (!TextUtils.isEmpty(mUserStorge.getUserInfo().getAvator())){
-      Picasso.with(this).load(Uri.parse(mUserStorge.getUserInfo().getAvator())).transform(new CircleTransformation()).into(mIvAvator);
-    }else {
+    if (!TextUtils.isEmpty(mUserStorge.getUserInfo().getAvator())) {
+      Picasso.with(this)
+          .load(Uri.parse(mUserStorge.getUserInfo().getAvator()))
+          .transform(new CircleTransformation())
+          .into(mIvAvator);
+    } else {
       Picasso.with(this).load(R.drawable.cat).transform(new CircleTransformation()).into(mIvAvator);
     }
     mTvName.setText(mUserStorge.getUserInfo().getName());
@@ -87,5 +93,11 @@ import javax.inject.Inject;
   @Override public boolean onCreateOptionsMenu(Menu menu) {
     getMenuInflater().inflate(R.menu.menu_account, menu);
     return super.onCreateOptionsMenu(menu);
+  }
+
+  @Override protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    // TODO: add setContentView(...) invocation
+    ButterKnife.bind(this);
   }
 }

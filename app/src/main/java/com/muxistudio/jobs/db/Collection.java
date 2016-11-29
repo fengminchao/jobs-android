@@ -16,14 +16,14 @@ public class Collection {
     private String school;
     private String date;
     private String time;
-    private String type;
+    private Integer type;
 
     @Generated
     public Collection() {
     }
 
     @Generated
-    public Collection(String mail, Integer id, String title, String place, String school, String date, String time, String type) {
+    public Collection(String mail, Integer id, String title, String place, String school, String date, String time, Integer type) {
         this.mail = mail;
         this.id = id;
         this.title = title;
@@ -90,11 +90,11 @@ public class Collection {
         this.time = time;
     }
 
-    public String getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 

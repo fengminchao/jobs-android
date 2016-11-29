@@ -29,7 +29,7 @@ public class CollectionDao extends AbstractDao<Collection, Void> {
         public final static Property School = new Property(4, String.class, "school", false, "SCHOOL");
         public final static Property Date = new Property(5, String.class, "date", false, "DATE");
         public final static Property Time = new Property(6, String.class, "time", false, "TIME");
-        public final static Property Type = new Property(7, String.class, "type", false, "TYPE");
+        public final static Property Type = new Property(7, Integer.class, "type", false, "TYPE");
     }
 
 
@@ -52,7 +52,7 @@ public class CollectionDao extends AbstractDao<Collection, Void> {
                 "\"SCHOOL\" TEXT," + // 4: school
                 "\"DATE\" TEXT," + // 5: date
                 "\"TIME\" TEXT," + // 6: time
-                "\"TYPE\" TEXT);"); // 7: type
+                "\"TYPE\" INTEGER);"); // 7: type
     }
 
     /** Drops the underlying database table. */
@@ -100,9 +100,9 @@ public class CollectionDao extends AbstractDao<Collection, Void> {
             stmt.bindString(7, time);
         }
  
-        String type = entity.getType();
+        Integer type = entity.getType();
         if (type != null) {
-            stmt.bindString(8, type);
+            stmt.bindLong(8, type);
         }
     }
 
@@ -145,9 +145,9 @@ public class CollectionDao extends AbstractDao<Collection, Void> {
             stmt.bindString(7, time);
         }
  
-        String type = entity.getType();
+        Integer type = entity.getType();
         if (type != null) {
-            stmt.bindString(8, type);
+            stmt.bindLong(8, type);
         }
     }
 
@@ -166,7 +166,7 @@ public class CollectionDao extends AbstractDao<Collection, Void> {
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // school
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // date
             cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // time
-            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7) // type
+            cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7) // type
         );
         return entity;
     }
@@ -180,7 +180,7 @@ public class CollectionDao extends AbstractDao<Collection, Void> {
         entity.setSchool(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
         entity.setDate(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
         entity.setTime(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
-        entity.setType(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setType(cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7));
      }
     
     @Override

@@ -66,6 +66,7 @@ public class FindFragment extends BaseFragment {
     FragmentAdapter adapter =
         new FragmentAdapter(getActivity().getSupportFragmentManager(), fragments, titles);
     mViewPager.setAdapter(adapter);
+    mViewPager.setOffscreenPageLimit(2);
     mTabLayout.setupWithViewPager(mViewPager);
     Logger.d("setup fragments");
   }

@@ -69,7 +69,8 @@ import rx.subscriptions.CompositeSubscription;
   @Override protected void initView() {
     setContentView(R.layout.activity_account_edit);
     ButterKnife.bind(this);
-    mToolbar.setTitle("");
+    initToolbar(mToolbar);
+    mToolbar.setTitle("编辑个人信息");
     getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_clear_white_24dp);
     initInputLayout();
     if (TextUtils.isEmpty(mUserStorge.getUserInfo().getAvator())) {

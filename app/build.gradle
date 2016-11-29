@@ -31,6 +31,9 @@ android {
         sourceCompatibility 1.8
         targetCompatibility 1.8
     }
+    freeline{
+        packageName 'com.muxistudio.jobs'
+    }
 }
 
 dependencies {
@@ -41,9 +44,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.0.0'
     compile 'com.android.support:design:25.0.0'
     compile 'com.android.support:support-annotations:25.0.0'
-    // Testing-only dependencies
-
-    // Force usage of support annotations in the test app, since it is internally used by the runner module.
     androidTestCompile 'com.android.support:support-annotations:25.0.0'
     androidTestCompile 'com.android.support.test:runner:0.4.1'
     androidTestCompile 'com.android.support.test:rules:0.4.1'

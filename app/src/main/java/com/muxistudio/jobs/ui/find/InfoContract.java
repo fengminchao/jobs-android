@@ -15,14 +15,22 @@ public class InfoContract{
 
     void renderInfoList(List<InfoData> infoDatas);
 
+    void renderMoreData(List<InfoData> infoDatas);
+
+    void showEnd();
+
+    void showLoading();
+
+    void hideLoading();
+
+    void enterDetailPage(int id,int type);
   }
 
   interface Presenter extends BasePresenter<View>{
 
-    void getInfoDataList(int type);
-
     void onItemClick(int id);
 
+    void loadData(int page,int type);
 
   }
 }

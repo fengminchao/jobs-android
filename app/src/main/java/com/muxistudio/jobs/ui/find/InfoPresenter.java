@@ -20,7 +20,7 @@ import rx.schedulers.Schedulers;
 
   private InfoContract.View mView;
   private JobsApi mJobsApi;
-  private int mPage = 1;
+  //private int mPage = 1;
 
   private Subscription mSubscription;
 
@@ -28,12 +28,12 @@ import rx.schedulers.Schedulers;
     mJobsApi = jobsApi;
   }
 
-  @Override public void getInfoDataList(int type) {
+  @Override public void loadData(int type, int page) {
     Logger.d(type + "");
     switch (type) {
       case 1:
         mSubscription = mJobsApi.getJobsService()
-            .getCareerList(mPage)
+            .getCareerList(page)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .map(careerList -> careerList.data)
@@ -57,7 +57,7 @@ import rx.schedulers.Schedulers;
         break;
       case 2:
         mSubscription = mJobsApi.getJobsService()
-            .getEmployList(mPage)
+            .getEmployList(page)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .map(employList -> employList.data)
@@ -81,7 +81,7 @@ import rx.schedulers.Schedulers;
         break;
       case 3:
         mSubscription = mJobsApi.getJobsService()
-            .getFulltimeList(mPage)
+            .getFulltimeList(page)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .map(fulltimeList -> fulltimeList.data)
@@ -116,9 +116,8 @@ import rx.schedulers.Schedulers;
 
   @Override public void detachView() {
     mView = null;
-
-    //if (mSubscription != null && mSubscription.isUnsubscribed() != false) {
-    //  mSubscription.unsubscribe();
-    //}
+    if (mSubscription != null && !mSubscription.isUnsubscribed()) {
+      mSubscription.unsubscribe();
+    }
   }
 }

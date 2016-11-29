@@ -33,6 +33,12 @@
 
     <activity android:name=".ui.login.LoginActivity"/>
 
+    <activity android:name=".ui.find.detail.CareerDetailActivity"/>
+
+    <activity android:name=".ui.find.detail.FulltimeDetailAcitivity"/>
+
+    <activity android:name=".ui.find.detail.EmployDetailActivity"/>
+
   </application>
 
 
