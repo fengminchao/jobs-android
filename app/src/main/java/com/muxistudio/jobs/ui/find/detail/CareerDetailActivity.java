@@ -22,6 +22,7 @@ import com.muxistudio.jobs.db.Collection;
 import com.muxistudio.jobs.db.CollectionDao;
 import com.muxistudio.jobs.injector.PerActivity;
 import com.muxistudio.jobs.ui.ToolbarActivity;
+import com.muxistudio.jobs.util.Logger;
 import com.muxistudio.jobs.util.TimeUtil;
 import javax.inject.Inject;
 import rx.android.schedulers.AndroidSchedulers;
@@ -62,8 +63,7 @@ public class CareerDetailActivity extends ToolbarActivity {
   @Override protected void initView() {
     setContentView(R.layout.activity_career_detail);
     ButterKnife.bind(this);
-    initToolbar(mToolbar);
-    mToolbar.setTitle("宣讲会");
+    setTitle("宣讲会");
     if (getIntent().hasExtra("id")) {
       loadDetailData(getIntent().getIntExtra("id", -1));
       mId = getIntent().getIntExtra("id", -1);
@@ -101,6 +101,7 @@ public class CareerDetailActivity extends ToolbarActivity {
     mCollection.setTitle(careerDetail.data.title);
     mCollection.setTime(TimeUtil.parseTime(careerDetail.data.holdtime));
     mCollection.setType(Constant.TYPE_XJH);
+    mCollection.setId(careerDetail.data.id);
   }
 
   private void showEmptyView() {
@@ -124,8 +125,10 @@ public class CareerDetailActivity extends ToolbarActivity {
     if (mCollectionDao.queryBuilder().where(CollectionDao.Properties.Id.eq(mId)).list().size()
         > 0) {
       getMenuInflater().inflate(R.menu.info_detail_collected, menu);
+      Logger.d("collected menu inflate");
     } else {
       getMenuInflater().inflate(R.menu.info_detail, menu);
+      Logger.d("collect menu inflate");
     }
     return super.onPrepareOptionsMenu(menu);
   }

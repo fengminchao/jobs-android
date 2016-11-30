@@ -11,7 +11,7 @@
 
     <dimen name="account_widget_height">48dp</dimen>
     <dimen name="account_drawable_height">72dp</dimen>
-    <dimen name="account_layout_height">48dp</dimen>
+    <dimen name="account_layout_height">60dp</dimen>
     <dimen name="account_edit_drawable_height">24dp</dimen>
     <dimen name="account_edit_drawable_margin">16dp</dimen>
 </resources>

@@ -60,7 +60,6 @@ public class EmployDetailActivity extends ToolbarActivity {
   @Override protected void initView() {
     setContentView(R.layout.activity_employ_detail);
     ButterKnife.bind(this);
-    initToolbar(mToolbar);
     mToolbar.setTitle("招聘会");
     if (getIntent().hasExtra("id")) {
       loadDetailData(getIntent().getIntExtra("id", -1));
@@ -99,6 +98,7 @@ public class EmployDetailActivity extends ToolbarActivity {
     mCollection.setTitle(employDetail.data.title);
     mCollection.setTime(TimeUtil.parseTime(employDetail.data.detailtime));
     mCollection.setType(Constant.TYPE_ZP);
+    mCollection.setId(mId);
   }
 
   private void showEmptyView() {

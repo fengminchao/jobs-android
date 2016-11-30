@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     >
 
@@ -19,7 +20,7 @@
         android:layout_gravity="center_vertical"
         android:layout_marginRight="@dimen/account_edit_drawable_margin"
         android:scaleType="fitXY"
-        android:src="@drawable/cat"
+        android:src="@drawable/ic_person_grey_500_18dp"
         />
 
     <android.support.design.widget.TextInputLayout
@@ -53,7 +54,7 @@
         android:layout_gravity="center_vertical"
         android:layout_marginRight="@dimen/account_edit_drawable_margin"
         android:scaleType="fitXY"
-        android:src="@drawable/cat"
+        android:src="@drawable/ic_face_grey_500_24dp"
         />
 
     <android.support.v7.widget.AppCompatCheckBox
@@ -90,7 +91,7 @@
         android:layout_gravity="center_vertical"
         android:layout_marginRight="@dimen/account_edit_drawable_margin"
         android:scaleType="fitXY"
-        android:src="@drawable/cat"
+        android:src="@drawable/ic_place_grey_500_24dp"
         />
 
     <android.support.design.widget.TextInputLayout
@@ -103,6 +104,7 @@
           android:id="@+id/et_place"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
+          tools:text="武汉"
           style="@style/AccountEditText"
           />
 
@@ -124,23 +126,33 @@
         android:layout_gravity="center_vertical"
         android:layout_marginRight="@dimen/account_edit_drawable_margin"
         android:scaleType="fitXY"
-        android:src="@drawable/cat"
+        android:src="@drawable/ic_date_range_grey_500_24dp"
         />
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/birth_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textColor="?android:attr/textColorPrimary"
+        android:text="请选择出生年月"
+        android:id="@+id/tv_date"
+        android:layout_gravity="center_vertical"
+        />
 
-      <android.support.design.widget.TextInputEditText
-          android:id="@+id/et_birth"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          style="@style/AccountEditText"
-          />
+    <!--<android.support.design.widget.TextInputLayout-->
+        <!--android:id="@+id/birth_layout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--&gt;-->
 
-    </android.support.design.widget.TextInputLayout>
+      <!--<android.support.design.widget.TextInputEditText-->
+          <!--android:id="@+id/et_birth"-->
+          <!--android:layout_width="match_parent"-->
+          <!--android:layout_height="wrap_content"-->
+          <!--style="@style/AccountEditText"-->
+          <!--/>-->
+
+    <!--</android.support.design.widget.TextInputLayout>-->
 
   </LinearLayout>
 
@@ -158,7 +170,7 @@
         android:layout_gravity="center_vertical"
         android:layout_marginRight="@dimen/account_edit_drawable_margin"
         android:scaleType="fitXY"
-        android:src="@drawable/cat"
+        android:src="@drawable/ic_group_grey_500_24dp"
         />
 
     <android.support.design.widget.TextInputLayout
@@ -192,7 +204,7 @@
         android:layout_gravity="center_vertical"
         android:layout_marginRight="@dimen/account_edit_drawable_margin"
         android:scaleType="fitXY"
-        android:src="@drawable/cat"
+        android:src="@drawable/ic_school_grey_500_24dp"
         />
 
     <android.support.design.widget.TextInputLayout
@@ -226,7 +238,7 @@
         android:layout_gravity="center_vertical"
         android:layout_marginRight="@dimen/account_edit_drawable_margin"
         android:scaleType="fitXY"
-        android:src="@drawable/cat"
+        android:src="@drawable/ic_phone_android_grey_500_24dp"
         />
 
     <android.support.design.widget.TextInputLayout
@@ -260,7 +272,7 @@
         android:layout_gravity="center_vertical"
         android:layout_marginRight="@dimen/account_edit_drawable_margin"
         android:scaleType="fitXY"
-        android:src="@drawable/cat"
+        android:src="@drawable/ic_mail_outline_grey_500_24dp"
         />
 
     <android.support.design.widget.TextInputLayout
@@ -272,8 +284,8 @@
       <android.support.design.widget.TextInputEditText
           android:id="@+id/et_mail"
           android:layout_width="match_parent"
-          android:editable="false"
           android:layout_height="wrap_content"
+          android:editable="false"
           style="@style/AccountEditText"
           />
 

@@ -45,7 +45,7 @@ import javax.inject.Inject;
   @Override protected void initView() {
     setContentView(R.layout.activity_account);
     ButterKnife.bind(this);
-    initToolbar(mToolbar);
+    setTitle("个人信息");
     renderUserInfo();
   }
 

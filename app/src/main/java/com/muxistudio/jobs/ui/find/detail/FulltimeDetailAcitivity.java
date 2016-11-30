@@ -63,7 +63,6 @@ public class FulltimeDetailAcitivity extends ToolbarActivity {
   @Override protected void initView() {
     setContentView(R.layout.activity_fulltime_detail);
     ButterKnife.bind(this);
-    initToolbar(mToolbar);
     mToolbar.setTitle("");
     if (getIntent().hasExtra("id")) {
       loadDetailData(getIntent().getIntExtra("id", -1));
@@ -103,6 +102,7 @@ public class FulltimeDetailAcitivity extends ToolbarActivity {
     mCollection.setSchool("");
     mCollection.setTitle(fulltimeDetail.data.title);
     mCollection.setType(Constant.TYPE_XZ);
+    mCollection.setId(mId);
   }
 
   private void showEmptyView() {

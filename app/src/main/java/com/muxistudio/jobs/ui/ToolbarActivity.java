@@ -1,7 +1,10 @@
 package com.muxistudio.jobs.ui;
 
+import android.support.annotation.LayoutRes;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import butterknife.ButterKnife;
+import com.muxistudio.jobs.R;
 
 /**
  * Created by ybao on 16/10/21.
@@ -11,12 +14,18 @@ public abstract class ToolbarActivity extends BaseActivity {
 
     private Toolbar mtoolbar;
 
-    protected void initToolbar(Toolbar toolbar) {
-        if (toolbar != null) {
-            setSupportActionBar(toolbar);
-            mtoolbar = toolbar;
+    @Override public void setContentView(@LayoutRes int layoutResID) {
+        super.setContentView(layoutResID);
+        initToolbar();
+    }
+
+    protected void initToolbar() {
+        mtoolbar = ButterKnife.findById(this, R.id.toolbar);
+        if (mtoolbar != null) {
+            mtoolbar.setTitle(getString(R.string.app_name));
+            setSupportActionBar(mtoolbar);
             if (canBack()) {
-                getSupportActionBar().setDisplayShowHomeEnabled(true);
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             }
         }
     }

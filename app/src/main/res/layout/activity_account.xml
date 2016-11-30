@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     >
 
@@ -12,34 +12,29 @@
       >
 
 
-    <android.support.design.widget.CollapsingToolbarLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="168dp"
+        android:layout_height="180dp"
         >
 
-      <RelativeLayout
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          >
+      <ImageView
+          android:id="@+id/iv_avator"
+          android:layout_width="@dimen/account_drawable_height"
+          android:layout_height="@dimen/account_drawable_height"
+          android:layout_centerInParent="true"
+          />
 
-        <ImageView
-            android:id="@+id/iv_avator"
-            android:layout_width="@dimen/account_drawable_height"
-            android:layout_height="@dimen/account_drawable_height"
-            android:layout_centerInParent="true"
-            />
-
-      </RelativeLayout>
 
       <android.support.v7.widget.Toolbar
-          android:layout_width="match_parent"
-          app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-          android:layout_height="?android:attr/actionBarSize"
-          android:title="个人信息"
           android:id="@+id/toolbar"
-          ></android.support.v7.widget.Toolbar>
+          android:layout_width="match_parent"
+          android:layout_height="?android:attr/actionBarSize"
+          android:elevation="0dp"
+          android:title="个人信息"
+          app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+          />
 
-    </android.support.design.widget.CollapsingToolbarLayout>
+    </RelativeLayout>
 
   </android.support.design.widget.AppBarLayout>
 

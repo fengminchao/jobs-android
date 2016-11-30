@@ -57,7 +57,6 @@ public class LoginActivity extends ToolbarActivity implements LoginContract.View
     setContentView(R.layout.activity_login);
     ButterKnife.bind(this);
     mPresenter.attachView(this);
-    initToolbar(mToolbar);
     setTitle("登录");
   }
 

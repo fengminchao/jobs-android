@@ -1,10 +1,15 @@
 package com.muxistudio.jobs.ui.main;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
@@ -63,7 +68,6 @@ public class MainActivity extends ToolbarActivity
     showFragment(new FindFragment());
     mToolbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
     mToolbar.setTitle("招聘");
-    initToolbar(mToolbar);
     navView.setNavigationItemSelectedListener(this);
     View headerLayout = navView.getHeaderView(0);
     mAvatorView = (ImageView) headerLayout.findViewById(R.id.header_view);
@@ -73,6 +77,9 @@ public class MainActivity extends ToolbarActivity
       mPresenter.onAccountClick();
     });
     mPresenter.attachView(this);
+    if (isAppPermissionGranted()){
+      Logger.d("permission has granted");
+    }
 
   }
 
@@ -151,6 +158,37 @@ public class MainActivity extends ToolbarActivity
       return;
     }
     Picasso.with(this).load(Uri.parse(url)).transform(new CircleTransformation()).into(mAvatorView);
+  }
+
+  public boolean isAppPermissionGranted() {
+    if (Build.VERSION.SDK_INT >= 23) {
+      boolean b = false;
+      if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+        b = true;
+      } else {
+        ActivityCompat.requestPermissions(this, new String[]{ Manifest.permission.CAMERA}, 1);
+        return false;
+      }
+      if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+        b = true;
+      }else {
+        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},2);
+        return false;
+      }
+      return b;
+    } else {
+      return true;
+    }
+  }
+
+  @Override
+  public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+      Logger.d("permission " + permissions[0] + "is" + grantResults[0]);
+    }else {
+      this.finish();
+    }
   }
 
 

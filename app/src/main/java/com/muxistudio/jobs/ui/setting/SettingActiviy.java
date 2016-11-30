@@ -87,7 +87,4 @@ public class SettingActiviy extends ToolbarActivity {
     super.showLoadingDialog(msg);
   }
 
-  @Override protected void initToolbar(Toolbar toolbar) {
-    super.initToolbar(toolbar);
-  }
 }
