@@ -36,6 +36,10 @@ android {
     }
 }
 
+//greendao {
+//    schemaVersion 1000
+//}
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'

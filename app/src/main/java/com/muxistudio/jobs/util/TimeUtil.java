@@ -46,9 +46,11 @@ public class TimeUtil {
 
   public static Calendar parseDateToCalendar(String date){
     Calendar c = Calendar.getInstance();
-    c.set(Calendar.YEAR,Integer.valueOf(date.substring(0,4)));
-    c.set(Calendar.MONTH,Integer.valueOf(date.substring(5,7)));
-    c.set(Calendar.DAY_OF_MONTH,Integer.valueOf(8));
+    int h1 = date.indexOf("-");
+    int h2 = date.lastIndexOf("-");
+    c.set(Calendar.YEAR, Integer.valueOf(date.substring(0, h1)));
+    c.set(Calendar.MONTH, Integer.valueOf(date.substring(h1 + 1, h2)));
+    c.set(Calendar.DAY_OF_MONTH, Integer.valueOf(date.substring(h2 + 1)));
     return c;
   }
 }

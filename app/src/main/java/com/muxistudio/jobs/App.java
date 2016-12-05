@@ -14,6 +14,7 @@ import com.muxistudio.jobs.injector.components.ApplicationComponent;
 
 import com.muxistudio.jobs.injector.components.DaggerApplicationComponent;
 import com.muxistudio.jobs.injector.modules.ApplicationModule;
+import com.muxistudio.jobs.util.Logger;
 import com.muxistudio.jobs.util.PreferenceUtil;
 import java.util.List;
 import javax.inject.Inject;
@@ -54,6 +55,10 @@ public class App extends Application {
         mUserStorge.setUserInfo(userInfos.get(0));
       }
     }
+
+    Logger.d(mUserStorge.getUser().getMail());
+    Logger.d(mUserStorge.getToken());
+    Logger.d(mUserStorge.getUserInfo().getAvator());
   }
 
   private void initInjector() {

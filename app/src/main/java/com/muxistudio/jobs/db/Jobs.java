@@ -9,6 +9,8 @@ import org.greenrobot.greendao.annotation.*;
  */
 @Entity
 public class Jobs {
+
+    @Id
     private Integer id;
     private String logoUrl;
     private String title;
@@ -18,6 +20,10 @@ public class Jobs {
 
     @Generated
     public Jobs() {
+    }
+
+    public Jobs(Integer id) {
+        this.id = id;
     }
 
     @Generated

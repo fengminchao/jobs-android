@@ -11,7 +11,6 @@ import org.greenrobot.greendao.annotation.*;
 public class User {
 
     @Id
-    private Long id;
     private String mail;
     private String pwd;
     private String token;
@@ -21,25 +20,16 @@ public class User {
     public User() {
     }
 
-    public User(Long id) {
-        this.id = id;
+    public User(String mail) {
+        this.mail = mail;
     }
 
     @Generated
-    public User(Long id, String mail, String pwd, String token, Integer authCode) {
-        this.id = id;
+    public User(String mail, String pwd, String token, Integer authCode) {
         this.mail = mail;
         this.pwd = pwd;
         this.token = token;
         this.authCode = authCode;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getMail() {

@@ -14,16 +14,14 @@ public class GreenDaoGenerator {
     Schema schema = new Schema(1000, "com.muxistudio.jobs.db");
 
     Entity user = schema.addEntity("User");
-    user.addIdProperty();
-    user.addStringProperty("mail");
+    user.addStringProperty("mail").primaryKey();
     //加密存储和发送
     user.addStringProperty("pwd");
     user.addStringProperty("token");
     user.addIntProperty("authCode");
 
     Entity userInfo = schema.addEntity("UserInfo");
-    userInfo.addIdProperty();
-    userInfo.addStringProperty("mail");
+    userInfo.addStringProperty("mail").primaryKey();
     userInfo.addStringProperty("avator");
     userInfo.addStringProperty("name");
     userInfo.addStringProperty("gender");
@@ -44,7 +42,7 @@ public class GreenDaoGenerator {
     collection.addIntProperty("type");
 
     Entity job = schema.addEntity("Jobs");
-    job.addIntProperty("id");
+    job.addIntProperty("id").primaryKey();
     job.addStringProperty("logoUrl");
     job.addStringProperty("title");
     job.addStringProperty("place");

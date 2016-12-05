@@ -11,7 +11,6 @@ import org.greenrobot.greendao.annotation.*;
 public class UserInfo {
 
     @Id
-    private Long id;
     private String mail;
     private String avator;
     private String name;
@@ -26,13 +25,12 @@ public class UserInfo {
     public UserInfo() {
     }
 
-    public UserInfo(Long id) {
-        this.id = id;
+    public UserInfo(String mail) {
+        this.mail = mail;
     }
 
     @Generated
-    public UserInfo(Long id, String mail, String avator, String name, String gender, String live, String birth, String politic, String college, String mobile) {
-        this.id = id;
+    public UserInfo(String mail, String avator, String name, String gender, String live, String birth, String politic, String college, String mobile) {
         this.mail = mail;
         this.avator = avator;
         this.name = name;
@@ -42,14 +40,6 @@ public class UserInfo {
         this.politic = politic;
         this.college = college;
         this.mobile = mobile;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getMail() {

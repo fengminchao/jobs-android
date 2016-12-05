@@ -75,7 +75,7 @@ public interface UserService {
     Observable<UserInfoResult> getUserInfo();
 
     @PUT("user/info/")
-    Observable<BaseData> updateUserInfo(@Body UserInfo userInfo, @Header("token") String token);
+    Observable<BaseData> updateUserInfo(@Body UserInfo userInfo);
 
     //key为要上传的文件名 格式为：avator/usermail.png
     @GET("http://182.254.247.206:8400/jobsapp/token")

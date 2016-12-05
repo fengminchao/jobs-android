@@ -44,8 +44,7 @@ import okhttp3.OkHttpClient;
     interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
     OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor)
         .connectTimeout(10, TimeUnit.SECONDS)
-        //.addNetworkInterceptor(tokenInterceptor)
-        .addInterceptor(interceptor)
+        .addInterceptor(tokenInterceptor)
         .build();
     return client;
   }
@@ -58,8 +57,7 @@ import okhttp3.OkHttpClient;
     return new UserStorge();
   }
 
-  @Provides @Singleton public UserInfo provideUserInfo(){
+  @Provides @Singleton public UserInfo provideUserInfo() {
     return new UserInfo();
   }
-
 }

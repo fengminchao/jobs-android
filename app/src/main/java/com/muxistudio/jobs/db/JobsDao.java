@@ -13,7 +13,7 @@ import org.greenrobot.greendao.database.DatabaseStatement;
 /** 
  * DAO for table "JOBS".
 */
-public class JobsDao extends AbstractDao<Jobs, Void> {
+public class JobsDao extends AbstractDao<Jobs, Integer> {
 
     public static final String TABLENAME = "JOBS";
 
@@ -22,7 +22,7 @@ public class JobsDao extends AbstractDao<Jobs, Void> {
      * Can be used for QueryBuilder and for referencing column names.
      */
     public static class Properties {
-        public final static Property Id = new Property(0, Integer.class, "id", false, "ID");
+        public final static Property Id = new Property(0, Integer.class, "id", true, "ID");
         public final static Property LogoUrl = new Property(1, String.class, "logoUrl", false, "LOGO_URL");
         public final static Property Title = new Property(2, String.class, "title", false, "TITLE");
         public final static Property Place = new Property(3, String.class, "place", false, "PLACE");
@@ -43,7 +43,7 @@ public class JobsDao extends AbstractDao<Jobs, Void> {
     public static void createTable(Database db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"JOBS\" (" + //
-                "\"ID\" INTEGER," + // 0: id
+                "\"ID\" INTEGER PRIMARY KEY ," + // 0: id
                 "\"LOGO_URL\" TEXT," + // 1: logoUrl
                 "\"TITLE\" TEXT," + // 2: title
                 "\"PLACE\" TEXT," + // 3: place
@@ -128,8 +128,8 @@ public class JobsDao extends AbstractDao<Jobs, Void> {
     }
 
     @Override
-    public Void readKey(Cursor cursor, int offset) {
-        return null;
+    public Integer readKey(Cursor cursor, int offset) {
+        return cursor.isNull(offset + 0) ? null : cursor.getInt(offset + 0);
     }    
 
     @Override
@@ -156,20 +156,22 @@ public class JobsDao extends AbstractDao<Jobs, Void> {
      }
     
     @Override
-    protected final Void updateKeyAfterInsert(Jobs entity, long rowId) {
-        // Unsupported or missing PK type
-        return null;
+    protected final Integer updateKeyAfterInsert(Jobs entity, long rowId) {
+        return entity.getId();
     }
     
     @Override
-    public Void getKey(Jobs entity) {
-        return null;
+    public Integer getKey(Jobs entity) {
+        if(entity != null) {
+            return entity.getId();
+        } else {
+            return null;
+        }
     }
 
     @Override
     public boolean hasKey(Jobs entity) {
-        // TODO
-        return false;
+        return entity.getId() != null;
     }
 
     @Override

@@ -51,6 +51,7 @@ import javax.inject.Inject;
 
   @Override protected void onStart() {
     super.onStart();
+    this.renderUserInfo();
   }
 
   private void renderUserInfo() {
@@ -69,7 +70,7 @@ import javax.inject.Inject;
     mTvPolitic.setText(mUserStorge.getUserInfo().getPolitic());
     mTvCollege.setText(mUserStorge.getUserInfo().getCollege());
     mTvPhone.setText(mUserStorge.getUserInfo().getMobile());
-    mTvMail.setText(mUserStorge.getUserInfo().getMail());
+    mTvMail.setText(mUserStorge.getUser().getMail());
   }
 
   @Override protected void initInjector() {
@@ -87,7 +88,7 @@ import javax.inject.Inject;
     if (item.getItemId() == R.id.action_edit) {
       AccountEditActivity.startActivity(AccountActivity.this);
     }
-    return true;
+    return super.onOptionsItemSelected(item);
   }
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
@@ -95,9 +96,4 @@ import javax.inject.Inject;
     return super.onCreateOptionsMenu(menu);
   }
 
-  @Override protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    // TODO: add setContentView(...) invocation
-    ButterKnife.bind(this);
-  }
 }

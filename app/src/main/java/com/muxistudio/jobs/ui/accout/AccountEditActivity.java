@@ -97,11 +97,18 @@ import rx.subscriptions.CompositeSubscription;
     initInputLayout();
     initUserInfo();
     if (!TextUtils.isEmpty(mUserStorge.getUserInfo().getAvator())) {
-      Picasso.with(this).load(mUserStorge.getUserInfo().getAvator()).transform(new CircleTransformation()).into(mIvAvator);
+      Picasso.with(this)
+          .load(mUserStorge.getUserInfo().getAvator())
+          .transform(new CircleTransformation())
+          .into(mIvAvator);
     } else {
-      Picasso.with(this).load(Constant.DEFAULT_AVATOR_URL).transform(new CircleTransformation()).into(mIvAvator);
+      Picasso.with(this)
+          .load(Constant.DEFAULT_AVATOR_URL)
+          .transform(new CircleTransformation())
+          .into(mIvAvator);
     }
 
+    //初始化监听事件
     mIvAvator.setOnClickListener(v -> {
       showSelectDialog();
     });
@@ -115,24 +122,23 @@ import rx.subscriptions.CompositeSubscription;
       Calendar c = null;
       if (mTvDate.getText().toString().equals("请选择出生日期")) {
         c = Calendar.getInstance();
-      }else {
+      } else {
         c = TimeUtil.parseDateToCalendar(mTvDate.getText().toString());
       }
-      new DatePickerDialog(AccountEditActivity.this,(datePicker, i, i1, i2) -> {
+      new DatePickerDialog(AccountEditActivity.this, (datePicker, i, i1, i2) -> {
         mTvDate.setText(i + "-" + (i1 + 1) + "-" + i2);
-      },c.get(Calendar.YEAR),c.get(Calendar.MONTH),c.get(Calendar.DAY_OF_MONTH))
-      .show();
+      }, c.get(Calendar.YEAR), c.get(Calendar.MONTH) - 1, c.get(Calendar.DAY_OF_MONTH)).show();
     });
   }
 
   private void initUserInfo() {
     mEtName.setText(mUserStorge.getUserInfo().getName());
     mEtCollege.setText(mUserStorge.getUserInfo().getCollege());
-    mEtMail.setText(mUserStorge.getUserInfo().getMail());
+    mEtMail.setText(mUserStorge.getUser().getMail());
     mEtPhone.setText(mUserStorge.getUserInfo().getMobile());
     mEtPlace.setText(mUserStorge.getUserInfo().getLive());
     mEtPolitic.setText(mUserStorge.getUserInfo().getPolitic());
-    if (!TextUtils.isEmpty(mUserStorge.getUserInfo().getBirth())){
+    if (!TextUtils.isEmpty(mUserStorge.getUserInfo().getBirth())) {
       mTvDate.setText(mUserStorge.getUserInfo().getBirth());
     }
     if (!TextUtils.isEmpty(mUserStorge.getUserInfo().getGender())) {
@@ -150,20 +156,16 @@ import rx.subscriptions.CompositeSubscription;
             .load(FileUtil.getAvatorFromDisk(mUserStorge.getUser().getMail()))
             .transform(new CircleTransformation())
             .into(mIvAvator);
-      }else {
+      } else {
         Picasso.with(this)
             .load(mUserStorge.getUserInfo().getAvator())
             .transform(new CircleTransformation())
             .into(mIvAvator);
       }
-    }else {
-      Picasso.with(this)
-          .load(R.drawable.cat)
-          .transform(new CircleTransformation())
-          .into(mIvAvator);
+    } else {
+      Picasso.with(this).load(R.drawable.cat).transform(new CircleTransformation()).into(mIvAvator);
     }
   }
-
 
   public static final int REQUEST_IMAGE_CAPTURE = 1;
   public static final int REQUEST_IMAGE_SELECT = 2;
@@ -253,64 +255,73 @@ import rx.subscriptions.CompositeSubscription;
       showLoadingDialog("正在保存");
       if (isAvatorChanged) {
         if (TextUtils.isEmpty(mUserStorge.getUserInfo().getAvator())) {
-          uploadAvator("avator/" + mUserStorge.getUser().getMail(),true);
-        }else {
-          uploadAvator("avator/" + mUserStorge.getUser().getMail(),false);
+          uploadAvator("avator/" + mUserStorge.getUser().getMail() + ".jpeg", true);
+        } else {
+          uploadAvator("avator/" + mUserStorge.getUser().getMail() + ".jpeg", false);
         }
-      }else {
+      } else {
         saveUserInfo();
       }
     }
     return super.onOptionsItemSelected(item);
   }
 
-  public void uploadAvator(String key,boolean isFirst){
-    Subscription s = mUserApi.getUserService().getUploadToken("avator/" + mUserStorge.getUser().getMail() + ".png",String.valueOf(isFirst))
+  public void uploadAvator(String key, boolean isFirst) {
+    Subscription s = mUserApi.getUserService()
+        .getUploadToken("avator/" + mUserStorge.getUser().getMail() + ".png",
+            String.valueOf(isFirst))
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(tokenResultResponse -> {
-          if (tokenResultResponse.code() == 200){
+          if (tokenResultResponse.code() == 200) {
             UploadManager uploadManager = new UploadManager();
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             Bitmap bitmap = PictureUtil.drawableToBitmap(mIvAvator.getDrawable());
-            bitmap.compress(Bitmap.CompressFormat.JPEG,100,bos);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
             byte[] data = bos.toByteArray();
-            uploadManager.put(data, key, tokenResultResponse.body().token, new UpCompletionHandler() {
-              @Override public void complete(String key, ResponseInfo info, JSONObject response) {
-                if (!response.has("error")){
-                  mUserInfo.setAvator(Constant.QINIU_URL + "avator/" + mUserStorge.getUser().getMail() + ".jpeg");
-                  PictureUtil.saveAvatorToDisk(PictureUtil.drawableToBitmap(mIvAvator.getDrawable()),mUserStorge.getUser().getMail() + ".jpeg");
-                  saveUserInfo();
-                }else {
-                  hideLoadingDialog();
-                }
-              }
-            },null);
+            uploadManager.put(data, key, tokenResultResponse.body().token,
+                new UpCompletionHandler() {
+                  @Override
+                  public void complete(String key, ResponseInfo info, JSONObject response) {
+                    if (!response.has("error")) {
+                      mUserInfo.setAvator(Constant.QINIU_URL
+                          + "avator/"
+                          + mUserStorge.getUser().getMail()
+                          + ".jpeg");
+                      PictureUtil.saveAvatorToDisk(
+                          PictureUtil.drawableToBitmap(mIvAvator.getDrawable()),
+                          mUserStorge.getUser().getMail() + ".jpeg");
+                      saveUserInfo();
+                    } else {
+                      hideLoadingDialog();
+                    }
+                  }
+                }, null);
           }
-        },throwable -> throwable.printStackTrace());
+        }, throwable -> throwable.printStackTrace(), () -> hideLoadingDialog());
     mCompositeSubscription.add(s);
   }
 
-  public void saveUserInfo(){
-    Subscription s = mUserApi.getUserService().updateUserInfo(mUserInfo,mUserStorge.getToken())
+  public void saveUserInfo() {
+    Subscription s = mUserApi.getUserService()
+        .updateUserInfo(mUserInfo)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(baseData -> {
-          if (baseData.code == 0){
+          if (baseData.code == 0) {
             mUserStorge.setUserInfo(mUserInfo);
             mUserInfoDao.update(mUserStorge.getUserInfo());
             AccountEditActivity.this.finish();
             ToastUtil.toastShort("保存成功");
-          }else {
+          } else {
             ToastUtil.toastShort("保存失败");
           }
-          hideLoadingDialog();
-        },throwable -> throwable.printStackTrace());
+        }, throwable -> throwable.printStackTrace(), () -> hideLoadingDialog());
     mCompositeSubscription.add(s);
   }
 
   private String getAvatorUrl() {
-    if (isAvatorChanged){
+    if (isAvatorChanged) {
       return "http://ognz3v7yx.bkt.clouddn.com/avator/" + mUserStorge.getUser().getMail();
     }
     return "";
@@ -328,9 +339,8 @@ import rx.subscriptions.CompositeSubscription;
 
   @Override protected void onDestroy() {
     super.onDestroy();
-    if (mCompositeSubscription != null && mCompositeSubscription.isUnsubscribed()){
+    if (mCompositeSubscription != null && mCompositeSubscription.isUnsubscribed()) {
       mCompositeSubscription.unsubscribe();
     }
-    hideLoadingDialog();
   }
 }

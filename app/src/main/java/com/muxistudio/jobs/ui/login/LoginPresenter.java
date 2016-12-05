@@ -63,10 +63,7 @@ import rx.schedulers.Schedulers;
             mUserStorge.setUser(user);
             PreferenceUtil.putString(PreferenceUtil.USER_MAIL,mUserStorge.getUser().getMail());
             getuserInfo();
-            Logger.d("begin insert user");
-            mLoginView.showMainActivity();
             mUserDao.insert(user);
-            Logger.d("get user");
           }
         }, throwable -> {
           throwable.printStackTrace();
@@ -81,6 +78,7 @@ import rx.schedulers.Schedulers;
         .observeOn(AndroidSchedulers.mainThread())
         .subscribeOn(Schedulers.io())
         .subscribe(userInfoResult -> {
+          mLoginView.showMainActivity();
           mUserStorge.setUserInfo(userInfoResult.data);
           mUserInfoDao.insert(userInfoResult.data);
         }, throwable -> {

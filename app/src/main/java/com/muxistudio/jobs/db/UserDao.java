@@ -13,7 +13,7 @@ import org.greenrobot.greendao.database.DatabaseStatement;
 /** 
  * DAO for table "USER".
 */
-public class UserDao extends AbstractDao<User, Long> {
+public class UserDao extends AbstractDao<User, String> {
 
     public static final String TABLENAME = "USER";
 
@@ -22,11 +22,10 @@ public class UserDao extends AbstractDao<User, Long> {
      * Can be used for QueryBuilder and for referencing column names.
      */
     public static class Properties {
-        public final static Property Id = new Property(0, Long.class, "id", true, "_id");
-        public final static Property Mail = new Property(1, String.class, "mail", false, "MAIL");
-        public final static Property Pwd = new Property(2, String.class, "pwd", false, "PWD");
-        public final static Property Token = new Property(3, String.class, "token", false, "TOKEN");
-        public final static Property AuthCode = new Property(4, Integer.class, "authCode", false, "AUTH_CODE");
+        public final static Property Mail = new Property(0, String.class, "mail", true, "MAIL");
+        public final static Property Pwd = new Property(1, String.class, "pwd", false, "PWD");
+        public final static Property Token = new Property(2, String.class, "token", false, "TOKEN");
+        public final static Property AuthCode = new Property(3, Integer.class, "authCode", false, "AUTH_CODE");
     }
 
 
@@ -42,11 +41,10 @@ public class UserDao extends AbstractDao<User, Long> {
     public static void createTable(Database db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"USER\" (" + //
-                "\"_id\" INTEGER PRIMARY KEY ," + // 0: id
-                "\"MAIL\" TEXT," + // 1: mail
-                "\"PWD\" TEXT," + // 2: pwd
-                "\"TOKEN\" TEXT," + // 3: token
-                "\"AUTH_CODE\" INTEGER);"); // 4: authCode
+                "\"MAIL\" TEXT PRIMARY KEY NOT NULL ," + // 0: mail
+                "\"PWD\" TEXT," + // 1: pwd
+                "\"TOKEN\" TEXT," + // 2: token
+                "\"AUTH_CODE\" INTEGER);"); // 3: authCode
     }
 
     /** Drops the underlying database table. */
@@ -59,29 +57,24 @@ public class UserDao extends AbstractDao<User, Long> {
     protected final void bindValues(DatabaseStatement stmt, User entity) {
         stmt.clearBindings();
  
-        Long id = entity.getId();
-        if (id != null) {
-            stmt.bindLong(1, id);
-        }
- 
         String mail = entity.getMail();
         if (mail != null) {
-            stmt.bindString(2, mail);
+            stmt.bindString(1, mail);
         }
  
         String pwd = entity.getPwd();
         if (pwd != null) {
-            stmt.bindString(3, pwd);
+            stmt.bindString(2, pwd);
         }
  
         String token = entity.getToken();
         if (token != null) {
-            stmt.bindString(4, token);
+            stmt.bindString(3, token);
         }
  
         Integer authCode = entity.getAuthCode();
         if (authCode != null) {
-            stmt.bindLong(5, authCode);
+            stmt.bindLong(4, authCode);
         }
     }
 
@@ -89,68 +82,60 @@ public class UserDao extends AbstractDao<User, Long> {
     protected final void bindValues(SQLiteStatement stmt, User entity) {
         stmt.clearBindings();
  
-        Long id = entity.getId();
-        if (id != null) {
-            stmt.bindLong(1, id);
-        }
- 
         String mail = entity.getMail();
         if (mail != null) {
-            stmt.bindString(2, mail);
+            stmt.bindString(1, mail);
         }
  
         String pwd = entity.getPwd();
         if (pwd != null) {
-            stmt.bindString(3, pwd);
+            stmt.bindString(2, pwd);
         }
  
         String token = entity.getToken();
         if (token != null) {
-            stmt.bindString(4, token);
+            stmt.bindString(3, token);
         }
  
         Integer authCode = entity.getAuthCode();
         if (authCode != null) {
-            stmt.bindLong(5, authCode);
+            stmt.bindLong(4, authCode);
         }
     }
 
     @Override
-    public Long readKey(Cursor cursor, int offset) {
-        return cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0);
+    public String readKey(Cursor cursor, int offset) {
+        return cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0);
     }    
 
     @Override
     public User readEntity(Cursor cursor, int offset) {
         User entity = new User( //
-            cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
-            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // mail
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // pwd
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // token
-            cursor.isNull(offset + 4) ? null : cursor.getInt(offset + 4) // authCode
+            cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // mail
+            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // pwd
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // token
+            cursor.isNull(offset + 3) ? null : cursor.getInt(offset + 3) // authCode
         );
         return entity;
     }
      
     @Override
     public void readEntity(Cursor cursor, User entity, int offset) {
-        entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
-        entity.setMail(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
-        entity.setPwd(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setToken(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setAuthCode(cursor.isNull(offset + 4) ? null : cursor.getInt(offset + 4));
+        entity.setMail(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
+        entity.setPwd(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
+        entity.setToken(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setAuthCode(cursor.isNull(offset + 3) ? null : cursor.getInt(offset + 3));
      }
     
     @Override
-    protected final Long updateKeyAfterInsert(User entity, long rowId) {
-        entity.setId(rowId);
-        return rowId;
+    protected final String updateKeyAfterInsert(User entity, long rowId) {
+        return entity.getMail();
     }
     
     @Override
-    public Long getKey(User entity) {
+    public String getKey(User entity) {
         if(entity != null) {
-            return entity.getId();
+            return entity.getMail();
         } else {
             return null;
         }
@@ -158,7 +143,7 @@ public class UserDao extends AbstractDao<User, Long> {
 
     @Override
     public boolean hasKey(User entity) {
-        return entity.getId() != null;
+        return entity.getMail() != null;
     }
 
     @Override
