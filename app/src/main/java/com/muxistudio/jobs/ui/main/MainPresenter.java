@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.MenuItem;
+import com.muxistudio.jobs.BuildConfig;
 import com.muxistudio.jobs.util.Logger;
 import com.muxistudio.jobs.R;
 import com.muxistudio.jobs.api.UserStorge;
@@ -64,6 +65,10 @@ import rx.schedulers.Schedulers;
       case R.id.action_setting:
         break;
       case R.id.action_about:
+        if (BuildConfig.DEBUG) {
+
+          mUserStorge.logout();
+        }
         break;
     }
     mMainView.setTitle(item.getTitle().toString());
@@ -104,7 +109,9 @@ import rx.schedulers.Schedulers;
       }else {
         mMainView.renderAccountName(mUserStorge.getUserInfo().getName());
       }
-      return;
+    }else{
+      mMainView.renderAccountAvator("");
+      mMainView.renderAccountName("未登录");
     }
   }
 

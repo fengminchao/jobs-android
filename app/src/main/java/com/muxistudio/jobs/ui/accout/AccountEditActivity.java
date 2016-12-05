@@ -1,14 +1,12 @@
 package com.muxistudio.jobs.ui.accout;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
@@ -18,7 +16,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.BindView;
@@ -27,16 +24,28 @@ import com.muxistudio.jobs.Constant;
 import com.muxistudio.jobs.R;
 import com.muxistudio.jobs.api.UserStorge;
 import com.muxistudio.jobs.api.user.UserApi;
+import com.muxistudio.jobs.db.UserDao;
 import com.muxistudio.jobs.db.UserInfo;
 import com.muxistudio.jobs.db.UserInfoDao;
 import com.muxistudio.jobs.injector.PerActivity;
 import com.muxistudio.jobs.ui.ToolbarActivity;
+import com.muxistudio.jobs.util.PictureUtil;
 import com.muxistudio.jobs.util.CircleTransformation;
 import com.muxistudio.jobs.util.FileUtil;
 import com.muxistudio.jobs.util.Logger;
+import com.muxistudio.jobs.util.TimeUtil;
 import com.muxistudio.jobs.util.ToastUtil;
+import com.qiniu.android.http.ResponseInfo;
+import com.qiniu.android.storage.UpCompletionHandler;
+import com.qiniu.android.storage.UploadManager;
 import com.squareup.picasso.Picasso;
+import java.io.ByteArrayOutputStream;
+import java.util.Calendar;
 import javax.inject.Inject;
+import org.json.JSONObject;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 /**
@@ -48,6 +57,9 @@ import rx.subscriptions.CompositeSubscription;
   @Inject UserStorge mUserStorge;
   @Inject UserInfoDao mUserInfoDao;
   @Inject UserApi mUserApi;
+
+  //暂存的 userinfo
+  private UserInfo mUserInfo;
 
   @BindView(R.id.et_name) TextInputEditText mEtName;
   @BindView(R.id.name_layout) TextInputLayout mNameLayout;
@@ -67,7 +79,10 @@ import rx.subscriptions.CompositeSubscription;
   @BindView(R.id.toolbar) Toolbar mToolbar;
   @BindView(R.id.tv_date) TextView mTvDate;
 
-  private CompositeSubscription mCompositeSubscription;
+  //头像是否发生改变,改变的话保存时上传头像
+  private boolean isAvatorChanged = false;
+
+  private CompositeSubscription mCompositeSubscription = new CompositeSubscription();
 
   public static void startActivity(Context context) {
     Intent intent = new Intent(context, AccountEditActivity.class);
@@ -82,20 +97,31 @@ import rx.subscriptions.CompositeSubscription;
     initInputLayout();
     initUserInfo();
     if (!TextUtils.isEmpty(mUserStorge.getUserInfo().getAvator())) {
-      Picasso.with(this).load(mUserStorge.getUserInfo().getAvator()).into(mIvAvator);
+      Picasso.with(this).load(mUserStorge.getUserInfo().getAvator()).transform(new CircleTransformation()).into(mIvAvator);
     } else {
-      Picasso.with(this).load(Constant.DEFAULT_AVATOR_URL).into(mIvAvator);
+      Picasso.with(this).load(Constant.DEFAULT_AVATOR_URL).transform(new CircleTransformation()).into(mIvAvator);
     }
+
     mIvAvator.setOnClickListener(v -> {
       showSelectDialog();
     });
-    mCbMan.setOnClickListener(v -> {
-      mCbWoman.setChecked(mCbMan.isChecked());
-      mCbMan.setChecked(!mCbMan.isChecked());
+    mCbMan.setOnCheckedChangeListener((compoundButton, b) -> {
+      mCbWoman.setChecked(!b);
     });
-    mCbWoman.setOnClickListener(v -> {
-      mCbMan.setChecked(mCbWoman.isChecked());
-      mCbWoman.setChecked(!mCbWoman.isChecked());
+    mCbWoman.setOnCheckedChangeListener((compoundButton, b) -> {
+      mCbMan.setChecked(!b);
+    });
+    mTvDate.setOnClickListener(v -> {
+      Calendar c = null;
+      if (mTvDate.getText().toString().equals("请选择出生日期")) {
+        c = Calendar.getInstance();
+      }else {
+        c = TimeUtil.parseDateToCalendar(mTvDate.getText().toString());
+      }
+      new DatePickerDialog(AccountEditActivity.this,(datePicker, i, i1, i2) -> {
+        mTvDate.setText(i + "-" + (i1 + 1) + "-" + i2);
+      },c.get(Calendar.YEAR),c.get(Calendar.MONTH),c.get(Calendar.DAY_OF_MONTH))
+      .show();
     });
   }
 
@@ -106,7 +132,9 @@ import rx.subscriptions.CompositeSubscription;
     mEtPhone.setText(mUserStorge.getUserInfo().getMobile());
     mEtPlace.setText(mUserStorge.getUserInfo().getLive());
     mEtPolitic.setText(mUserStorge.getUserInfo().getPolitic());
-    mTvDate.setText(mUserStorge.getUserInfo().getBirth());
+    if (!TextUtils.isEmpty(mUserStorge.getUserInfo().getBirth())){
+      mTvDate.setText(mUserStorge.getUserInfo().getBirth());
+    }
     if (!TextUtils.isEmpty(mUserStorge.getUserInfo().getGender())) {
       if (mUserStorge.getUserInfo().getGender().equals("男")) {
         mCbMan.setChecked(true);
@@ -143,11 +171,11 @@ import rx.subscriptions.CompositeSubscription;
   private void showSelectDialog() {
     new AlertDialog.Builder(this).setTitle("选择头像")
         .setMessage(" ")
-        .setNeutralButton("拍照获取", ((dialogInterface, i) -> {
+        .setNeutralButton("拍照获取", (dialogInterface, i) -> {
           Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
           startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
-        }))
-        .setPositiveButton("从相册中选取", ((dialogInterface, i) -> {
+        })
+        .setPositiveButton("从相册中选取", (dialogInterface, i) -> {
           //Intent intent = new Intent(Intent.ACTION_PICK);
           //intent.setType("image/*");
           //intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -155,7 +183,7 @@ import rx.subscriptions.CompositeSubscription;
           Intent intent =
               new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
           startActivityForResult(intent, REQUEST_IMAGE_SELECT);
-        }))
+        })
         .show();
   }
 
@@ -166,13 +194,14 @@ import rx.subscriptions.CompositeSubscription;
       ToastUtil.toastShort("获取失败");
       return;
     }
+    isAvatorChanged = true;
     if (requestCode == REQUEST_IMAGE_CAPTURE) {
       Logger.d("receive photo from camera");
       Bitmap bitmap;
       try {
         bitmap = (Bitmap) data.getExtras().get("data");
         //Picasso.with(AccountEditActivity.this).load()
-        mIvAvator.setImageBitmap(bitmap);
+        mIvAvator.setImageBitmap(PictureUtil.transToRound(bitmap));
       } catch (Exception e) {
         e.printStackTrace();
       }
@@ -185,7 +214,7 @@ import rx.subscriptions.CompositeSubscription;
       String picturePath = cursor.getString(index);
       cursor.close();
       Logger.d("receive photo from picture");
-      mIvAvator.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+      mIvAvator.setImageBitmap(PictureUtil.transToRound(BitmapFactory.decodeFile(picturePath)));
     }
   }
 
@@ -212,31 +241,78 @@ import rx.subscriptions.CompositeSubscription;
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {
     if (item.getItemId() == R.id.action_confirm) {
-      UserInfo userInfo = new UserInfo();
-      userInfo.setName(mEtName.getText().toString());
-      userInfo.setGender(getUserGender());
-      userInfo.setLive(mEtPlace.getText().toString());
-      userInfo.setCollege(mEtCollege.getText().toString());
-      userInfo.setMobile(mEtPhone.getText().toString());
-      userInfo.setMail(mEtMail.getText().toString());
-      userInfo.setAvator(getAvatorUrl());
-      userInfo.setBirth(mTvDate.getText().toString());
-
-
-      mUserApi.getUserService().updateUserInfo(userInfo).subscribe(baseData -> {
-        mUserStorge.setUserInfo(userInfo);
-        mUserInfoDao.update(userInfo);
-        ToastUtil.toastShort("保存信息成功");
-        onBackPressed();
-      }, throwable -> {
-        throwable.printStackTrace();
-        ToastUtil.toastShort("保存信息失败");
-      });
+      mUserInfo = new UserInfo();
+      mUserInfo.setName(mEtName.getText().toString());
+      mUserInfo.setGender(getUserGender());
+      mUserInfo.setLive(mEtPlace.getText().toString());
+      mUserInfo.setCollege(mEtCollege.getText().toString());
+      mUserInfo.setMobile(mEtPhone.getText().toString());
+      mUserInfo.setMail(mEtMail.getText().toString());
+      mUserInfo.setAvator(getAvatorUrl());
+      mUserInfo.setBirth(mTvDate.getText().toString());
+      showLoadingDialog("正在保存");
+      if (isAvatorChanged) {
+        if (TextUtils.isEmpty(mUserStorge.getUserInfo().getAvator())) {
+          uploadAvator("avator/" + mUserStorge.getUser().getMail(),true);
+        }else {
+          uploadAvator("avator/" + mUserStorge.getUser().getMail(),false);
+        }
+      }else {
+        saveUserInfo();
+      }
     }
     return super.onOptionsItemSelected(item);
   }
 
+  public void uploadAvator(String key,boolean isFirst){
+    Subscription s = mUserApi.getUserService().getUploadToken("avator/" + mUserStorge.getUser().getMail() + ".png",String.valueOf(isFirst))
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(tokenResultResponse -> {
+          if (tokenResultResponse.code() == 200){
+            UploadManager uploadManager = new UploadManager();
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            Bitmap bitmap = PictureUtil.drawableToBitmap(mIvAvator.getDrawable());
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,bos);
+            byte[] data = bos.toByteArray();
+            uploadManager.put(data, key, tokenResultResponse.body().token, new UpCompletionHandler() {
+              @Override public void complete(String key, ResponseInfo info, JSONObject response) {
+                if (!response.has("error")){
+                  mUserInfo.setAvator(Constant.QINIU_URL + "avator/" + mUserStorge.getUser().getMail() + ".jpeg");
+                  PictureUtil.saveAvatorToDisk(PictureUtil.drawableToBitmap(mIvAvator.getDrawable()),mUserStorge.getUser().getMail() + ".jpeg");
+                  saveUserInfo();
+                }else {
+                  hideLoadingDialog();
+                }
+              }
+            },null);
+          }
+        },throwable -> throwable.printStackTrace());
+    mCompositeSubscription.add(s);
+  }
+
+  public void saveUserInfo(){
+    Subscription s = mUserApi.getUserService().updateUserInfo(mUserInfo,mUserStorge.getToken())
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(baseData -> {
+          if (baseData.code == 0){
+            mUserStorge.setUserInfo(mUserInfo);
+            mUserInfoDao.update(mUserStorge.getUserInfo());
+            AccountEditActivity.this.finish();
+            ToastUtil.toastShort("保存成功");
+          }else {
+            ToastUtil.toastShort("保存失败");
+          }
+          hideLoadingDialog();
+        },throwable -> throwable.printStackTrace());
+    mCompositeSubscription.add(s);
+  }
+
   private String getAvatorUrl() {
+    if (isAvatorChanged){
+      return "http://ognz3v7yx.bkt.clouddn.com/avator/" + mUserStorge.getUser().getMail();
+    }
     return "";
   }
 
@@ -248,5 +324,13 @@ import rx.subscriptions.CompositeSubscription;
       return "女";
     }
     return "";
+  }
+
+  @Override protected void onDestroy() {
+    super.onDestroy();
+    if (mCompositeSubscription != null && mCompositeSubscription.isUnsubscribed()){
+      mCompositeSubscription.unsubscribe();
+    }
+    hideLoadingDialog();
   }
 }

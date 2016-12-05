@@ -134,7 +134,7 @@
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:textColor="?android:attr/textColorPrimary"
-        android:text="请选择出生年月"
+        android:text="请选择出生日期"
         android:id="@+id/tv_date"
         android:layout_gravity="center_vertical"
         />

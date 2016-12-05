@@ -10,6 +10,13 @@
     <string name="action_about">关于</string>
     <string name="action_search">搜索</string>
 
+    <!--messsage-->
+    <string name="err_net">网络连接超时,请检查网络后重试</string>
+    <string name="err_auth">验证失败</string>
+    <string name="err_send_auth">验证码发送失败</string>
+    <string name="err_register">注册失败</string>
+    <string name="err_login">登录失败</string>
+
     <string name="mine_info">个人信息</string>
     <string name="mine_resume">简历制作</string>
     <string name="mine_follow">我的关注</string>

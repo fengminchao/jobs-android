@@ -1,5 +1,8 @@
 package com.muxistudio.jobs.util;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -39,5 +42,13 @@ public class TimeUtil {
       e.printStackTrace();
     }
     return "";
+  }
+
+  public static Calendar parseDateToCalendar(String date){
+    Calendar c = Calendar.getInstance();
+    c.set(Calendar.YEAR,Integer.valueOf(date.substring(0,4)));
+    c.set(Calendar.MONTH,Integer.valueOf(date.substring(5,7)));
+    c.set(Calendar.DAY_OF_MONTH,Integer.valueOf(8));
+    return c;
   }
 }

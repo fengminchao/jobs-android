@@ -32,6 +32,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     initInjector();
     initView();
     mProgressDialog = new ProgressDialog(this);
+    mProgressDialog.setCancelable(true);
     //AppManager.getAppManager().addActivity(this);
   }
 

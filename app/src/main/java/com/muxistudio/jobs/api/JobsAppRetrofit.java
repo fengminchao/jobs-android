@@ -18,7 +18,7 @@ public class JobsAppRetrofit {
     public JobsAppRetrofit(String baseUrl) {
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(new HttpLoggingInterceptor())
-                .connectTimeout(15, TimeUnit.SECONDS)
+                .connectTimeout(10, TimeUnit.SECONDS)
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()

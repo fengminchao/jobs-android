@@ -17,6 +17,8 @@ public class Constant {
   public static final String DEFAULT_AVATOR_URL =
       "http://ognz3v7yx.bkt.clouddn.com/avator/default.jpeg";
 
+  public static final String QINIU_URL = "http://ognz3v7yx.bkt.clouddn.com/";
+
   public static final int TYPE_XJH = 1;
   public static final int TYPE_ZP = 2;
   public static final int TYPE_XZ = 3;

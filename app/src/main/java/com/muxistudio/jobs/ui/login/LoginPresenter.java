@@ -1,5 +1,6 @@
 package com.muxistudio.jobs.ui.login;
 
+import android.util.Log;
 import com.muxistudio.jobs.util.Logger;
 import com.muxistudio.jobs.api.UserStorge;
 import com.muxistudio.jobs.api.user.UserApi;
@@ -34,6 +35,7 @@ import rx.schedulers.Schedulers;
   private LoginContract.View mLoginView;
 
   @Inject public LoginPresenter(UserApi userApi, UserStorge userStorge) {
+    Logger.d(mUserApi == null ? "userapi is null" : "userapi is not null");
     mUserApi = userApi;
     mUserStorge = userStorge;
   }

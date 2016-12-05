@@ -43,8 +43,9 @@ import okhttp3.OkHttpClient;
     HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
     interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
     OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor)
-        .connectTimeout(15, TimeUnit.SECONDS)
-        .addNetworkInterceptor(tokenInterceptor)
+        .connectTimeout(10, TimeUnit.SECONDS)
+        //.addNetworkInterceptor(tokenInterceptor)
+        .addInterceptor(interceptor)
         .build();
     return client;
   }

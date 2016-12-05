@@ -1,4 +1,4 @@
-package com.muxistudio.jobs.ui.register;
+package com.muxistudio.jobs.ui.register_forget;
 
 import com.muxistudio.jobs.injector.PerActivity;
 import com.muxistudio.jobs.injector.components.ApplicationComponent;
@@ -12,6 +12,8 @@ import dagger.Component;
 
 @PerActivity
 @Component(dependencies = ApplicationComponent.class,modules = ActivityModule.class)
-public interface RegisterComponent {
-    void inject(RegisterActivity registerActivity);
+public interface SetPwdComponent {
+
+    void inject(SetPwdActivity getPwdActivity);
+
 }

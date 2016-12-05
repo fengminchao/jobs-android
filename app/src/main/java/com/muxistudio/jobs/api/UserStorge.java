@@ -98,10 +98,10 @@ public class UserStorge {
   }
 
   public void logout() {
-    this.user = null;
-    this.mUserInfo = null;
     this.setToken("");
     this.setAuthCode(0);
+    this.user = null;
+    this.mUserInfo = null;
     PreferenceUtil.putString(PreferenceUtil.USER_MAIL, "");
   }
 }

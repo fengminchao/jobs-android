@@ -27,25 +27,43 @@ public interface UserService {
     //登录版块
 
     //用户注册验证
-    @POST("user/auth")
-    Observable<BaseData> authNewMail(@Body String mail);
 
+  /**
+   * {mail}
+   * @param user
+   * @return
+   */
+    @POST("user/auth")
+    Observable<BaseData> authNewMail(@Body User user);
+
+  /**
+   * {mail,pwd,authCode}
+   * @param user
+   * @return
+   */
     @POST("user/regiseter")
-    Observable<BaseData> registerByAuth(@Body String mail,
-                                        @Body String pwd,
-                                        @Body String authCode);
+    Observable<BaseData> registerByAuth(@Body User user);
 
     @POST("user/login")
     Observable<TokenResult> login(@Body User user);
 
+  /**
+   * {mail}
+   * @param user
+   * @return
+   */
     //忘记密码验证
     @POST("user/findAuth")
-    Observable<BaseData> findAuth(@Body String mail);
+    Observable<BaseData> findAuth(@Body User user);
 
+  /**
+   * {mail,pwd,authCode}
+   * @param user
+   * @return
+   */
     //忘记密码修改
     @POST("user/find")
-    Observable<BaseData> findByAuth(@Body String mail,
-                                    @Body String authCode);
+    Observable<BaseData> findByAuth(@Body User user);
 
     //修改密码
     @PUT("user/")
@@ -57,11 +75,11 @@ public interface UserService {
     Observable<UserInfoResult> getUserInfo();
 
     @PUT("user/info/")
-    Observable<BaseData> updateUserInfo(@Body UserInfo userInfo);
+    Observable<BaseData> updateUserInfo(@Body UserInfo userInfo, @Header("token") String token);
 
     //key为要上传的文件名 格式为：avator/usermail.png
-    @GET("182.254.247.206:8400/jobsapp/token")
-    Observable<Response> getUploadToken(@Header("key") String key);
+    @GET("http://182.254.247.206:8400/jobsapp/token")
+    Observable<Response<TokenResult>> getUploadToken(@Header("key") String key,@Header("isFirst") String isFirst);
 
     //更新的时候删除用户之前的头像
     @DELETE("182.254.247.206:8400/jobsapp/{usermail}")
