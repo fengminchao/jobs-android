@@ -44,7 +44,7 @@ import rx.schedulers.Schedulers;
               InfoData infoData = new InfoData();
               infoData.id = careerData.id;
               infoData.title = careerData.title;
-              infoData.place = careerData.address;
+              infoData.place = careerData.universityShortName + careerData.address;
               infoData.time = careerData.holdtime;
               infoData.logoUrl = careerData.logoUrl;
               infoData.clicks = careerData.totalClicks;

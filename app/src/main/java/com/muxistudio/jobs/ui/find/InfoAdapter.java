@@ -7,13 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import com.muxistudio.jobs.util.Logger;
 import com.muxistudio.jobs.R;
 import com.muxistudio.jobs.bean.InfoData;
+import com.muxistudio.jobs.util.Logger;
 import com.squareup.picasso.Picasso;
 import java.util.List;
 
@@ -38,9 +39,8 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.ViewHolder> {
 
   @Override public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     mContext = parent.getContext();
-    return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(
-        R.layout.item_info,parent,false
-    ));
+    return new ViewHolder(
+        LayoutInflater.from(parent.getContext()).inflate(R.layout.item_info, parent, false));
   }
 
   @Override public void onBindViewHolder(ViewHolder holder, int position) {
@@ -55,9 +55,10 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.ViewHolder> {
     holder.mTvPlace.setText(mInfoDatas.get(position).place);
     if (mInfoDatas.get(position).clicks >= 0) {
       holder.mTvClick.setText(mInfoDatas.get(position).clicks + "");
+    } else {
+      holder.mIvClick.setVisibility(View.GONE);
     }
   }
-
 
   public void setOnItemClickListener(ItemClickListener listener) {
     mItemClickListener = listener;
@@ -73,7 +74,9 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.ViewHolder> {
     @BindView(R.id.tv_title) TextView mTvTitle;
     @BindView(R.id.tv_time) TextView mTvTime;
     @BindView(R.id.tv_place) TextView mTvPlace;
+    @BindView(R.id.iv_click) ImageView mIvClick;
     @BindView(R.id.tv_click) TextView mTvClick;
+    @BindView(R.id.layout_click) LinearLayout mLayoutClick;
     @BindView(R.id.content) RelativeLayout mContent;
 
     public ViewHolder(View itemView) {

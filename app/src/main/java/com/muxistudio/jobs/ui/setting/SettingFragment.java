@@ -29,6 +29,13 @@ public class SettingFragment extends PreferenceFragment
 
   @Inject Context mContext;
 
+  public static SettingFragment newInstance() {
+     Bundle args = new Bundle();
+     SettingFragment fragment = new SettingFragment();
+    fragment.setArguments(args);
+    return fragment;
+  }
+
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     mContext = App.sContext;

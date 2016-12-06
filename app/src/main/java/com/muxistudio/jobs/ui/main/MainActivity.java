@@ -24,6 +24,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.muxistudio.jobs.ui.accout.AccountEditActivity;
+import com.muxistudio.jobs.ui.setting.SettingFragment;
 import com.muxistudio.jobs.util.Logger;
 import com.muxistudio.jobs.R;
 import com.muxistudio.jobs.injector.HasComponent;
@@ -41,7 +42,7 @@ import javax.inject.Inject;
 
 public class MainActivity extends ToolbarActivity
     implements MainContract.View, HasComponent<MainComponent>,
-    NavigationView.OnNavigationItemSelectedListener {
+    NavigationView.OnNavigationItemSelectedListener{
 
   @BindView(R.id.content) FrameLayout content;
   @BindView(R.id.nav_view) NavigationView navView;
@@ -124,12 +125,17 @@ public class MainActivity extends ToolbarActivity
     LoginActivity.startActivity(this);
   }
 
+  @Override public void showSetting() {
+
+  }
+
   @Override public void updateFindFragment(String key) {
 
   }
 
   @Override public void showFragment(Fragment fragment) {
     getSupportFragmentManager().beginTransaction().replace(R.id.content, fragment).commit();
+    getSupportFragmentManager().executePendingTransactions();
     Logger.d((fragment instanceof FindFragment) + "");
     if (fragment instanceof FindFragment) {
       invalidateOptionsMenu();

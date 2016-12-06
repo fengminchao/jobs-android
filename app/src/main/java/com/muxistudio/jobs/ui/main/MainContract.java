@@ -19,6 +19,8 @@ public class MainContract {
 
     void showFragment(Fragment fragment);
 
+    void showSetting();
+
     void showSearchView();
 
     void reload();

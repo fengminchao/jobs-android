@@ -1,6 +1,8 @@
 package com.muxistudio.jobs.api.user;
 
 import com.muxistudio.jobs.bean.BaseData;
+import com.muxistudio.jobs.bean.CollectionData;
+import com.muxistudio.jobs.bean.CollectionResult;
 import com.muxistudio.jobs.bean.TokenResult;
 import com.muxistudio.jobs.bean.UserInfoResult;
 import com.muxistudio.jobs.data.UserStorge;
@@ -24,66 +26,59 @@ import rx.Observable;
 
 public interface UserService {
 
-    //登录版块
+  //登录版块
 
-    //用户注册验证
-
-  /**
-   * {mail}
-   * @param user
-   * @return
-   */
-    @POST("user/auth")
-    Observable<BaseData> authNewMail(@Body User user);
-
-  /**
-   * {mail,pwd,authCode}
-   * @param user
-   * @return
-   */
-    @POST("user/regiseter")
-    Observable<BaseData> registerByAuth(@Body User user);
-
-    @POST("user/login")
-    Observable<TokenResult> login(@Body User user);
+  //用户注册验证
 
   /**
    * {mail}
-   * @param user
-   * @return
    */
-    //忘记密码验证
-    @POST("user/findAuth")
-    Observable<BaseData> findAuth(@Body User user);
+  @POST("user/auth") Observable<BaseData> authNewMail(@Body User user);
 
   /**
    * {mail,pwd,authCode}
-   * @param user
-   * @return
    */
-    //忘记密码修改
-    @POST("user/find")
-    Observable<BaseData> findByAuth(@Body User user);
+  @POST("user/regiseter") Observable<BaseData> registerByAuth(@Body User user);
 
-    //修改密码
-    @PUT("user/")
-    Observable<TokenResult> changePwd(@Body String mail,
-                                    @Body String oldPwd,
-                                    @Body String newPwd);
+  @POST("user/login") Observable<TokenResult> login(@Body User user);
 
-    @GET("user/info/")
-    Observable<UserInfoResult> getUserInfo();
+  /**
+   * {mail}
+   */
+  //忘记密码验证
+  @POST("user/findAuth") Observable<BaseData> findAuth(@Body User user);
 
-    @PUT("user/info/")
-    Observable<BaseData> updateUserInfo(@Body UserInfo userInfo);
+  /**
+   * {mail,pwd,authCode}
+   */
+  //忘记密码修改
+  @POST("user/find") Observable<BaseData> findByAuth(@Body User user);
 
-    //key为要上传的文件名 格式为：avator/usermail.png
-    @GET("http://182.254.247.206:8400/jobsapp/token")
-    Observable<Response<TokenResult>> getUploadToken(@Header("key") String key,@Header("isFirst") String isFirst);
+  //修改密码
+  @PUT("user/") Observable<TokenResult> changePwd(@Body String mail, @Body String oldPwd,
+      @Body String newPwd);
 
-    //更新的时候删除用户之前的头像
-    @DELETE("182.254.247.206:8400/jobsapp/{usermail}")
-    Observable<Response> deleteAvator(@Path("usermail")String mail);
+  @GET("user/info/") Observable<UserInfoResult> getUserInfo();
 
-    //收藏版块
+  @PUT("user/info/") Observable<BaseData> updateUserInfo(@Body UserInfo userInfo);
+
+  //key为要上传的文件名 格式为：avator/usermail.png
+  @GET("http://182.254.247.206:8400/jobsapp/token")
+  Observable<Response<TokenResult>> getUploadToken(@Header("key") String key,
+      @Header("isFirst") String isFirst);
+
+  //更新的时候删除用户之前的头像
+  @DELETE("182.254.247.206:8400/jobsapp/{usermail}") Observable<Response> deleteAvator(
+      @Path("usermail") String mail);
+
+  //收藏版块
+  //获取收藏列表
+  @GET("collection/")
+  Observable<CollectionResult> getCollections();
+
+  @POST("collection/")
+  Observable<BaseData> addCollection(@Body CollectionData collectionData);
+
+  @DELETE("collection/{id}/")
+  Observable<BaseData> removeCollection(@Path("id") int id);
 }

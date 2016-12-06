@@ -5,6 +5,8 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import com.muxistudio.jobs.BuildConfig;
+import com.muxistudio.jobs.ui.collection.CollectionFragment;
+import com.muxistudio.jobs.ui.setting.SettingFragment;
 import com.muxistudio.jobs.util.Logger;
 import com.muxistudio.jobs.R;
 import com.muxistudio.jobs.api.UserStorge;
@@ -59,10 +61,12 @@ import rx.schedulers.Schedulers;
         //mMainView.showFragment();
         break;
       case R.id.action_person:
+        mMainView.showFragment(CollectionFragment.newInstance());
         break;
       case R.id.action_discuss:
         break;
       case R.id.action_setting:
+        mMainView.showSetting();
         break;
       case R.id.action_about:
         if (BuildConfig.DEBUG) {
