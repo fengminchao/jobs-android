@@ -16,6 +16,16 @@
     <string name="err_send_auth">验证码发送失败</string>
     <string name="err_register">注册失败</string>
     <string name="err_login">登录失败</string>
+    
+    <!--find-->
+    <string name="find_career">宣讲会</string>
+    <string name="find_employ">招聘会</string>
+    <string name="find_fulltime">校招</string>
+
+    <string name="save_success">收藏成功</string>
+    <string name="save_fail">收藏失败</string>
+    <string name="not_save_success">取消收藏成功</string>
+    <string name="not_save_fail">取消收藏失败</string>
 
     <string name="mine_info">个人信息</string>
     <string name="mine_resume">简历制作</string>

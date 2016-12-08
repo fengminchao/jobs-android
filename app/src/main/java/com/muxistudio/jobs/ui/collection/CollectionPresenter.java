@@ -5,9 +5,13 @@ import com.muxistudio.jobs.api.UserStorge;
 import com.muxistudio.jobs.api.user.UserApi;
 import com.muxistudio.jobs.bean.CollectionData;
 import com.muxistudio.jobs.db.Collection;
+import com.muxistudio.jobs.db.CollectionDao;
 import com.muxistudio.jobs.injector.PerActivity;
 import com.muxistudio.jobs.ui.SubscriptionPresenter;
+import com.muxistudio.jobs.util.Logger;
+import java.util.List;
 import javax.inject.Inject;
+import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -21,6 +25,10 @@ public class CollectionPresenter extends SubscriptionPresenter implements Collec
 
   private UserStorge mUserStorge;
   private UserApi mUserApi;
+  private CollectionDao mCollectionDao;
+  private List<Collection> mCollections;
+  //存放删除的 collection
+  private List<Collection> removedCollections;
 
   private CollectionContract.View mView;
 
@@ -43,8 +51,8 @@ public class CollectionPresenter extends SubscriptionPresenter implements Collec
     addSubscription(s);
   }
 
-  @Override public void onItemRemoved(CollectionData collection) {
-    Subscription s = mUserApi.getUserService().removeCollection(collection.id)
+  @Override public void onItemRemoved(Collection collection) {
+    Subscription s = mUserApi.getUserService().removeCollection(collection.getId())
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(baseData -> {
@@ -59,7 +67,7 @@ public class CollectionPresenter extends SubscriptionPresenter implements Collec
     addSubscription(s);
   }
 
-  @Override public void onUndoClick(CollectionData collection) {
+  @Override public void onUndoClick(Collection collection) {
     Subscription s = mUserApi.getUserService().addCollection(collection)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
@@ -76,5 +84,21 @@ public class CollectionPresenter extends SubscriptionPresenter implements Collec
 
   @Override public void attachView(@NonNull CollectionContract.View view) {
     mView = view;
+    loadCollections();
+  }
+
+  @Override public void detachView() {
+    super.detachView();
+    for (int i = 0;i < removedCollections.size();i ++){
+      mUserApi.getUserService().removeCollection(removedCollections.get(i).getId())
+          .subscribeOn(Schedulers.io())
+          .observeOn(AndroidSchedulers.mainThread())
+          .subscribe(baseData -> {
+            if (baseData.code == 0){
+              Logger.d("remove collection success");
+            }
+          },throwable -> throwable.printStackTrace());
+    }
+
   }
 }

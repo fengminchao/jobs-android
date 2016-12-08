@@ -1,6 +1,7 @@
 package com.muxistudio.jobs.ui.collection;
 
 import com.muxistudio.jobs.bean.CollectionData;
+import com.muxistudio.jobs.db.Collection;
 import com.muxistudio.jobs.ui.BasePresenter;
 import com.muxistudio.jobs.ui.BaseView;
 import java.util.List;
@@ -13,7 +14,7 @@ public class CollectionContract {
 
   interface View extends BaseView{
 
-    void renderCollection(List<CollectionData> collections);
+    void renderCollection(List<Collection> collections);
 
     void showEmptyView();
 
@@ -23,7 +24,7 @@ public class CollectionContract {
 
     //void removeItem(int );
 
-    void insertItem(CollectionData collection);
+    void insertItem(Collection collection);
 
     void showSnackerbar(String msg);
 
@@ -33,8 +34,8 @@ public class CollectionContract {
 
     void loadCollections();
 
-    void onItemRemoved(CollectionData collection);
+    void onItemRemoved(Collection collection);
 
-    void onUndoClick(CollectionData collection);
+    void onUndoClick(Collection collection);
   }
 }

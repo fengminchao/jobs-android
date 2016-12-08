@@ -50,12 +50,12 @@ public class FindFragment extends BaseFragment {
   }
 
   private void setupViewPager() {
-    List<String> titles = new ArrayList<>();
-    titles.add("宣讲会");
-    titles.add("招聘会");
-    titles.add("网投");
+    List<String> titleList = new ArrayList<>();
+    titleList.add("宣讲会");
+    titleList.add("招聘会");
+    titleList.add("网投");
     for (int i = 0; i < 3; i++) {
-      mTabLayout.addTab(mTabLayout.newTab().setText(titles.get(i)));
+      mTabLayout.addTab(mTabLayout.newTab().setText(titleList.get(i)));
     }
     mTabLayout.setBackgroundColor(Color.WHITE);
     mTabLayout.setTabTextColors(Color.BLACK, getResources().getColor(R.color.colorAccent));
@@ -64,11 +64,9 @@ public class FindFragment extends BaseFragment {
     fragments.add(InfoFragment.newInstance(2));
     fragments.add(InfoFragment.newInstance(3));
     FragmentAdapter adapter =
-        new FragmentAdapter(getActivity().getSupportFragmentManager(), fragments, titles);
+        new FragmentAdapter(getActivity().getSupportFragmentManager(), fragments, titleList);
     mViewPager.setAdapter(adapter);
-    if (mViewPager.getOffscreenPageLimit() != 2) {
-      mViewPager.setOffscreenPageLimit(2);
-    }
+    mViewPager.setOffscreenPageLimit(2);
     mTabLayout.setupWithViewPager(mViewPager);
     Logger.d("setup fragments");
   }

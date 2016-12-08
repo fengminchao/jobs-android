@@ -136,9 +136,5 @@ import rx.schedulers.Schedulers;
 
   @Override public void detachView() {
     mView = null;
-    if (mSubscription != null && !mSubscription.isUnsubscribed()) {
-      mView.hideLoading();
-      mSubscription.unsubscribe();
-    }
   }
 }

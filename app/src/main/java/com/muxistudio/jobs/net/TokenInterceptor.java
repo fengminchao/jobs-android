@@ -17,32 +17,31 @@ import okhttp3.Response;
 
 public class TokenInterceptor implements Interceptor {
 
-    private UserStorge mUserStorge;
+  private UserStorge mUserStorge;
 
-    public TokenInterceptor(UserStorge userStorge) {
-        mUserStorge = userStorge;
+  public TokenInterceptor(UserStorge userStorge) {
+    mUserStorge = userStorge;
+  }
+
+  @Override public Response intercept(Chain chain) throws IOException {
+    Request originRequest = chain.request();
+    //Logger.d(mUserStorge.getToken());
+    Request authorised = null;
+    Logger.d(originRequest.url().host());
+    if (!originRequest.url().host().equals("api.haitou.cc") && mUserStorge.getToken() != null) {
+      authorised =
+          originRequest.newBuilder().header("Authorization", mUserStorge.getToken()).build();
+      Logger.d("Authorization:" + mUserStorge.getToken());
+      return chain.proceed(authorised);
     }
 
-    @Override
-    public Response intercept(Chain chain) throws IOException {
-        Request originRequest = chain.request();
-        //Logger.d(mUserStorge.getToken());
-        Request authorised = null;
-        Logger.d(originRequest.url().host());
-        if (!originRequest.url().host().equals("api.haitou.cc") && mUserStorge.getToken() != null) {
-            authorised = originRequest.newBuilder()
-                    .header("Authorization", mUserStorge.getToken())
-                    .build();
-            return chain.proceed(authorised);
-        }
+    return chain.proceed(originRequest);
+  }
 
-        return chain.proceed(originRequest);
+  public boolean hasAuthorizationHeader(Request request) {
+    if (TextUtils.isEmpty(request.header("Authorization"))) {
+      return false;
     }
-
-    public boolean hasAuthorizationHeader(Request request) {
-        if (TextUtils.isEmpty(request.header("Authorization"))) {
-            return false;
-        }
-        return true;
-    }
+    return true;
+  }
 }

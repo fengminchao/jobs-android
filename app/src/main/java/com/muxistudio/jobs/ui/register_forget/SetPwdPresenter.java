@@ -7,7 +7,6 @@ import com.muxistudio.jobs.R;
 import com.muxistudio.jobs.api.user.UserApi;
 import com.muxistudio.jobs.db.User;
 import com.muxistudio.jobs.injector.PerActivity;
-import com.muxistudio.jobs.ui.BaseView;
 import com.muxistudio.jobs.ui.SubscriptionPresenter;
 import com.muxistudio.jobs.util.Logger;
 import com.muxistudio.jobs.util.RegexUtil;
@@ -74,7 +73,7 @@ import rx.schedulers.Schedulers;
           }
         }, throwable -> {
           throwable.printStackTrace();
-          ToastUtil.toastShort(App.sContext.getString(R.string.err_send_auth));
+          ToastUtil.showShort(App.sContext.getString(R.string.err_send_auth));
         });
     addSubscription(s);
   }
@@ -105,7 +104,7 @@ import rx.schedulers.Schedulers;
           }
         }, throwable -> throwable.printStackTrace(), () -> {
           mView.hideLoading();
-          ToastUtil.toastShort(App.sContext.getString(R.string.err_register));
+          ToastUtil.showShort(App.sContext.getString(R.string.err_register));
         });
     addSubscription(s);
   }
@@ -136,7 +135,7 @@ import rx.schedulers.Schedulers;
           }
         }, throwable -> throwable.printStackTrace(), () -> {
           mView.hideLoading();
-          ToastUtil.toastShort(App.sContext.getString(R.string.err_register));
+          ToastUtil.showShort(App.sContext.getString(R.string.err_register));
         });
     addSubscription(s);
   }

@@ -1,6 +1,6 @@
 package com.muxistudio.jobs.ui.login;
 
-import android.util.Log;
+import com.muxistudio.jobs.db.UserInfo;
 import com.muxistudio.jobs.util.Logger;
 import com.muxistudio.jobs.api.UserStorge;
 import com.muxistudio.jobs.api.user.UserApi;
@@ -14,8 +14,10 @@ import com.muxistudio.jobs.util.MD5Util;
 import com.muxistudio.jobs.util.PreferenceUtil;
 import com.muxistudio.jobs.util.ToastUtil;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import javax.inject.Inject;
 
+import org.greenrobot.greendao.query.Query;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -62,12 +64,12 @@ import rx.schedulers.Schedulers;
             mUserStorge.setToken(tokenResult.token);
             mUserStorge.setUser(user);
             PreferenceUtil.putString(PreferenceUtil.USER_MAIL,mUserStorge.getUser().getMail());
+            insertOrUpdateUser(mUserStorge.getUser());
             getuserInfo();
-            mUserDao.insert(user);
           }
         }, throwable -> {
           throwable.printStackTrace();
-          ToastUtil.toastShort("邮箱或密码错误");
+          ToastUtil.showShort("邮箱或密码错误");
         });
     addSubscription(s);
   }
@@ -80,10 +82,27 @@ import rx.schedulers.Schedulers;
         .subscribe(userInfoResult -> {
           mLoginView.showMainActivity();
           mUserStorge.setUserInfo(userInfoResult.data);
-          mUserInfoDao.insert(userInfoResult.data);
+          insertUserIfNotExist(userInfoResult.data);
         }, throwable -> {
           throwable.printStackTrace();
         });
     addSubscription(s);
   }
+
+  private void insertUserIfNotExist(UserInfo data) {
+    List<UserInfo> userInfos = mUserInfoDao.queryBuilder().where(UserInfoDao.Properties.Mail.eq(data.getMail())).list();
+    if (userInfos.isEmpty()){
+      mUserInfoDao.insert(data);
+    }
+  }
+
+  private void insertOrUpdateUser(User user){
+    List<User> users = mUserDao.queryBuilder().where(UserDao.Properties.Mail.eq(user.getMail())).list();
+    if (users.isEmpty()){
+      mUserDao.insert(user);
+    }else {
+      mUserDao.update(user);
+    }
+  }
+
 }

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+  <com.github.sundeepk.compactcalendarview.CompactCalendarView
+      android:id="@+id/compactcalendar_view"
+      android:layout_width="match_parent"
+      android:layout_height="220dp"
+      android:paddingLeft="10dp"
+      android:paddingRight="10dp"
+      android:elevation="4dp"
+      app:compactCalendarBackgroundColor="#ffffff"
+      app:compactCalendarCurrentDayBackgroundColor="@color/colorPrimary"
+      app:compactCalendarCurrentSelectedDayBackgroundColor="@color/colorPrimary"
+      app:compactCalendarMultiEventIndicatorColor="@color/colorPrimary"
+      app:compactCalendarTextColor="#575757"
+      app:compactCalendarTextSize="12sp"
+      />
+
+  <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/tv_title"
+      android:visibility="gone"
+      android:text="当天日程"
+      />
+
+  <android.support.v7.widget.RecyclerView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/rv"
+    />
+
+</LinearLayout>

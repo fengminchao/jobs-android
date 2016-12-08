@@ -101,7 +101,7 @@ public class InfoFragment extends BaseFragment implements InfoContract.View {
   }
 
   @Override public void showEnd() {
-    ToastUtil.toastShort("已没有更多内容");
+    ToastUtil.showShort("已没有更多内容");
   }
 
   @Override public void showLoading() {

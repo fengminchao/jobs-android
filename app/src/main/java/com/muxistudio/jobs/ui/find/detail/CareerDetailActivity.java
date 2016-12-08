@@ -2,7 +2,6 @@ package com.muxistudio.jobs.ui.find.detail;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.Menu;
@@ -13,10 +12,10 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import com.muxistudio.jobs.Constant;
 import com.muxistudio.jobs.R;
 import com.muxistudio.jobs.api.UserStorge;
 import com.muxistudio.jobs.api.jobs.JobsApi;
+import com.muxistudio.jobs.api.user.UserApi;
 import com.muxistudio.jobs.bean.CareerDetail;
 import com.muxistudio.jobs.db.Collection;
 import com.muxistudio.jobs.db.CollectionDao;
@@ -24,6 +23,7 @@ import com.muxistudio.jobs.injector.PerActivity;
 import com.muxistudio.jobs.ui.ToolbarActivity;
 import com.muxistudio.jobs.util.Logger;
 import com.muxistudio.jobs.util.TimeUtil;
+import com.muxistudio.jobs.util.ToastUtil;
 import javax.inject.Inject;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -53,8 +53,9 @@ public class CareerDetailActivity extends ToolbarActivity {
   @BindView(R.id.scrollView) ScrollView mScrollView;
 
   @Inject JobsApi mJobsApi;
-  @Inject CollectionDao mCollectionDao;
+  @Inject UserApi mUserApi;
   @Inject UserStorge mUserStorge;
+  @Inject CollectionDao mCollectionDao;
 
   private Collection mCollection;
 
@@ -63,7 +64,8 @@ public class CareerDetailActivity extends ToolbarActivity {
   @Override protected void initView() {
     setContentView(R.layout.activity_career_detail);
     ButterKnife.bind(this);
-    setTitle("宣讲会");
+    initToolbar();
+    setTitle(getString(R.string.find_career));
     if (getIntent().hasExtra("id")) {
       loadDetailData(getIntent().getIntExtra("id", -1));
       mId = getIntent().getIntExtra("id", -1);
@@ -100,7 +102,7 @@ public class CareerDetailActivity extends ToolbarActivity {
     mCollection.setSchool(careerDetail.data.universityName);
     mCollection.setTitle(careerDetail.data.title);
     mCollection.setTime(TimeUtil.parseTime(careerDetail.data.holdtime));
-    mCollection.setType(Constant.TYPE_XJH);
+    mCollection.setType(getString(R.string.find_career));
     mCollection.setId(careerDetail.data.id);
   }
 
@@ -139,11 +141,33 @@ public class CareerDetailActivity extends ToolbarActivity {
         if (mCollection != null) {
           mCollectionDao.insert(mCollection);
         }
+        mUserApi.getUserService().addCollection(mCollection)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(baseData -> {
+              if (baseData.code == 0){
+                //ToastUtil.showShort(getString(R.string.save_success));
+              }
+            },throwable -> {
+              throwable.printStackTrace();
+              ToastUtil.showShort(getString(R.string.err_net));
+            });
         break;
       case R.id.action_unstar:
         if (mCollection != null) {
           mCollectionDao.delete(mCollection);
         }
+        mUserApi.getUserService().removeCollection(mCollection.getId())
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(baseData -> {
+              if (baseData.code == 0){
+                ToastUtil.showShort(getString(R.string.not_save_success));
+              }
+            },throwable -> {
+              throwable.printStackTrace();
+              ToastUtil.showShort(getString(R.string.err_net));
+            });
         break;
     }
     invalidateOptionsMenu();

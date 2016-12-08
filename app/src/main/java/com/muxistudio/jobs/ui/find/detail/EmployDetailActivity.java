@@ -17,11 +17,13 @@ import com.muxistudio.jobs.Constant;
 import com.muxistudio.jobs.R;
 import com.muxistudio.jobs.api.UserStorge;
 import com.muxistudio.jobs.api.jobs.JobsApi;
+import com.muxistudio.jobs.api.user.UserApi;
 import com.muxistudio.jobs.bean.EmployDetail;
 import com.muxistudio.jobs.db.Collection;
 import com.muxistudio.jobs.db.CollectionDao;
 import com.muxistudio.jobs.ui.ToolbarActivity;
 import com.muxistudio.jobs.util.TimeUtil;
+import com.muxistudio.jobs.util.ToastUtil;
 import javax.inject.Inject;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -43,6 +45,7 @@ public class EmployDetailActivity extends ToolbarActivity {
   @Inject JobsApi mJobsApi;
   @Inject CollectionDao mCollectionDao;
   @Inject UserStorge mUserStorge;
+  @Inject UserApi mUserApi;
 
   @BindView(R.id.toolbar) Toolbar mToolbar;
   @BindView(R.id.tv_title) TextView mTvTitle;
@@ -60,7 +63,8 @@ public class EmployDetailActivity extends ToolbarActivity {
   @Override protected void initView() {
     setContentView(R.layout.activity_employ_detail);
     ButterKnife.bind(this);
-    mToolbar.setTitle("招聘会");
+    initToolbar();
+    setTitle(getString(R.string.find_employ));
     if (getIntent().hasExtra("id")) {
       loadDetailData(getIntent().getIntExtra("id", -1));
       mId = getIntent().getIntExtra("id", -1);
@@ -97,7 +101,7 @@ public class EmployDetailActivity extends ToolbarActivity {
     mCollection.setSchool("");
     mCollection.setTitle(employDetail.data.title);
     mCollection.setTime(TimeUtil.parseTime(employDetail.data.detailtime));
-    mCollection.setType(Constant.TYPE_ZP);
+    mCollection.setType(getString(R.string.find_employ));
     mCollection.setId(mId);
   }
 
@@ -134,11 +138,33 @@ public class EmployDetailActivity extends ToolbarActivity {
         if (mCollection != null) {
           mCollectionDao.insert(mCollection);
         }
+        mUserApi.getUserService().addCollection(mCollection)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(baseData -> {
+              if (baseData.code == 0){
+                ToastUtil.showShort(getString(R.string.save_success));
+              }
+            },throwable -> {
+              throwable.printStackTrace();
+              ToastUtil.showShort(getString(R.string.err_net));
+            });
         break;
       case R.id.action_unstar:
         if (mCollection != null) {
           mCollectionDao.delete(mCollection);
         }
+        mUserApi.getUserService().removeCollection(mCollection.getId())
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(baseData -> {
+              if (baseData.code == 0){
+                ToastUtil.showShort(getString(R.string.not_save_success));
+              }
+            },throwable -> {
+              throwable.printStackTrace();
+              ToastUtil.showShort(getString(R.string.err_net));
+            });
         break;
     }
     invalidateOptionsMenu();

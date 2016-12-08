@@ -11,6 +11,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.muxistudio.jobs.R;
 import com.muxistudio.jobs.bean.CollectionData;
+import com.muxistudio.jobs.db.Collection;
+import com.muxistudio.jobs.util.TypeUtil;
 import java.util.List;
 
 /**
@@ -19,9 +21,10 @@ import java.util.List;
 
 public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.ViewHolder> {
 
-  private List<CollectionData> mCollections;
+  private List<Collection> mCollections;
+  private OnItemClickListener mOnItemClickListener;
 
-  public CollectionAdapter(List<CollectionData> collections) {
+  public CollectionAdapter(List<Collection> collections) {
     mCollections = collections;
   }
 
@@ -31,16 +34,22 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Vi
   }
 
   @Override public void onBindViewHolder(ViewHolder holder, int position) {
-    if (mCollections.get(position).type.equals("宣讲会")){
+    if (mCollections.get(position).getType().equals("宣讲会")) {
       holder.mTvLogo.setText("宣");
-    }else if (mCollections.get(position).type.equals("招聘会")){
+    } else if (mCollections.get(position).getType().equals("招聘会")) {
       holder.mTvLogo.setText("招");
-    }else {
+    } else {
       holder.mTvLogo.setText("网");
     }
-    holder.mTvTitle.setText(mCollections.get(position).title);
-    holder.mTvTime.setText(mCollections.get(position).date + " " + mCollections.get(position).time);
-    holder.mTvPlace.setText(mCollections.get(position).school + mCollections.get(position).place);
+    holder.mTvTitle.setText(mCollections.get(position).getTitle());
+    holder.mTvTime.setText(
+        mCollections.get(position).getDate() + " " + mCollections.get(position).getTime());
+    holder.mTvPlace.setText(
+        mCollections.get(position).getSchool() + mCollections.get(position).getPlace());
+    holder.mCardview.setOnClickListener(v -> {
+      mOnItemClickListener.onItemClick(TypeUtil.toIntType(mCollections.get(position).getType()),
+          mCollections.get(position).getId());
+    });
   }
 
   @Override public int getItemCount() {
@@ -48,7 +57,16 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Vi
   }
 
   @Override public long getItemId(int position) {
-    return mCollections.get(position).id;
+    return mCollections.get(position).getId();
+  }
+
+  public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+    mOnItemClickListener = onItemClickListener;
+  }
+
+  public interface OnItemClickListener {
+
+    void onItemClick(int type, int id);
   }
 
   class ViewHolder extends RecyclerView.ViewHolder {
@@ -62,7 +80,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Vi
 
     public ViewHolder(View itemView) {
       super(itemView);
-      ButterKnife.bind(this,itemView);
+      ButterKnife.bind(this, itemView);
     }
   }
 }

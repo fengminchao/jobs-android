@@ -42,7 +42,7 @@ import javax.inject.Inject;
 
 public class MainActivity extends ToolbarActivity
     implements MainContract.View, HasComponent<MainComponent>,
-    NavigationView.OnNavigationItemSelectedListener{
+    NavigationView.OnNavigationItemSelectedListener {
 
   @BindView(R.id.content) FrameLayout content;
   @BindView(R.id.nav_view) NavigationView navView;
@@ -78,9 +78,10 @@ public class MainActivity extends ToolbarActivity
       mPresenter.onAccountClick();
     });
     mPresenter.attachView(this);
-    if (isAppPermissionGranted()){
-      Logger.d("permission has granted");
-    }
+    checkPermissionIsGranted();
+    //if (isAppPermissionGranted()){
+    //  Logger.d("permission has granted");
+    //}
 
   }
 
@@ -135,11 +136,13 @@ public class MainActivity extends ToolbarActivity
 
   @Override public void showFragment(Fragment fragment) {
     getSupportFragmentManager().beginTransaction().replace(R.id.content, fragment).commit();
-    getSupportFragmentManager().executePendingTransactions();
     Logger.d((fragment instanceof FindFragment) + "");
     if (fragment instanceof FindFragment) {
-      invalidateOptionsMenu();
+      isFindFragment = true;
+    }else {
+      isFindFragment = false;
     }
+    invalidateOptionsMenu();
   }
 
   @Override public void showSearchView() {
@@ -159,44 +162,53 @@ public class MainActivity extends ToolbarActivity
   }
 
   @Override public void renderAccountAvator(String url) {
-    if (TextUtils.isEmpty(url)){
-      Picasso.with(this).load(R.drawable.cat).transform(new CircleTransformation()).into(mAvatorView);
+    if (TextUtils.isEmpty(url)) {
+      Picasso.with(this)
+          .load(R.drawable.cat)
+          .transform(new CircleTransformation())
+          .into(mAvatorView);
       return;
     }
     Picasso.with(this).load(Uri.parse(url)).transform(new CircleTransformation()).into(mAvatorView);
   }
 
-  public boolean isAppPermissionGranted() {
+  public void checkPermissionIsGranted() {
     if (Build.VERSION.SDK_INT >= 23) {
-      boolean b = false;
-      if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-        b = true;
-      } else {
-        ActivityCompat.requestPermissions(this, new String[]{ Manifest.permission.CAMERA}, 1);
-        return false;
+      if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+          && checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+          != PackageManager.PERMISSION_GRANTED) {
+        ActivityCompat.requestPermissions(this,
+            new String[] { Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE },
+            1);
+        return;
       }
-      if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-        b = true;
-      }else {
-        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},2);
-        return false;
+      if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+        ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.CAMERA }, 2);
+        return;
       }
-      return b;
-    } else {
-      return true;
+      if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+          != PackageManager.PERMISSION_GRANTED) {
+        ActivityCompat.requestPermissions(this,
+            new String[] { Manifest.permission.READ_EXTERNAL_STORAGE }, 3);
+        return;
+      }
     }
   }
 
-  @Override
-  public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+  @Override public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+      @NonNull int[] grantResults) {
     super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-      Logger.d("permission " + permissions[0] + "is" + grantResults[0]);
-    }else {
+    boolean isGrandted = true;
+    for (int result : grantResults) {
+      if (result != PackageManager.PERMISSION_GRANTED) {
+        isGrandted = false;
+        break;
+      }
+    }
+    if (!isGrandted) {
       this.finish();
     }
   }
-
 
   @Override protected void onDestroy() {
     super.onDestroy();

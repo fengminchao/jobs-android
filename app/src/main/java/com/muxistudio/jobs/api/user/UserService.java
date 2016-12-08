@@ -7,6 +7,7 @@ import com.muxistudio.jobs.bean.TokenResult;
 import com.muxistudio.jobs.bean.UserInfoResult;
 import com.muxistudio.jobs.data.UserStorge;
 
+import com.muxistudio.jobs.db.Collection;
 import com.muxistudio.jobs.db.User;
 import com.muxistudio.jobs.db.UserInfo;
 import retrofit2.Response;
@@ -77,7 +78,7 @@ public interface UserService {
   Observable<CollectionResult> getCollections();
 
   @POST("collection/")
-  Observable<BaseData> addCollection(@Body CollectionData collectionData);
+  Observable<BaseData> addCollection(@Body Collection collection);
 
   @DELETE("collection/{id}/")
   Observable<BaseData> removeCollection(@Path("id") int id);

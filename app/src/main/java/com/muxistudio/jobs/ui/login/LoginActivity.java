@@ -67,7 +67,7 @@ public class LoginActivity extends ToolbarActivity implements LoginContract.View
   }
 
   @Override public void showError(String err) {
-    ToastUtil.toastShort(err);
+    ToastUtil.showShort(err);
   }
 
   @Override public void showLoading() {

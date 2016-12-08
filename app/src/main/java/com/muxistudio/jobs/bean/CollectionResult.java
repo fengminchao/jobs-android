@@ -2,6 +2,7 @@ package com.muxistudio.jobs.bean;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.muxistudio.jobs.db.Collection;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,6 @@ public class CollectionResult {
 
   public int code;
   public String msg;
-  public List<CollectionData> data;
+  public List<Collection> data;
 
 }

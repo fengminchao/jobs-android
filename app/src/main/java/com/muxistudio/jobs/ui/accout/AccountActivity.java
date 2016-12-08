@@ -17,6 +17,7 @@ import com.muxistudio.jobs.api.UserStorge;
 import com.muxistudio.jobs.injector.PerActivity;
 import com.muxistudio.jobs.ui.ToolbarActivity;
 import com.muxistudio.jobs.util.CircleTransformation;
+import com.muxistudio.jobs.util.Logger;
 import com.squareup.picasso.Picasso;
 import javax.inject.Inject;
 
@@ -52,6 +53,7 @@ import javax.inject.Inject;
   @Override protected void onStart() {
     super.onStart();
     this.renderUserInfo();
+    Logger.d("accoutn onstart");
   }
 
   private void renderUserInfo() {

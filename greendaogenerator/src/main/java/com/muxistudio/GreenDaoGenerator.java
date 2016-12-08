@@ -39,7 +39,7 @@ public class GreenDaoGenerator {
     collection.addStringProperty("school");
     collection.addStringProperty("date");
     collection.addStringProperty("time");
-    collection.addIntProperty("type");
+    collection.addStringProperty("type");
 
     Entity job = schema.addEntity("Jobs");
     job.addIntProperty("id").primaryKey();

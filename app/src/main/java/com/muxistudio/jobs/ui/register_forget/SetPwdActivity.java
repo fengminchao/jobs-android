@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -114,11 +113,11 @@ public class SetPwdActivity extends ToolbarActivity implements SetPwdContract.Vi
   }
 
   @Override public void showAuthSend() {
-    ToastUtil.toastShort("验证码已发送至邮箱,请注意查收");
+    ToastUtil.showShort("验证码已发送至邮箱,请注意查收");
   }
 
   @Override public void showError(String msg) {
-    ToastUtil.toastShort(msg);
+    ToastUtil.showShort(msg);
   }
 
   @Override public void showLoading() {
@@ -131,7 +130,7 @@ public class SetPwdActivity extends ToolbarActivity implements SetPwdContract.Vi
 
   @Override public void authSuccess() {
     LoginActivity.startActivity(this);
-    ToastUtil.toastShort("验证成功");
+    ToastUtil.showShort("验证成功");
     this.finish();
   }
 }

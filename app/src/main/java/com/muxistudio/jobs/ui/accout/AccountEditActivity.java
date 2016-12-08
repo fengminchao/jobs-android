@@ -24,7 +24,6 @@ import com.muxistudio.jobs.Constant;
 import com.muxistudio.jobs.R;
 import com.muxistudio.jobs.api.UserStorge;
 import com.muxistudio.jobs.api.user.UserApi;
-import com.muxistudio.jobs.db.UserDao;
 import com.muxistudio.jobs.db.UserInfo;
 import com.muxistudio.jobs.db.UserInfoDao;
 import com.muxistudio.jobs.injector.PerActivity;
@@ -193,7 +192,7 @@ import rx.subscriptions.CompositeSubscription;
     super.onActivityResult(requestCode, resultCode, data);
     Logger.d("get acitivity result");
     if (resultCode != RESULT_OK) {
-      ToastUtil.toastShort("获取失败");
+      ToastUtil.showShort("获取失败");
       return;
     }
     isAvatorChanged = true;
@@ -293,12 +292,14 @@ import rx.subscriptions.CompositeSubscription;
                           mUserStorge.getUser().getMail() + ".jpeg");
                       saveUserInfo();
                     } else {
-                      hideLoadingDialog();
+                      ToastUtil.showShort("保存失败");
                     }
+                    hideLoadingDialog();
                   }
                 }, null);
           }
         }, throwable -> throwable.printStackTrace(), () -> hideLoadingDialog());
+
     mCompositeSubscription.add(s);
   }
 
@@ -312,9 +313,9 @@ import rx.subscriptions.CompositeSubscription;
             mUserStorge.setUserInfo(mUserInfo);
             mUserInfoDao.update(mUserStorge.getUserInfo());
             AccountEditActivity.this.finish();
-            ToastUtil.toastShort("保存成功");
+            ToastUtil.showShort("保存成功");
           } else {
-            ToastUtil.toastShort("保存失败");
+            ToastUtil.showShort("保存失败");
           }
         }, throwable -> throwable.printStackTrace(), () -> hideLoadingDialog());
     mCompositeSubscription.add(s);

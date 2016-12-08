@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import com.muxistudio.jobs.BuildConfig;
 import com.muxistudio.jobs.ui.collection.CollectionFragment;
+import com.muxistudio.jobs.ui.schedule.ScheduleFragment;
 import com.muxistudio.jobs.ui.setting.SettingFragment;
 import com.muxistudio.jobs.util.Logger;
 import com.muxistudio.jobs.R;
@@ -58,7 +59,7 @@ import rx.schedulers.Schedulers;
         mMainView.showFragment(FindFragment.newInstance());
         break;
       case R.id.action_date:
-        //mMainView.showFragment();
+        mMainView.showFragment(ScheduleFragment.newInstance());
         break;
       case R.id.action_person:
         mMainView.showFragment(CollectionFragment.newInstance());
@@ -69,10 +70,8 @@ import rx.schedulers.Schedulers;
         mMainView.showSetting();
         break;
       case R.id.action_about:
-        if (BuildConfig.DEBUG) {
-
-          mUserStorge.logout();
-        }
+        mUserStorge.logout();
+        mMainView.showLoginUi();
         break;
     }
     mMainView.setTitle(item.getTitle().toString());
@@ -104,6 +103,8 @@ import rx.schedulers.Schedulers;
   }
 
   private void initUserInfo() {
+    Logger.d(mUserStorge.isLogin() + "");
+    Logger.d(mUserStorge.getUserInfo().getAvator());
     if (mUserStorge.isLogin()) {
       String url = mUserStorge.getUserInfo().getAvator();
       String name = mUserStorge.getUserInfo().getName();

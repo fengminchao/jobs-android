@@ -10,11 +10,11 @@ import com.muxistudio.jobs.App;
 
 public class ToastUtil {
 
-    public static void toastLong(String msg){
+    public static void showLong(String msg){
         Toast.makeText(App.sContext,msg,Toast.LENGTH_LONG).show();
     }
 
-    public static void toastShort(String msg){
+    public static void showShort(String msg){
         Toast.makeText(App.sContext,msg,Toast.LENGTH_SHORT).show();
     }
 }

@@ -14,6 +14,16 @@ import java.util.regex.Pattern;
 
 public class TimeUtil {
 
+  public static String toDate(Date date) {
+    DateFormat dateFormat = new SimpleDateFormat("MM-dd");
+    return dateFormat.format(date);
+  }
+
+  public static String toDateInYear(Date date){
+    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    return format.format(date);
+  }
+
   public static String parseDate(String s){
     try {
       String date = s.substring(0,10);
