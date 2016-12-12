@@ -8,6 +8,8 @@
 
     <dimen name="login_input_height">84dp</dimen>
 
+    <dimen name="search_item_height">48dp</dimen>
+
     <dimen name="mine_tv_height">48dp</dimen>
     <dimen name="mine_headview_height">96dp</dimen>
 

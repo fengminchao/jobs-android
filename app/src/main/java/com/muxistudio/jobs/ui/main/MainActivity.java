@@ -1,12 +1,12 @@
 package com.muxistudio.jobs.ui.main;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -23,9 +23,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import com.muxistudio.jobs.ui.accout.AccountEditActivity;
-import com.muxistudio.jobs.ui.setting.SettingFragment;
-import com.muxistudio.jobs.util.Logger;
 import com.muxistudio.jobs.R;
 import com.muxistudio.jobs.injector.HasComponent;
 import com.muxistudio.jobs.ui.ToolbarActivity;
@@ -33,7 +30,11 @@ import com.muxistudio.jobs.ui.accout.AccountActivity;
 import com.muxistudio.jobs.ui.find.FindFragment;
 import com.muxistudio.jobs.ui.login.LoginActivity;
 import com.muxistudio.jobs.util.CircleTransformation;
+import com.muxistudio.jobs.util.Logger;
+import com.muxistudio.jobs.widget.SelectSearchView;
 import com.squareup.picasso.Picasso;
+import java.util.ArrayList;
+import java.util.List;
 import javax.inject.Inject;
 
 /**
@@ -48,6 +49,9 @@ public class MainActivity extends ToolbarActivity
   @BindView(R.id.nav_view) NavigationView navView;
   @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
   @BindView(R.id.toolbar) Toolbar mToolbar;
+  @BindView(R.id.tv_test) TextView mTvTest;
+  //@BindView(R.id.searchview) SelectSearchView mSearchview;
+  private SelectSearchView mSearchView;
 
   private ImageView mAvatorView;
   private TextView mTvName;
@@ -66,6 +70,9 @@ public class MainActivity extends ToolbarActivity
   @Override protected void initView() {
     setContentView(R.layout.activity_main);
     ButterKnife.bind(this);
+    mSearchView = (SelectSearchView) findViewById(R.id.search_view);
+    Logger.d(mSearchView == null ? "searchview is null" : "searchview is not null");
+    Logger.d(mTvTest == null ? "tvtest is null" : "tvtest is not null");
     showFragment(new FindFragment());
     mToolbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
     mToolbar.setTitle("招聘");
@@ -107,6 +114,14 @@ public class MainActivity extends ToolbarActivity
         return true;
       case R.id.action_search:
         mPresenter.onSearchClick();
+        mSearchView.showSearchView();
+        List<String> list = new ArrayList<>();
+        list.add("tag1");
+        list.add("tag2");
+        for (int i = 0;i < 20; i ++){
+          list.add("tag" + i);
+        }
+        mSearchView.setSearchTag(list);
         return true;
     }
     return super.onOptionsItemSelected(item);
@@ -139,7 +154,7 @@ public class MainActivity extends ToolbarActivity
     Logger.d((fragment instanceof FindFragment) + "");
     if (fragment instanceof FindFragment) {
       isFindFragment = true;
-    }else {
+    } else {
       isFindFragment = false;
     }
     invalidateOptionsMenu();
@@ -217,5 +232,11 @@ public class MainActivity extends ToolbarActivity
 
   @Override public MainComponent getComponent() {
     return mMainComponent;
+  }
+
+  @Override protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    // TODO: add setContentView(...) invocation
+    ButterKnife.bind(this);
   }
 }

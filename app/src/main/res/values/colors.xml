@@ -33,6 +33,7 @@
 
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBlack">#000000</color>
+    <color name="colorTag">#f5f5f5</color>
 
     <color name="color_bottom_tab">#E0E6E4</color>
 

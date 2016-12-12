@@ -1,7 +1,5 @@
 package com.muxistudio.jobs.ui.schedule;
 
-import android.graphics.Color;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -34,6 +32,7 @@ import com.muxistudio.jobs.util.Logger;
 import com.muxistudio.jobs.util.TimeUtil;
 import com.muxistudio.jobs.util.TypeUtil;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -86,6 +85,7 @@ import rx.schedulers.Schedulers;
   private void loadCollection() {
     mCollections = mCollectionDao.queryBuilder()
         .where(CollectionDao.Properties.Mail.eq(mUserStorge.getUser().getMail()))
+        .build()
         .list();
     Logger.d(mCollections != null ? mCollections.size() + "" : "collection is null");
   }
@@ -93,6 +93,8 @@ import rx.schedulers.Schedulers;
   private void initCalendar() {
     mCompactcalendarView.setLocale(TimeZone.getTimeZone("GMT+08:00"), Locale.CHINA);
     mCompactcalendarView.setUseThreeLetterAbbreviation(true);
+    Date date = new Date(System.currentTimeMillis());
+    mCompactcalendarView.setCurrentDate(date);
     addEvent();
 
     mCompactcalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
@@ -107,6 +109,9 @@ import rx.schedulers.Schedulers;
       }
 
       @Override public void onMonthScroll(Date firstDayOfNewMonth) {
+
+        ((MainActivity)getActivity()).setTitle(firstDayOfNewMonth.getMonth() + "月");
+
         if (mCompactcalendarView.getEvents(firstDayOfNewMonth) != null
             && mCompactcalendarView.getEvents(firstDayOfNewMonth).size() > 0) {
           renderRecyclerView(firstDayOfNewMonth);
@@ -124,7 +129,7 @@ import rx.schedulers.Schedulers;
         .map(mCollections -> mCollections.getDate())
         .filter(s -> !TextUtils.isEmpty(s))
         .map(s -> {
-          Date date = new Date(s);
+          Date date = TimeUtil.parseDateStrToDate(s);
           return date.getTime();
         })
         .toSortedList()
@@ -137,6 +142,7 @@ import rx.schedulers.Schedulers;
             Event event = new Event(App.sContext.getResources().getColor(R.color.colorPrimary), date);
             mEvents.add(event);
           }
+          Logger.d(mEvents.size() + "");
           mCompactcalendarView.addEvents(mEvents);
         }, throwable -> throwable.printStackTrace());
   }
@@ -177,14 +183,6 @@ import rx.schedulers.Schedulers;
     mTvTitle.setVisibility(View.GONE);
   }
 
-  @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
-      Bundle savedInstanceState) {
-    // TODO: inflate a fragment view
-    View rootView = super.onCreateView(inflater, container, savedInstanceState);
-    ButterKnife.bind(this, rootView);
-    return rootView;
-
-  }
 }
 
 

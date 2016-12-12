@@ -63,4 +63,15 @@ public class TimeUtil {
     c.set(Calendar.DAY_OF_MONTH, Integer.valueOf(date.substring(h2 + 1)));
     return c;
   }
+
+  public static Date parseDateStrToDate(String datestr){
+    Date date = new Date();
+    int h1 = datestr.indexOf("-");
+    int h2 = datestr.lastIndexOf("-");
+    date.setYear(Integer.valueOf(datestr.substring(0,h1)));
+    //月份为 0-11,比较特殊
+    date.setMonth(Integer.valueOf(datestr.substring(h1 + 1,h2)) - 1);
+    date.setDate(Integer.valueOf(datestr.substring(h2 + 1)));
+    return date;
+  }
 }

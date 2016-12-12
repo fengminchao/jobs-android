@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:paddingTop="8dp"
+    android:background="@color/colorWhite"
+    android:layout_height="match_parent">
+
+  <ImageView
+      android:layout_width="@dimen/search_item_height"
+      android:layout_height="@dimen/search_item_height"
+      android:src="@drawable/ic_arrow_back_grey_500_24dp"
+      android:scaleType="center"
+      android:id="@+id/iv_back"
+      />
+
+  <EditText
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/search_item_height"
+      android:id="@+id/et_search"
+      android:layout_toRightOf="@+id/iv_back"
+      android:layout_toLeftOf="@+id/iv_clear"
+      android:imeOptions="actionSearch"
+      />
+
+  <ImageView
+      android:layout_width="@dimen/search_item_height"
+      android:layout_height="@dimen/search_item_height"
+      android:src="@drawable/ic_clear_grey_500_24dp"
+      android:id="@+id/iv_clear"
+      android:scaleType="center"
+      android:layout_alignParentRight="true"
+      />
+
+  <View
+      android:layout_width="match_parent"
+      android:layout_height="1px"
+      android:layout_below="@+id/iv_back"
+      android:id="@+id/divider"
+    />
+
+  <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:id="@+id/tv_tag"
+      android:text="标签推荐"
+      android:textColor="?android:attr/textColorPrimary"
+      android:visibility="gone"
+      android:layout_below="@+id/divider"
+      />
+
+  <com.muxistudio.jobs.widget.FlowLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/fl_tag"
+      android:visibility="gone"
+      android:layout_below="@+id/tv_tag"
+    />
+
+  <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:id="@+id/tv_history"
+      android:text="历史搜索"
+      android:textColor="?android:attr/textColorPrimary"
+      android:visibility="gone"
+      android:layout_below="@+id/fl_tag"
+      />
+
+  <com.muxistudio.jobs.widget.FlowLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:visibility="gone"
+      android:id="@+id/fl_history"
+      android:layout_below="@+id/tv_history"
+    />
+
+</RelativeLayout>

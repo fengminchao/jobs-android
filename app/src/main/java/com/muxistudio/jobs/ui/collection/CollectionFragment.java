@@ -124,6 +124,7 @@ public class CollectionFragment extends BaseFragment implements CollectionContra
 
   @Override public void onDestroyView() {
     super.onDestroyView();
+    mPresenter.detachView();
     Logger.d("collectionfragment destory");
     //mCollections
   }
