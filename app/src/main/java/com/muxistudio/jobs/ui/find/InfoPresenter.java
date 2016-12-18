@@ -135,7 +135,6 @@ import rx.schedulers.Schedulers;
           infoData.time = employData.getTime();
           infoData.logoUrl = "";
           infoData.clicks = employData.totalClicks;
-          mView.hideLoading();
           return infoData;
         })
         .toList()
@@ -156,7 +155,7 @@ import rx.schedulers.Schedulers;
           }
         }, throwable -> {
           throwable.printStackTrace();
-        });
+        },() -> mView.hideLoading());
   }
 
   public Subscription subscibeFulltime(Observable<FulltimeList> fulltimeListObservable,boolean isQuery,boolean clean){
@@ -173,7 +172,6 @@ import rx.schedulers.Schedulers;
           infoData.time = TextUtils.join(",", fulltimeData.positionNames);
           infoData.logoUrl = fulltimeData.logoUrl;
           infoData.clicks = -1;
-          mView.hideLoading();
           return infoData;
         })
         .toList()
@@ -194,7 +192,7 @@ import rx.schedulers.Schedulers;
           }
         }, throwable -> {
           throwable.printStackTrace();
-        });
+        },() -> mView.hideLoading());
   }
 
   @Override public void onItemClick(int id) {

@@ -33,6 +33,7 @@ import com.muxistudio.jobs.util.CircleTransformation;
 import com.muxistudio.jobs.util.Logger;
 import com.muxistudio.jobs.widget.SelectSearchView;
 import com.squareup.picasso.Picasso;
+import hugo.weaving.DebugLog;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
@@ -123,9 +124,11 @@ public class MainActivity extends ToolbarActivity
         //}
         //mSearchView.setSearchTag(list);
         // load query text in FindFragment
-        mSearchView.setOnSeachViewListener(
-            query -> ((FindFragment) getSupportFragmentManager().findFragmentById(
-                R.id.content)).loadQuery(query));
+        mSearchView.setOnSeachViewListener(query -> {
+          ((FindFragment) getSupportFragmentManager().findFragmentById(R.id.content)).loadQuery(
+              query);
+          mPresenter.insertHistory(mSearchView.getEditSearchText());
+        });
         return true;
     }
     return super.onOptionsItemSelected(item);
@@ -167,6 +170,12 @@ public class MainActivity extends ToolbarActivity
 
   @Override public void showSearchView() {
 
+  }
+
+  @DebugLog
+  @Override public void renderTags(List<String> tagList, List<String> historyList) {
+    mSearchView.setSearchTag(tagList);
+    mSearchView.setSearchHistory(historyList);
   }
 
   @Override public void setTitle(String title) {

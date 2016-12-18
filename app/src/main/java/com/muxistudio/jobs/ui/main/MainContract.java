@@ -49,6 +49,7 @@ public class MainContract {
 
     void exist();
 
+    void insertHistory(String query);
   }
 
 }

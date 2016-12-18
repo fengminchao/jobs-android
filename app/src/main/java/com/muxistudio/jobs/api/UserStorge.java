@@ -18,6 +18,7 @@ public class UserStorge {
 
   public UserStorge() {
     user = new User();
+    user.setMail("");
     mUserInfo = new UserInfo();
   }
 
@@ -100,8 +101,11 @@ public class UserStorge {
   public void logout() {
     this.setToken("");
     this.setAuthCode(0);
-    this.user = null;
-    this.mUserInfo = null;
+    //this.user = null;
+    //this.mUserInfo = null;
+    this.user.setMail("");
+    this.user.setPwd("");
+    this.mUserInfo.setMail("");
     PreferenceUtil.putString(PreferenceUtil.USER_MAIL, "");
   }
 }

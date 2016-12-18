@@ -146,6 +146,7 @@ public class FlowLayout extends ViewGroup {
 
   public void setAdapter(FlowAdapter flowAdapter) {
     Logger.d("set adapter");
+    this.removeAllViews();
     //CheckBox
     for (int i = 0; i < flowAdapter.getCount(); i++) {
       TagView tagView = new TagView(mContext);

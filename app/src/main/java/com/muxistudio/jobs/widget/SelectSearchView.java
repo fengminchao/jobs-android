@@ -16,6 +16,7 @@ import butterknife.ButterKnife;
 import com.muxistudio.jobs.R;
 import com.muxistudio.jobs.util.DimenUtil;
 import com.muxistudio.jobs.util.Logger;
+import hugo.weaving.DebugLog;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,7 +84,7 @@ public class SelectSearchView extends RelativeLayout {
       return false;
     });
     initFlowLayout();
-    mFlTag.setSelectedTags();
+    //mFlTag.setSelectedTags();
   }
 
   private void initFlowLayout() {
@@ -109,6 +110,7 @@ public class SelectSearchView extends RelativeLayout {
     mEtSearch.clearFocus();
   }
 
+  @DebugLog
   public void setSearchTag(List<String> tagList) {
     if (!tagList.isEmpty()) {
       mTvTag.setVisibility(VISIBLE);
@@ -126,6 +128,7 @@ public class SelectSearchView extends RelativeLayout {
     mFlTag.setAdapter(mTagAdapter);
   }
 
+  @DebugLog
   public void setSearchHistory(List<String> historyList) {
     if (!historyList.isEmpty()) {
       mTvHistory.setVisibility(VISIBLE);
@@ -150,13 +153,25 @@ public class SelectSearchView extends RelativeLayout {
     queryList.add(mEtSearch.getText().toString().replace(" ","+"));
     queryList.addAll(mFlHistory.getTags());
     queryList.addAll(mFlTag.getTags());
+    Logger.d(TextUtils.join("+",queryList));
     return TextUtils.join("+", queryList);
   }
 
+  //public void setSelectTags(List<String> tags){
+  //  for (int i = 0;i < tags.size();i ++){
+  //    for (int j = 0;j < mTagAdapter.getCount();j ++){
+  //      if (tags.get(i).equals(mTagAdapter.getStr(j))){
+  //
+  //      }
+  //    }
+  //  }
+  //}
+
   /**
-   * h获取用户输入的搜索词
+   * 获取用户输入的搜索词
    * @return
    */
+  @DebugLog
   public String getEditSearchText(){
     return mEtSearch.getText().toString();
   }

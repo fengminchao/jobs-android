@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.antfortune.freeline'
+apply plugin: 'com.jakewharton.hugo'
 
 android {
     compileSdkVersion 25
