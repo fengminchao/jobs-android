@@ -34,4 +34,12 @@ public interface JobsService {
   @GET("http://api.haitou.cc/xz/view?client=m")
   Observable<FulltimeDetail> getFulltimeDetail(@Query("id") int id);
 
+  @GET("http://api.haitou.cc/xjh/list?client=m&kind=after&partName=%E6%B9%96%E5%8C%97&source=xjh&univ=0&zone=wh")
+  Observable<CareerList> queryCareer(@Query("key") String key,@Query("page") int page);
+
+  @GET("http://api.haitou.cc/zph/list?city=wuhan&client=m&kind=after&source=zph&venue_id=0&zone=wh")
+  Observable<EmployList> queryEmploy(@Query("key") String key,@Query("page") int page);
+
+  @GET("http://api.haitou.cc/xz/list?client=m&kind=after&source=xz&type=fulltime")
+  Observable<FulltimeList> queryFulltime(@Query("key") String key,@Query("page") int page);
 }

@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.view.MenuItem;
 import com.muxistudio.jobs.ui.BasePresenter;
 import com.muxistudio.jobs.ui.BaseView;
+import java.util.List;
 
 /**
  * Created by ybao on 16/11/7.
@@ -34,6 +35,8 @@ public class MainContract {
     void closeNavView();
 
     void renderAccountAvator(String url);
+
+    void renderTags(List<String> tagList,List<String> historyList);
   }
 
   interface Presenter extends BasePresenter<View>{
@@ -45,6 +48,7 @@ public class MainContract {
     void onNavigationItemClick(MenuItem item);
 
     void exist();
+
   }
 
 }

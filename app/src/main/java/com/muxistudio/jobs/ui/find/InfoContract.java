@@ -17,6 +17,8 @@ public class InfoContract{
 
     void renderMoreData(List<InfoData> infoDatas);
 
+    void renderSearchData(List<InfoData> infoDatas);
+
     void showEnd();
 
     void showLoading();
@@ -32,5 +34,6 @@ public class InfoContract{
 
     void loadData(int page,int type,boolean clean);
 
+    void searchData(String query,int page,int type,boolean clean);
   }
 }

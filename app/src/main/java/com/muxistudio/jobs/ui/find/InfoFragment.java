@@ -1,6 +1,7 @@
 package com.muxistudio.jobs.ui.find;
 
 import android.os.Bundle;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -36,6 +37,9 @@ public class InfoFragment extends BaseFragment implements InfoContract.View {
   private List<InfoData> mInfoDataList;
 
   private int mPage = 1;
+  //是否是搜索状态
+  private boolean isSearch = false;
+  private String query;
 
   private LinearLayoutManager mLayoutManager;
 
@@ -55,11 +59,13 @@ public class InfoFragment extends BaseFragment implements InfoContract.View {
     Logger.d(mType + "");
     initRecyclerView();
     mPresenter.attachView(this);
-    mPresenter.loadData(mType, mPage,true);
+    mPresenter.loadData(mType, mPage, true);
     mRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
     mRefreshLayout.setOnRefreshListener(() -> {
       mPage = 1;
-      mPresenter.loadData(mType,1,true);
+      isSearch = false;
+      query = null;
+      mPresenter.loadData(mType, 1, true);
     });
   }
 
@@ -79,15 +85,15 @@ public class InfoFragment extends BaseFragment implements InfoContract.View {
     mInfoAdapter = new InfoAdapter(mInfoDataList, mType);
     mInfoAdapter.setOnItemClickListener(id -> {
       Logger.d(mType + "");
-      switch (mType){
+      switch (mType) {
         case Constant.TYPE_XJH:
-          CareerDetailActivity.start(getActivity(),id);
+          CareerDetailActivity.start(getActivity(), id);
           break;
         case Constant.TYPE_ZP:
-          EmployDetailActivity.start(getActivity(),id);
+          EmployDetailActivity.start(getActivity(), id);
           break;
         case Constant.TYPE_XZ:
-          FulltimeDetailAcitivity.start(getActivity(),id);
+          FulltimeDetailAcitivity.start(getActivity(), id);
           break;
       }
     });
@@ -98,6 +104,42 @@ public class InfoFragment extends BaseFragment implements InfoContract.View {
   @Override public void renderMoreData(List<InfoData> infoDatas) {
     mInfoDataList.addAll(infoDatas);
     mInfoAdapter.notifyDataSetChanged();
+  }
+
+  @Override public void renderSearchData(List<InfoData> infoDatas) {
+    if (mPage > 1) {
+      mInfoDataList.addAll(infoDatas);
+      mInfoAdapter.notifyDataSetChanged();
+    } else {
+      mInfoDataList = infoDatas;
+      mInfoAdapter = new InfoAdapter(mInfoDataList, mType);
+      mInfoAdapter.setOnItemClickListener(id -> {
+        Logger.d(mType + "");
+        switch (mType) {
+          case Constant.TYPE_XJH:
+            CareerDetailActivity.start(getActivity(), id);
+            break;
+          case Constant.TYPE_ZP:
+            EmployDetailActivity.start(getActivity(), id);
+            break;
+          case Constant.TYPE_XZ:
+            FulltimeDetailAcitivity.start(getActivity(), id);
+            break;
+        }
+      });
+      mRecyclerView.setAdapter(mInfoAdapter);
+    }
+  }
+
+  /**
+   * invoke when the search action click
+   */
+  public void onSearchQuery(String query) {
+    this.query = query;
+    isSearch = true;
+    mPage = 1;
+    Logger.d("query text: " + query);
+    mPresenter.searchData(this.query, mPage, mType, true);
   }
 
   @Override public void showEnd() {
@@ -141,7 +183,11 @@ public class InfoFragment extends BaseFragment implements InfoContract.View {
         boolean isBottom = layoutManager.findLastCompletelyVisibleItemPosition()
             >= mInfoAdapter.getItemCount() - 1;
         if (isBottom) {
-          mPresenter.loadData(mType, ++mPage,false);
+          if (isSearch) {
+            mPresenter.loadData(mType, ++mPage, false);
+          } else {
+            mPresenter.searchData(query, ++mPage, mType, false);
+          }
         }
       }
     };

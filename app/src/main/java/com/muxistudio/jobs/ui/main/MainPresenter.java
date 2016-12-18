@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import com.muxistudio.jobs.BuildConfig;
+import com.muxistudio.jobs.db.HistoryDao;
 import com.muxistudio.jobs.ui.collection.CollectionFragment;
 import com.muxistudio.jobs.ui.schedule.ScheduleFragment;
 import com.muxistudio.jobs.ui.setting.SettingFragment;
@@ -30,13 +31,18 @@ import rx.schedulers.Schedulers;
   private UserDao mUserDao;
   private Context mContext;
   private UserStorge mUserStorge;
+  private HistoryDao mHistoryDao;
+
+  private List<String> tagList;
+  private List<String> historyList;
 
   private MainContract.View mMainView;
 
-  @Inject public MainPresenter(UserStorge userStorge,UserDao userDao, Context context) {
+  @Inject public MainPresenter(UserStorge userStorge,UserDao userDao, Context context,HistoryDao historyDao) {
     mUserStorge = userStorge;
     mUserDao = userDao;
     mContext = context;
+    mHistoryDao = historyDao;
   }
 
   @Override public void onAccountClick() {

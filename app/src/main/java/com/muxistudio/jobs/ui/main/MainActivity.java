@@ -115,13 +115,17 @@ public class MainActivity extends ToolbarActivity
       case R.id.action_search:
         mPresenter.onSearchClick();
         mSearchView.showSearchView();
-        List<String> list = new ArrayList<>();
-        list.add("tag1");
-        list.add("tag2");
-        for (int i = 0;i < 20; i ++){
-          list.add("tag" + i);
-        }
-        mSearchView.setSearchTag(list);
+        //List<String> list = new ArrayList<>();
+        //list.add("tag1");
+        //list.add("tag2");
+        //for (int i = 0; i < 20; i++) {
+        //  list.add("tag" + i);
+        //}
+        //mSearchView.setSearchTag(list);
+        // load query text in FindFragment
+        mSearchView.setOnSeachViewListener(
+            query -> ((FindFragment) getSupportFragmentManager().findFragmentById(
+                R.id.content)).loadQuery(query));
         return true;
     }
     return super.onOptionsItemSelected(item);
@@ -151,6 +155,7 @@ public class MainActivity extends ToolbarActivity
 
   @Override public void showFragment(Fragment fragment) {
     getSupportFragmentManager().beginTransaction().replace(R.id.content, fragment).commit();
+    //getSupportFragmentManager().beginTransaction().addToBackStack(null);
     Logger.d((fragment instanceof FindFragment) + "");
     if (fragment instanceof FindFragment) {
       isFindFragment = true;
@@ -232,11 +237,5 @@ public class MainActivity extends ToolbarActivity
 
   @Override public MainComponent getComponent() {
     return mMainComponent;
-  }
-
-  @Override protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    // TODO: add setContentView(...) invocation
-    ButterKnife.bind(this);
   }
 }

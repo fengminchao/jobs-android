@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.View;
@@ -26,6 +27,8 @@ public class FindFragment extends BaseFragment {
 
   @BindView(R.id.tab_layout) TabLayout mTabLayout;
   @BindView(R.id.view_pager) ViewPager mViewPager;
+
+  private List<Fragment> mFragmentList;
 
   public static FindFragment newInstance() {
     Bundle args = new Bundle();
@@ -59,12 +62,12 @@ public class FindFragment extends BaseFragment {
     }
     mTabLayout.setBackgroundColor(Color.WHITE);
     mTabLayout.setTabTextColors(Color.BLACK, getResources().getColor(R.color.colorAccent));
-    List<Fragment> fragments = new ArrayList<>();
-    fragments.add(InfoFragment.newInstance(1));
-    fragments.add(InfoFragment.newInstance(2));
-    fragments.add(InfoFragment.newInstance(3));
+    mFragmentList = new ArrayList<>();
+    mFragmentList.add(InfoFragment.newInstance(1));
+    mFragmentList.add(InfoFragment.newInstance(2));
+    mFragmentList.add(InfoFragment.newInstance(3));
     FragmentAdapter adapter =
-        new FragmentAdapter(getActivity().getSupportFragmentManager(), fragments, titleList);
+        new FragmentAdapter(getChildFragmentManager(), mFragmentList, titleList);
     mViewPager.setAdapter(adapter);
     mViewPager.setOffscreenPageLimit(2);
     mTabLayout.setupWithViewPager(mViewPager);
@@ -76,7 +79,21 @@ public class FindFragment extends BaseFragment {
     getComponent(MainComponent.class).inject((MainActivity) getActivity());
   }
 
+  public void loadQuery(String query){
+    for (Fragment fragment : mFragmentList){
+      ((InfoFragment) fragment).onSearchQuery(query);
+    }
+  }
+
   @Override public void onPrepareOptionsMenu(Menu menu) {
     super.onPrepareOptionsMenu(menu);
+  }
+
+  @Override public void onDetach() {
+    super.onDetach();
+    //Logger.d("findfragment is detach");
+    //mViewPager.setAdapter(null);
+    //mViewPager.setOffscreenPageLimit(1);
+    //mTabLayout.removeAllTabs();
   }
 }

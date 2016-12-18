@@ -7,6 +7,7 @@ import com.muxistudio.jobs.api.UserStorge;
 import com.muxistudio.jobs.api.jobs.JobsApi;
 import com.muxistudio.jobs.api.user.UserApi;
 import com.muxistudio.jobs.db.CollectionDao;
+import com.muxistudio.jobs.db.HistoryDao;
 import com.muxistudio.jobs.db.JobsDao;
 import com.muxistudio.jobs.db.UserDao;
 import com.muxistudio.jobs.db.UserInfoDao;
@@ -41,6 +42,8 @@ public interface ApplicationComponent {
   UserInfoDao getInfoDao();
 
   CollectionDao getCollectionDao();
+
+  HistoryDao getHistoryDao();
 
   void inject(App application);
 

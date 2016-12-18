@@ -4,6 +4,7 @@ import android.content.Context;
 import com.muxistudio.jobs.db.CollectionDao;
 import com.muxistudio.jobs.db.DaoMaster;
 import com.muxistudio.jobs.db.DaoSession;
+import com.muxistudio.jobs.db.HistoryDao;
 import com.muxistudio.jobs.db.JobsDao;
 import com.muxistudio.jobs.db.UserDao;
 import com.muxistudio.jobs.db.UserInfo;
@@ -46,4 +47,9 @@ public class DBModule {
   @Provides @Singleton JobsDao provideJob(DaoSession daoSession){
     return daoSession.getJobsDao();
   }
+
+  @Provides @Singleton HistoryDao provideHistory(DaoSession daoSession){
+    return daoSession.getHistoryDao();
+  }
+
 }

@@ -3,8 +3,10 @@ package com.muxistudio.jobs.widget;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -13,6 +15,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.muxistudio.jobs.R;
 import com.muxistudio.jobs.util.DimenUtil;
+import com.muxistudio.jobs.util.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +36,8 @@ public class SelectSearchView extends RelativeLayout {
 
   private List<String> queryList = new ArrayList<>();
 
-  //标签 adapter
+  private OnSearchViewListener mOnSearchViewListener;
+  //标签adapter
   private FlowAdapter mTagAdapter;
   //历史记录 adapter
   private FlowAdapter mHistoryAdapter;
@@ -67,8 +71,19 @@ public class SelectSearchView extends RelativeLayout {
     this.setOnClickListener(v -> {
       closeSearchView();
     });
-
+    mEtSearch.setOnEditorActionListener((textView, i, keyEvent) -> {
+      if (i == EditorInfo.IME_ACTION_SEARCH){
+        if (mOnSearchViewListener != null) {
+          mOnSearchViewListener.onQuerySubmit(getQueryText());
+        }
+        closeSearchView();
+        clearSearchText();
+        return true;
+      }
+      return false;
+    });
     initFlowLayout();
+    mFlTag.setSelectedTags();
   }
 
   private void initFlowLayout() {
@@ -84,11 +99,14 @@ public class SelectSearchView extends RelativeLayout {
 
   public void showSearchView() {
     this.setVisibility(VISIBLE);
+    mEtSearch.setFocusableInTouchMode(true);
+    mEtSearch.requestFocus();
   }
 
   public void clearSearchText() {
     mEtSearch.setText("");
     queryList.clear();
+    mEtSearch.clearFocus();
   }
 
   public void setSearchTag(List<String> tagList) {
@@ -98,8 +116,9 @@ public class SelectSearchView extends RelativeLayout {
     } else {
       mTvTag.setVisibility(GONE);
       mFlTag.setVisibility(GONE);
-    }
+   }
     mTagAdapter = new FlowAdapter(tagList);
+    Logger.d(tagList.size() + "");
     //mTagAdapter.setOnItemClickListener(query -> {
       //因为标签类 query 冒号标记
       //queryList.add(query.substring(query.indexOf(":") + 1));
@@ -122,8 +141,28 @@ public class SelectSearchView extends RelativeLayout {
     mFlHistory.setAdapter(mHistoryAdapter);
   }
 
+  /**
+   * 获取用户输入和选择的标签
+   * @return
+   */
   public String getQueryText() {
+    Logger.d(mEtSearch.getText().toString());
+    queryList.add(mEtSearch.getText().toString().replace(" ","+"));
+    queryList.addAll(mFlHistory.getTags());
+    queryList.addAll(mFlTag.getTags());
     return TextUtils.join("+", queryList);
+  }
+
+  /**
+   * h获取用户输入的搜索词
+   * @return
+   */
+  public String getEditSearchText(){
+    return mEtSearch.getText().toString();
+  }
+
+  public void setOnSeachViewListener(OnSearchViewListener onSeachViewListener){
+    mOnSearchViewListener = onSeachViewListener;
   }
 
   public interface OnSearchViewListener {

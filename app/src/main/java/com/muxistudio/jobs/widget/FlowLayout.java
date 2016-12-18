@@ -137,6 +137,13 @@ public class FlowLayout extends ViewGroup {
     //    })
   }
 
+  //设置初始选中状态为 true
+  public void setSelectedTags(){
+    for (TagView tagView : mTagViews){
+      tagView.setChecked(true);
+    }
+  }
+
   public void setAdapter(FlowAdapter flowAdapter) {
     Logger.d("set adapter");
     //CheckBox

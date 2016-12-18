@@ -49,6 +49,11 @@ public class GreenDaoGenerator {
     job.addStringProperty("time");
     job.addIntProperty("clicks");
 
+    Entity history = schema.addEntity("History");
+    history.addIdProperty();
+    history.addStringProperty("query");
+    history.addStringProperty("mail");
+
     new DaoGenerator().generateAll(schema, GENERATE_CODE_PATH);
   }
 

@@ -22,4 +22,9 @@ public class Constant {
   public static final int TYPE_XJH = 1;
   public static final int TYPE_ZP = 2;
   public static final int TYPE_XZ = 3;
+
+  public static final String[] TAG_ARRAY = {
+      "IT信息","金融","教育","传媒","建筑","物流","贸易","医学","服务业","政府部门",
+      "制造","交通","运营"
+  };
 }
