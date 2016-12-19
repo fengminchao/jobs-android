@@ -171,6 +171,6 @@ public class CareerDetailActivity extends ToolbarActivity {
         break;
     }
     invalidateOptionsMenu();
-    return true;
+    return super.onOptionsItemSelected(item);
   }
 }

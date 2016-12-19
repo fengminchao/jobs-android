@@ -168,7 +168,7 @@ public class EmployDetailActivity extends ToolbarActivity {
         break;
     }
     invalidateOptionsMenu();
-    return true;
+    return super.onOptionsItemSelected(item);
   }
 
 }

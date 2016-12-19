@@ -29,6 +29,7 @@ import com.muxistudio.jobs.ui.ToolbarActivity;
 import com.muxistudio.jobs.ui.accout.AccountActivity;
 import com.muxistudio.jobs.ui.find.FindFragment;
 import com.muxistudio.jobs.ui.login.LoginActivity;
+import com.muxistudio.jobs.ui.setting.SettingActiviy;
 import com.muxistudio.jobs.util.CircleTransformation;
 import com.muxistudio.jobs.util.Logger;
 import com.muxistudio.jobs.widget.SelectSearchView;
@@ -149,7 +150,7 @@ public class MainActivity extends ToolbarActivity
   }
 
   @Override public void showSetting() {
-
+    SettingActiviy.start(this);
   }
 
   @Override public void updateFindFragment(String key) {

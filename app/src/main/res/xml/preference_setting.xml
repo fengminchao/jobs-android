@@ -33,5 +33,11 @@
     <Preference
         android:key="@string/key_cache"
         android:title="@string/setting_clear_cache"/>
+
+    <Preference
+      android:key="@string/key_logout"
+      android:layout="@layout/view_logout"
+    />
   </PreferenceCategory>
+
 </PreferenceScreen>

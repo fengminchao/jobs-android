@@ -1,5 +1,6 @@
 package com.muxistudio.jobs.ui.schedule;
 
+import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -34,8 +35,10 @@ import com.muxistudio.jobs.util.TypeUtil;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import java.util.TimeZone;
 import javax.inject.Inject;
 import org.greenrobot.greendao.test.DbTest;
@@ -95,7 +98,41 @@ import rx.schedulers.Schedulers;
     mCompactcalendarView.setUseThreeLetterAbbreviation(true);
     Date date = new Date(System.currentTimeMillis());
     mCompactcalendarView.setCurrentDate(date);
-    addEvent();
+    ((MainActivity)getActivity()).setTitle((date.getMonth() + 1) + "月");
+    //addEvent();
+
+    List<Long> list = new ArrayList<>();
+    for (int i = 0;i < mCollections.size();i ++){
+      if (mCollections.get(i).getDate().equals("")){
+        continue;
+      }
+      Date date1 = TimeUtil.parseDateStrToDate(mCollections.get(i).getDate());
+      long time = date1.getTime();
+      list.add(time);
+    }
+    Set<Long> set = new LinkedHashSet<>(list);
+    list.clear();
+    list.addAll(set);
+    mEvents = new ArrayList<>();
+    for (int i = 0;i < list.size();i ++){
+      Event event = new Event(App.sContext.getResources().getColor(R.color.colorPrimary),list.get(i));
+      Logger.d(event.getTimeInMillis() + "");
+      Logger.d(TimeUtil.toDateInYear(new Date(list.get(i))));
+      mEvents.add(event);
+    }
+    mCompactcalendarView.addEvents(mEvents);
+
+    //Date date1 = new Date(System.currentTimeMillis());
+    //date1.setDate(1);
+    //Date date2 = new Date(System.currentTimeMillis());
+    //date2.setDate(2);
+    //Event ev1 = new Event(Color.GREEN, date1.getTime());
+    //Event ev2 = new Event(Color.GRAY,date2.getTime());
+    //List<Event> events = new ArrayList<>();
+    //events.add(ev1);
+    //events.add(ev2);
+    ////mCompactcalendarView.addEvent(ev1, false);
+    //mCompactcalendarView.addEvents(events);
 
     mCompactcalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
 
@@ -110,7 +147,7 @@ import rx.schedulers.Schedulers;
 
       @Override public void onMonthScroll(Date firstDayOfNewMonth) {
 
-        ((MainActivity)getActivity()).setTitle(firstDayOfNewMonth.getMonth() + "月");
+        ((MainActivity)getActivity()).setTitle((firstDayOfNewMonth.getMonth() + 1) + "月");
 
         if (mCompactcalendarView.getEvents(firstDayOfNewMonth) != null
             && mCompactcalendarView.getEvents(firstDayOfNewMonth).size() > 0) {
@@ -123,28 +160,45 @@ import rx.schedulers.Schedulers;
   }
 
   public void addEvent() {
+    List<Long> list = new ArrayList<>();
+    for (int i = 0;i < mCollections.size();i ++){
+      if (mCollections.get(i).getDate().equals("")){
+        continue;
+      }
+      Date date = TimeUtil.parseDateStrToDate(mCollections.get(i).getDate());
+      long time = date.getTime();
+      list.add(time);
+    }
+    Set<Long> set = new LinkedHashSet<>(list);
+    list.clear();
+    list.addAll(set);
     mEvents = new ArrayList<>();
-    Observable.from(mCollections)
-        .subscribeOn(Schedulers.io())
-        .map(mCollections -> mCollections.getDate())
-        .filter(s -> !TextUtils.isEmpty(s))
-        .map(s -> {
-          Date date = TimeUtil.parseDateStrToDate(s);
-          return date.getTime();
-        })
-        .toSortedList()
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(dateList -> {
-          for (long date : dateList) {
-            if (mEvents.size() > 0 && mEvents.get(mEvents.size() - 1).getTimeInMillis() == date) {
-              continue;
-            }
-            Event event = new Event(App.sContext.getResources().getColor(R.color.colorPrimary), date);
-            mEvents.add(event);
-          }
-          Logger.d(mEvents.size() + "");
-          mCompactcalendarView.addEvents(mEvents);
-        }, throwable -> throwable.printStackTrace());
+    for (int i = 0;i < list.size();i ++){
+      Event event = new Event(App.sContext.getResources().getColor(R.color.colorPrimary),list.get(i));
+      mEvents.add(event);
+    }
+    mCompactcalendarView.addEvents(mEvents);
+    //Observable.from(mCollections)
+    //    .subscribeOn(Schedulers.io())
+    //    .map(mCollections -> mCollections.getDate())
+    //    .filter(s -> !TextUtils.isEmpty(s))
+    //    .map(s -> {
+    //      Date date = TimeUtil.parseDateStrToDate(s);
+    //      return date.getTime();
+    //    })
+    //    .toSortedList()
+    //    .observeOn(AndroidSchedulers.mainThread())
+    //    .subscribe(dateList -> {
+    //      for (long date : dateList) {
+    //        if (mEvents.size() > 0 && mEvents.get(mEvents.size() - 1).getTimeInMillis() == date) {
+    //          continue;
+    //        }
+    //        Event event = new Event(App.sContext.getResources().getColor(R.color.colorPrimary), date);
+    //        mEvents.add(event);
+    //      }
+    //      Logger.d(mEvents.size() + "");
+    //      mCompactcalendarView.addEvents(mEvents);
+    //    }, throwable -> throwable.printStackTrace());
   }
 
   public void renderRecyclerView(Date date) {
@@ -184,5 +238,3 @@ import rx.schedulers.Schedulers;
   }
 
 }
-
-

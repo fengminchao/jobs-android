@@ -1,6 +1,7 @@
 package com.muxistudio.jobs.ui.setting;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -44,27 +45,32 @@ public class SettingActiviy extends PreferenceActivity implements
 
   @Inject Context mContext;
 
-  public static SettingFragment newInstance() {
-    Bundle args = new Bundle();
-    SettingFragment fragment = new SettingFragment();
-    fragment.setArguments(args);
-    return fragment;
+  public static void start(Context context) {
+      Intent starter = new Intent(context, SettingActiviy.class);
+      context.startActivity(starter);
   }
+
+  //public static SettingFragment newInstance() {
+  //  Bundle args = new Bundle();
+  //  SettingFragment fragment = new SettingFragment();
+  //  fragment.setArguments(args);
+  //  return fragment;
+  //}
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     mContext = App.sContext;
     addPreferencesFromResource(R.xml.preference_setting);
     sp = new PreferenceUtil();
-    themePreference = (SwitchPreference) findPreference(getString(R.string.setting_change_theme));
+    themePreference = (SwitchPreference) findPreference(getString(R.string.key_theme));
     themePreference.setOnPreferenceChangeListener(this);
-    notifyPreference = (SwitchPreference) findPreference(getString(R.string.setting_notify));
+    notifyPreference = (SwitchPreference) findPreference(getString(R.string.key_notify));
     notifyPreference.setOnPreferenceChangeListener(this);
-    cachePreference = findPreference(getString(R.string.setting_clear_cache));
+    cachePreference = findPreference(getString(R.string.key_cache));
     cachePreference.setOnPreferenceClickListener(this);
-    accountPreference = findPreference(getString(R.string.setting_change_accout));
+    accountPreference = findPreference(getString(R.string.key_account));
     accountPreference.setOnPreferenceClickListener(this);
-    logoutPreference = findPreference(getString(R.string.setting_logout));
+    logoutPreference = findPreference(getString(R.string.key_logout));
     logoutPreference.setOnPreferenceClickListener(this);
   }
 
