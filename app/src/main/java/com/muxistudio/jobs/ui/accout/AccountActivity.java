@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -50,10 +51,30 @@ import javax.inject.Inject;
     renderUserInfo();
   }
 
+  @Override protected void onRestart() {
+    super.onRestart();
+    Logger.d("account restart");
+  }
+
   @Override protected void onStart() {
+    Logger.d("account start");
     super.onStart();
+  }
+
+  @Override protected void onStop() {
+    Logger.d("account stop");
+    super.onStop();
+  }
+
+  @Override protected void onPause() {
+    super.onPause();
+    Logger.d("account pause");
+  }
+
+  @Override protected void onResume() {
     this.renderUserInfo();
-    Logger.d("accoutn onstart");
+    super.onResume();
+    Logger.d("account resume");
   }
 
   private void renderUserInfo() {

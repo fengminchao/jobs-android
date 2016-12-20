@@ -11,9 +11,6 @@
         android:key="@string/key_theme"
         android:title="@string/setting_change_theme"/>
 
-    <Preference
-        android:key="@string/key_logout"
-        android:title="@string/setting_logout"/>
 
   </PreferenceCategory>
 
@@ -38,6 +35,7 @@
       android:key="@string/key_logout"
       android:layout="@layout/view_logout"
     />
+
   </PreferenceCategory>
 
 </PreferenceScreen>

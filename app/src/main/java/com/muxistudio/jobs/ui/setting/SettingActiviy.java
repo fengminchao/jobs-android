@@ -2,20 +2,20 @@ package com.muxistudio.jobs.ui.setting;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.SwitchPreference;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
+import android.view.LayoutInflater;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.muxistudio.jobs.App;
 import com.muxistudio.jobs.ui.BaseActivity;
+import com.muxistudio.jobs.ui.login.LoginActivity;
 import com.muxistudio.jobs.util.Logger;
 import com.muxistudio.jobs.R;
 import com.muxistudio.jobs.injector.components.ApplicationComponent;
@@ -43,7 +43,7 @@ public class SettingActiviy extends PreferenceActivity implements
 
   private PreferenceUtil sp;
 
-  @Inject Context mContext;
+  private Context mContext;
 
   public static void start(Context context) {
       Intent starter = new Intent(context, SettingActiviy.class);
@@ -56,6 +56,15 @@ public class SettingActiviy extends PreferenceActivity implements
   //  fragment.setArguments(args);
   //  return fragment;
   //}
+
+  @Override protected void onPostCreate(Bundle savedInstanceState) {
+    super.onPostCreate(savedInstanceState);
+    LinearLayout root = (LinearLayout) findViewById(android.R.id.list).getParent().getParent().getParent();
+    Toolbar toolbar = (Toolbar)LayoutInflater.from(this).inflate(R.layout.view_setting_bar,root,false);
+    root.addView(toolbar,0);
+    toolbar.setNavigationOnClickListener(v -> this.finish());
+    ((ListView) findViewById(android.R.id.list)).setDivider(App.sContext.getResources().getDrawable(R.drawable.divider_list));
+  }
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -75,10 +84,11 @@ public class SettingActiviy extends PreferenceActivity implements
   }
 
   @Override public boolean onPreferenceChange(Preference preference, Object newValue) {
-    if (preference.getKey().equals(getString(R.string.setting_change_theme))){
+    if (preference.getKey().equals(getString(R.string.key_theme))){
       ((BaseActivity) mContext).reload();
       sp.putBoolean(getString(R.string.key_theme),Boolean.parseBoolean(newValue.toString()));
-    }else if (preference.getKey().equals(getString(R.string.setting_notify))){
+      sp.putInt(PreferenceUtil.IS_NIGHT_THEME,(Boolean)newValue ? R.style.AppThemeDark : R.style.AppThemeLight);
+    }else if (preference.getKey().equals(getString(R.string.key_notify))){
       changeNotify(Boolean.valueOf(newValue.toString()));
       sp.putBoolean(getString(R.string.key_notify),Boolean.parseBoolean(newValue.toString()));
     }
@@ -95,7 +105,8 @@ public class SettingActiviy extends PreferenceActivity implements
     }else if (preference.getKey().equals(getString(R.string.key_account))){
       //startActivity();
     }else if (preference.getKey().equals(getString(R.string.key_logout))){
-      //startActivity();
+      LoginActivity.startActivity(SettingActiviy.this);
+      this.finish();
     }
     return true;
   }

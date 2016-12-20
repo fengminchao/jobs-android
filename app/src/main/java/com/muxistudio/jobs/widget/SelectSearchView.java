@@ -1,6 +1,7 @@
 package com.muxistudio.jobs.widget;
 
 import android.content.Context;
+import android.hardware.input.InputManager;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.KeyEvent;

@@ -202,6 +202,11 @@ public class MainActivity extends ToolbarActivity
     Picasso.with(this).load(Uri.parse(url)).transform(new CircleTransformation()).into(mAvatorView);
   }
 
+  @Override protected void onResume() {
+    super.onResume();
+    mPresenter.loadUserInfo();
+  }
+
   public void checkPermissionIsGranted() {
     if (Build.VERSION.SDK_INT >= 23) {
       if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED

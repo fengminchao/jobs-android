@@ -251,7 +251,7 @@ import rx.subscriptions.CompositeSubscription;
       mUserInfo.setMail(mEtMail.getText().toString());
       mUserInfo.setAvator(getAvatorUrl());
       mUserInfo.setBirth(mTvDate.getText().toString());
-      showLoadingDialog("正在保存");
+      //showLoadingDialog("正在保存");
       if (isAvatorChanged) {
         if (TextUtils.isEmpty(mUserStorge.getUserInfo().getAvator())) {
           uploadAvator("avator/" + mUserStorge.getUser().getMail() + ".jpeg", true);
@@ -294,11 +294,11 @@ import rx.subscriptions.CompositeSubscription;
                     } else {
                       ToastUtil.showShort("保存失败");
                     }
-                    hideLoadingDialog();
+                    //hideLoadingDialog();
                   }
                 }, null);
           }
-        }, throwable -> throwable.printStackTrace(), () -> hideLoadingDialog());
+        }, throwable -> throwable.printStackTrace());
 
     mCompositeSubscription.add(s);
   }
@@ -312,17 +312,21 @@ import rx.subscriptions.CompositeSubscription;
           if (baseData.code == 0) {
             mUserStorge.setUserInfo(mUserInfo);
             mUserInfoDao.update(mUserStorge.getUserInfo());
+            //hideLoadingDialog();
             AccountEditActivity.this.finish();
             ToastUtil.showShort("保存成功");
           } else {
             ToastUtil.showShort("保存失败");
           }
-        }, throwable -> throwable.printStackTrace(), () -> hideLoadingDialog());
+        }, throwable -> {
+          throwable.printStackTrace();
+          //hideLoadingDialog();
+        });
     mCompositeSubscription.add(s);
   }
 
   private String getAvatorUrl() {
-    if (isAvatorChanged) {
+    if (isAvatorChanged || mUserInfoDao.queryBuilder().where(UserInfoDao.Properties.Mail.eq(mUserStorge.getUser().getMail())).build().list().size() > 0){
       return "http://ognz3v7yx.bkt.clouddn.com/avator/" + mUserStorge.getUser().getMail();
     }
     return "";

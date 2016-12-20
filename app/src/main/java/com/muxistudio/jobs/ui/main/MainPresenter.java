@@ -123,22 +123,26 @@ import rx.schedulers.Schedulers;
   @Override public void attachView(@NonNull MainContract.View view) {
     mMainView = view;
     initUserInfo();
-    List<Integer> list = new ArrayList<>();
-    list.add(new Integer(2));
-    list.add(new Integer(1));
-    list.add(new Integer(6));
-    list.add(new Integer(3));
-    list.add(new Integer(7));
-    list.add(new Integer(2));
-    Observable.from(list)
-        .subscribeOn(Schedulers.immediate())
-        .observeOn(Schedulers.immediate())
-        .toSortedList((num, num2) -> num2.compareTo(num))
-        .subscribe(list1 -> {
-          for (int i = 0; i < list1.size(); i++) {
-            Logger.d(list1.get(i) + "");
-          }
-        }, throwable -> throwable.printStackTrace());
+    //List<Integer> list = new ArrayList<>();
+    //list.add(new Integer(2));
+    //list.add(new Integer(1));
+    //list.add(new Integer(6));
+    //list.add(new Integer(3));
+    //list.add(new Integer(7));
+    //list.add(new Integer(2));
+    //Observable.from(list)
+    //    .subscribeOn(Schedulers.immediate())
+    //    .observeOn(Schedulers.immediate())
+    //    .toSortedList((num, num2) -> num2.compareTo(num))
+    //    .subscribe(list1 -> {
+    //      for (int i = 0; i < list1.size(); i++) {
+    //        Logger.d(list1.get(i) + "");
+    //      }
+    //    }, throwable -> throwable.printStackTrace());
+  }
+
+  @Override public void loadUserInfo() {
+    this.initUserInfo();
   }
 
   private void initUserInfo() {

@@ -2,24 +2,21 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="48dp">
+    android:layout_height="match_parent">
 
-  <TextView
-      android:id="@+id/tv_logout"
-      android:text="@string/setting_logout"
+  <ImageView
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:textSize="16sp"
       android:layout_centerInParent="true"
-      android:gravity="center"
-      android:textColor="@color/red"
+      android:id="@+id/iv_logo"
       />
 
-  <View
-      android:layout_width="match_parent"
-      android:layout_height="1px"
+  <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
       android:layout_alignParentBottom="true"
-      android:background="?android:attr/listDivider"
-    />
+      android:id="@+id/tv_team"
+      android:text="百分百火箭队"
+      />
 
 </RelativeLayout>
