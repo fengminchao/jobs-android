@@ -327,7 +327,7 @@ import rx.subscriptions.CompositeSubscription;
 
   private String getAvatorUrl() {
     if (isAvatorChanged || mUserInfoDao.queryBuilder().where(UserInfoDao.Properties.Mail.eq(mUserStorge.getUser().getMail())).build().list().size() > 0){
-      return "http://ognz3v7yx.bkt.clouddn.com/avator/" + mUserStorge.getUser().getMail();
+      return "http://ognz3v7yx.bkt.clouddn.com/avator/" + mUserStorge.getUser().getMail() + ".jpeg";
     }
     return "";
   }

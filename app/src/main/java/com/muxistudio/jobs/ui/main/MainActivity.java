@@ -1,6 +1,7 @@
 package com.muxistudio.jobs.ui.main;
 
 import android.Manifest;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -14,6 +15,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.transition.Transition;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,8 +32,10 @@ import com.muxistudio.jobs.ui.accout.AccountActivity;
 import com.muxistudio.jobs.ui.find.FindFragment;
 import com.muxistudio.jobs.ui.login.LoginActivity;
 import com.muxistudio.jobs.ui.setting.SettingActiviy;
+import com.muxistudio.jobs.ui.setting.SettingFragment;
 import com.muxistudio.jobs.util.CircleTransformation;
 import com.muxistudio.jobs.util.Logger;
+import com.muxistudio.jobs.util.PreferenceUtil;
 import com.muxistudio.jobs.widget.SelectSearchView;
 import com.squareup.picasso.Picasso;
 import hugo.weaving.DebugLog;
@@ -73,11 +77,15 @@ public class MainActivity extends ToolbarActivity
     setContentView(R.layout.activity_main);
     ButterKnife.bind(this);
     mSearchView = (SelectSearchView) findViewById(R.id.search_view);
-    Logger.d(mSearchView == null ? "searchview is null" : "searchview is not null");
-    Logger.d(mTvTest == null ? "tvtest is null" : "tvtest is not null");
-    showFragment(new FindFragment());
+    Logger.d("is setting show:" + PreferenceUtil.getBoolean(PreferenceUtil.IS_SETTING_SHOW));
+    if (PreferenceUtil.getBoolean(PreferenceUtil.IS_SETTING_SHOW)) {
+      showSetting();
+      mToolbar.setTitle("设置");
+    } else {
+      showFragment(new FindFragment());
+      mToolbar.setTitle("招聘");
+    }
     mToolbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
-    mToolbar.setTitle("招聘");
     navView.setNavigationItemSelectedListener(this);
     View headerLayout = navView.getHeaderView(0);
     mAvatorView = (ImageView) headerLayout.findViewById(R.id.header_view);
@@ -150,7 +158,29 @@ public class MainActivity extends ToolbarActivity
   }
 
   @Override public void showSetting() {
-    SettingActiviy.start(this);
+    //SettingActiviy.start(this);
+    //getFragmentManager().beginTransaction()
+    //    .replace(R.id.content, SettingFragment.newInstance(),"setting")
+    //    .commit();
+    //Transa= getFragmentManager().beginTransaction();
+    FragmentTransaction transaction = getFragmentManager().beginTransaction();
+    transaction.replace(R.id.content, SettingFragment.newInstance(), "setting");
+    transaction.addToBackStack(null);
+    transaction.commit();
+    isFindFragment = false;
+
+    Logger.d("setting fm:" + getFragmentManager().getBackStackEntryCount());
+    try {
+      getSupportFragmentManager().beginTransaction()
+          .remove(getSupportFragmentManager().getFragments()
+              .get(getSupportFragmentManager().getFragments().size() - 1))
+          .commit();
+      Logger.d("setting sfm:" + getSupportFragmentManager().getBackStackEntryCount());
+      Logger.d("setting sfm: size " + getSupportFragmentManager().getFragments().size());
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    invalidateOptionsMenu();
   }
 
   @Override public void updateFindFragment(String key) {
@@ -160,11 +190,25 @@ public class MainActivity extends ToolbarActivity
   @Override public void showFragment(Fragment fragment) {
     getSupportFragmentManager().beginTransaction().replace(R.id.content, fragment).commit();
     //getSupportFragmentManager().beginTransaction().addToBackStack(null);
+    if (getSupportFragmentManager().getFragments() != null) {
+      Logger.d("frag sfm:" + getSupportFragmentManager().getFragments().size());
+    }
     Logger.d((fragment instanceof FindFragment) + "");
     if (fragment instanceof FindFragment) {
       isFindFragment = true;
     } else {
       isFindFragment = false;
+    }
+    try {
+      if (getFragmentManager().getBackStackEntryCount() > 0) {
+        getFragmentManager().beginTransaction()
+            .remove(getFragmentManager().findFragmentByTag("setting"))
+            .commit();
+        PreferenceUtil.putBoolean(PreferenceUtil.IS_SETTING_SHOW, false);
+        Logger.d("frag fm: " + getFragmentManager().getBackStackEntryCount());
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
     }
     invalidateOptionsMenu();
   }
@@ -173,8 +217,7 @@ public class MainActivity extends ToolbarActivity
 
   }
 
-  @DebugLog
-  @Override public void renderTags(List<String> tagList, List<String> historyList) {
+  @DebugLog @Override public void renderTags(List<String> tagList, List<String> historyList) {
     mSearchView.setSearchTag(tagList);
     mSearchView.setSearchHistory(historyList);
   }

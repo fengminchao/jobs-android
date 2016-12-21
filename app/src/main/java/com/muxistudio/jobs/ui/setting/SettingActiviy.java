@@ -87,7 +87,7 @@ public class SettingActiviy extends PreferenceActivity implements
     if (preference.getKey().equals(getString(R.string.key_theme))){
       ((BaseActivity) mContext).reload();
       sp.putBoolean(getString(R.string.key_theme),Boolean.parseBoolean(newValue.toString()));
-      sp.putInt(PreferenceUtil.IS_NIGHT_THEME,(Boolean)newValue ? R.style.AppThemeDark : R.style.AppThemeLight);
+      sp.putBoolean(PreferenceUtil.IS_NIGHT_THEME,(boolean) newValue);
     }else if (preference.getKey().equals(getString(R.string.key_notify))){
       changeNotify(Boolean.valueOf(newValue.toString()));
       sp.putBoolean(getString(R.string.key_notify),Boolean.parseBoolean(newValue.toString()));

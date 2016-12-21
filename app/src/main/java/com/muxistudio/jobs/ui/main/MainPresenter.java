@@ -7,8 +7,10 @@ import android.view.MenuItem;
 import com.muxistudio.jobs.Constant;
 import com.muxistudio.jobs.db.History;
 import com.muxistudio.jobs.db.HistoryDao;
+import com.muxistudio.jobs.ui.about.AboutFragment;
 import com.muxistudio.jobs.ui.collection.CollectionFragment;
 import com.muxistudio.jobs.ui.schedule.ScheduleFragment;
+import com.muxistudio.jobs.ui.setting.SettingFragment;
 import com.muxistudio.jobs.util.Logger;
 import com.muxistudio.jobs.R;
 import com.muxistudio.jobs.api.UserStorge;
@@ -106,11 +108,11 @@ import rx.schedulers.Schedulers;
       case R.id.action_discuss:
         break;
       case R.id.action_setting:
+        //mMainView.showFragment(SettingFragment.newInstance());
         mMainView.showSetting();
         break;
       case R.id.action_about:
-        mUserStorge.logout();
-        mMainView.showLoginUi();
+        mMainView.showFragment(AboutFragment.newInstance());
         break;
     }
     mMainView.setTitle(item.getTitle().toString());

@@ -13,11 +13,11 @@
       android:paddingLeft="10dp"
       android:paddingRight="10dp"
       android:elevation="4dp"
-      app:compactCalendarBackgroundColor="#ffffff"
+      app:compactCalendarBackgroundColor="?attr/widgetBackground"
       app:compactCalendarCurrentDayBackgroundColor="@color/colorPrimary"
       app:compactCalendarCurrentSelectedDayBackgroundColor="@color/colorPrimary"
       app:compactCalendarMultiEventIndicatorColor="@color/colorPrimary"
-      app:compactCalendarTextColor="#575757"
+      app:compactCalendarTextColor="?android:attr/textColorSecondary"
       app:compactCalendarTextSize="12sp"
       />
 

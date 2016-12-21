@@ -13,6 +13,7 @@ public class PreferenceUtil {
 
     public static final String USER_MAIL = "user_mail";
     public static final String IS_NIGHT_THEME = "is_night_theme";
+    public static final String IS_SETTING_SHOW = "is_setting_show";
 
     public static void putInt(String key,int value){
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(App.sContext);

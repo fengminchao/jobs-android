@@ -16,6 +16,8 @@
       android:layout_height="wrap_content"
       android:layout_alignParentBottom="true"
       android:id="@+id/tv_team"
+      android:layout_centerHorizontal="true"
+      android:layout_marginBottom="64dp"
       android:text="百分百火箭队"
       />
 

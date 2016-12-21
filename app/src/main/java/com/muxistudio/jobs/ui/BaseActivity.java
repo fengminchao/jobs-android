@@ -44,8 +44,13 @@ public abstract class BaseActivity extends AppCompatActivity {
       return;
     }
     if (theme != R.style.AppThemeSplash) {
-      theme = PreferenceUtil.getBoolean(PreferenceUtil.IS_NIGHT_THEME) ? R.style.AppThemeDark
-          : R.style.AppThemeLight;
+      if (PreferenceUtil.getBoolean(PreferenceUtil.IS_NIGHT_THEME)){
+        theme = R.style.AppThemeDark;
+      }else {
+        theme = R.style.AppThemeLight;
+      }
+      //theme = PreferenceUtil.getBoolean(PreferenceUtil.IS_NIGHT_THEME) ? R.style.AppThemeDark
+      //    : R.style.AppThemeLight;
     }
 
     setTheme(theme);
