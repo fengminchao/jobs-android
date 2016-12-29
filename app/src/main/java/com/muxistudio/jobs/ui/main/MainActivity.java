@@ -64,6 +64,7 @@ public class MainActivity extends ToolbarActivity
 
   //指示当前的 fragment 是否是findfragment
   private boolean isFindFragment = true;
+  private boolean isSettingFragmentShow = false;
 
   private MainComponent mMainComponent;
   @Inject MainPresenter mPresenter;
@@ -94,7 +95,12 @@ public class MainActivity extends ToolbarActivity
     mAvatorView.setOnClickListener(v -> {
       mPresenter.onAccountClick();
     });
+    isSettingFragmentShow = PreferenceUtil.getBoolean(PreferenceUtil.IS_SETTING_SHOW);
+    if (isSettingFragmentShow){
+      navView.setCheckedItem(R.id.action_setting);
+    }
     mPresenter.attachView(this);
+
     checkPermissionIsGranted();
     //if (isAppPermissionGranted()){
     //  Logger.d("permission has granted");
@@ -125,14 +131,6 @@ public class MainActivity extends ToolbarActivity
       case R.id.action_search:
         mPresenter.onSearchClick();
         mSearchView.showSearchView();
-        //List<String> list = new ArrayList<>();
-        //list.add("tag1");
-        //list.add("tag2");
-        //for (int i = 0; i < 20; i++) {
-        //  list.add("tag" + i);
-        //}
-        //mSearchView.setSearchTag(list);
-        // load query text in FindFragment
         mSearchView.setOnSeachViewListener(query -> {
           ((FindFragment) getSupportFragmentManager().findFragmentById(R.id.content)).loadQuery(
               query);
@@ -169,17 +167,16 @@ public class MainActivity extends ToolbarActivity
     transaction.commit();
     isFindFragment = false;
 
-    Logger.d("setting fm:" + getFragmentManager().getBackStackEntryCount());
-    try {
+    if (isSettingFragmentShow == false) {
       getSupportFragmentManager().beginTransaction()
           .remove(getSupportFragmentManager().getFragments()
               .get(getSupportFragmentManager().getFragments().size() - 1))
           .commit();
       Logger.d("setting sfm:" + getSupportFragmentManager().getBackStackEntryCount());
       Logger.d("setting sfm: size " + getSupportFragmentManager().getFragments().size());
-    } catch (Exception e) {
-      e.printStackTrace();
     }
+
+    isSettingFragmentShow = true;
     invalidateOptionsMenu();
   }
 
@@ -199,17 +196,14 @@ public class MainActivity extends ToolbarActivity
     } else {
       isFindFragment = false;
     }
-    try {
-      if (getFragmentManager().getBackStackEntryCount() > 0) {
-        getFragmentManager().beginTransaction()
-            .remove(getFragmentManager().findFragmentByTag("setting"))
-            .commit();
-        PreferenceUtil.putBoolean(PreferenceUtil.IS_SETTING_SHOW, false);
-        Logger.d("frag fm: " + getFragmentManager().getBackStackEntryCount());
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
+    if (isSettingFragmentShow) {
+      getFragmentManager().beginTransaction()
+          .remove(getFragmentManager().findFragmentByTag("setting"))
+          .commit();
+      PreferenceUtil.putBoolean(PreferenceUtil.IS_SETTING_SHOW, false);
+      Logger.d("frag fm: " + getFragmentManager().getBackStackEntryCount());
     }
+    isSettingFragmentShow = false;
     invalidateOptionsMenu();
   }
 

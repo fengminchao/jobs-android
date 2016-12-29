@@ -44,6 +44,7 @@ import rx.schedulers.Schedulers;
         .where(CollectionDao.Properties.Mail.eq(mUserStorge.getUser().getMail()))
         .build()
         .list();
+    mView.renderCollection(mCollections);
     Subscription s = mUserApi.getUserService()
         .getCollections()
         .subscribeOn(Schedulers.io())
