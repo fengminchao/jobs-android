@@ -3,6 +3,10 @@ package com.muxistudio.jobs.api.user;
 import com.muxistudio.jobs.bean.BaseData;
 import com.muxistudio.jobs.bean.CollectionData;
 import com.muxistudio.jobs.bean.CollectionResult;
+import com.muxistudio.jobs.bean.PostContent;
+import com.muxistudio.jobs.bean.PostData;
+import com.muxistudio.jobs.bean.PostDetailResult;
+import com.muxistudio.jobs.bean.PostListResult;
 import com.muxistudio.jobs.bean.TokenResult;
 import com.muxistudio.jobs.bean.UserInfoResult;
 import com.muxistudio.jobs.data.UserStorge;
@@ -10,6 +14,7 @@ import com.muxistudio.jobs.data.UserStorge;
 import com.muxistudio.jobs.db.Collection;
 import com.muxistudio.jobs.db.User;
 import com.muxistudio.jobs.db.UserInfo;
+import hugo.weaving.DebugLog;
 import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -39,7 +44,7 @@ public interface UserService {
   /**
    * {mail,pwd,authCode}
    */
-  @POST("user/regiseter") Observable<BaseData> registerByAuth(@Body User user);
+  @POST("user/register") Observable<BaseData> registerByAuth(@Body User user);
 
   @POST("user/login") Observable<TokenResult> login(@Body User user);
 
@@ -82,4 +87,36 @@ public interface UserService {
 
   @DELETE("collection/{id}/")
   Observable<BaseData> removeCollection(@Path("id") int id);
+
+  @POST("posts")
+  Observable<BaseData> newPost(@Body PostContent postContent);
+
+  @PUT("posts/{pid}")
+  Observable<BaseData> changePost(@Body PostContent postContent);
+
+  @DELETE("posts/{pid}")
+  Observable<BaseData> deletePost(@Header("Authorization") String auth);
+
+  @POST("posts/collections/{pid}")
+  Observable<BaseData> collectPost(@Header("Authorization") String auth,@Body PostData postData);
+
+  @DELETE("posts/collections/{pid}")
+  Observable<BaseData> deletePostCollection(@Header("Authorization") String auth);
+
+  @GET("posts/collections")
+  Observable<PostListResult> getPostCollections(@Header("Authorization") String auth);
+
+  @POST("posts/{pid}/reply")
+  Observable<BaseData> replyPost(@Header("Authorization") String auth,@Body String content,@Path("pid")int pid);
+
+  @DELETE("posts/{pid}/reply/{rid}")
+  Observable<BaseData> deletePostReply(@Header("Authorization") String auth,@Path("pid") int pid,@Path("rid") int rid);
+
+  @GET("posts")
+  Observable<PostListResult> getPostList();
+
+  @GET("posts/{pid}")
+  Observable<PostDetailResult> getPostDetail(@Path("pid") int pid);
+
+
 }

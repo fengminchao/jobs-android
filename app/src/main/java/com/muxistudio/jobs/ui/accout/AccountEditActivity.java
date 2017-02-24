@@ -162,7 +162,7 @@ import rx.subscriptions.CompositeSubscription;
             .into(mIvAvator);
       }
     } else {
-      Picasso.with(this).load(R.drawable.cat).transform(new CircleTransformation()).into(mIvAvator);
+      Picasso.with(this).load(R.drawable.default_avator).transform(new CircleTransformation()).into(mIvAvator);
     }
   }
 

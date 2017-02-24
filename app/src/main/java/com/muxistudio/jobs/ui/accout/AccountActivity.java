@@ -3,10 +3,8 @@ package com.muxistudio.jobs.ui.accout;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -29,7 +27,7 @@ import javax.inject.Inject;
 
   @Inject UserStorge mUserStorge;
   @BindView(R.id.iv_avator) ImageView mIvAvator;
-  @BindView(R.id.tv_name) TextView mTvName;
+  @BindView(R.id.ee) TextView mTvName;
   @BindView(R.id.tv_gender) TextView mTvGender;
   @BindView(R.id.tv_place) TextView mTvPlace;
   @BindView(R.id.tv_birth) TextView mTvBirth;
@@ -84,7 +82,7 @@ import javax.inject.Inject;
           .transform(new CircleTransformation())
           .into(mIvAvator);
     } else {
-      Picasso.with(this).load(R.drawable.cat).transform(new CircleTransformation()).into(mIvAvator);
+      Picasso.with(this).load(R.drawable.default_avator).transform(new CircleTransformation()).into(mIvAvator);
     }
     mTvName.setText(mUserStorge.getUserInfo().getName());
     mTvGender.setText(mUserStorge.getUserInfo().getGender());

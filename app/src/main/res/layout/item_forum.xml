@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="4dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:layout_marginTop="4dp"
+    app:cardElevation="4dp"
+    android:id="@+id/cardview"
+    >
+  <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_marginBottom="4dp"
+      android:layout_marginLeft="8dp"
+      android:layout_marginRight="8dp"
+      android:layout_marginTop="4dp"
+      >
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:id="@+id/tv_title"-->
+    <!--tools:text="post title"-->
+    <!--android:textSize="@dimen"-->
+    <!--/>-->
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="4dp"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="18sp"
+        tools:text="title"
+        />
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tv_title"
+        android:layout_alignStart="@+id/tv_title"
+        android:layout_below="@+id/tv_title"
+        tools:text="title"
+        android:textColor="?android:attr/textColorSecondary"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tv_content"
+        android:layout_marginTop="4dp"
+        android:gravity="center_vertical"
+        >
+      <ImageView
+          android:id="@+id/iv_avator"
+          android:layout_width="20dp"
+          android:layout_height="20dp"
+          app:srcCompat="@drawable/bg_empty"
+          />
+
+      <TextView
+          android:id="@+id/tv_name"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_centerVertical="true"
+          android:layout_marginLeft="4dp"
+          android:layout_toRightOf="@+id/iv_avator"
+          android:textColor="?android:attr/textColorSecondary"
+          tools:text="author"
+          />
+
+      <TextView
+          android:id="@+id/tv_click"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_toLeftOf="@+id/tv_reply"
+          android:textColor="?android:attr/textColorSecondary"
+          tools:text="author"
+          />
+      <TextView
+          android:id="@+id/tv_reply"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_toLeftOf="@+id/tv_time"
+          android:layout_marginLeft="8dp"
+          android:textColor="?android:attr/textColorSecondary"
+          tools:text="author"
+          />
+      <TextView
+          android:id="@+id/tv_time"
+          android:layout_width="wrap_content"
+          android:layout_marginLeft="8dp"
+          android:layout_height="wrap_content"
+          android:layout_alignParentRight="true"
+          android:textColor="?android:attr/textColorSecondary"
+          tools:text="author"
+          />
+    </RelativeLayout>
+
+  </RelativeLayout>
+</android.support.v7.widget.CardView>

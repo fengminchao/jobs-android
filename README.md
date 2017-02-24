@@ -1,2 +1,21 @@
 # Jobs
-一款汇集了湖北各大高校的招聘宣讲信息的 app，帮助用户管理招聘日程，通过用户的个人信息，来推荐适合他参加的招聘信息。
+
+## 介绍
+
+Jobs 是一款汇集了湖北各大高校的招聘宣讲信息，帮助用户管理招聘信息的应用，实现了头像上传，夜间主题无缝切换等功能。应用 MVP+Retrofit+Dagger2+RxJava实现。
+
+## 下载
+
+[apk文件下载](./app/jobs.apk)
+
+[应用商店下载](http://www.anzhi.com/soft_2743270.html)
+
+## 应用截图
+
+![](./screenshots/main.png) ![](./screenshots/nav.png)
+
+![](./screenshots/person.png) ![](./screenshots/main_night.png)
+
+
+
+

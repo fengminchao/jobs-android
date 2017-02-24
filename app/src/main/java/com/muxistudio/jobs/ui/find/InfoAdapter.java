@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.muxistudio.jobs.Constant;
 import com.muxistudio.jobs.R;
 import com.muxistudio.jobs.bean.InfoData;
 import com.muxistudio.jobs.util.Logger;
@@ -49,7 +50,11 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.ViewHolder> {
           v -> mItemClickListener.onItemClick(mInfoDatas.get(position).id));
     }
     Logger.d(position + "");
-    Picasso.with(mContext).load(Uri.parse(mInfoDatas.get(position).logoUrl)).into(holder.mIvLogo);
+    if (type == Constant.TYPE_ZP) {
+      Picasso.with(mContext).load(R.drawable.ic_employ).into(holder.mIvLogo);
+    } else {
+      Picasso.with(mContext).load(Uri.parse(mInfoDatas.get(position).logoUrl)).into(holder.mIvLogo);
+    }
     holder.mTvTitle.setText(mInfoDatas.get(position).title);
     holder.mTvTime.setText(mInfoDatas.get(position).time);
     holder.mTvPlace.setText(mInfoDatas.get(position).place);

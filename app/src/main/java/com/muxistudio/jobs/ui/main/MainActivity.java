@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -15,7 +14,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.transition.Transition;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,7 +29,6 @@ import com.muxistudio.jobs.ui.ToolbarActivity;
 import com.muxistudio.jobs.ui.accout.AccountActivity;
 import com.muxistudio.jobs.ui.find.FindFragment;
 import com.muxistudio.jobs.ui.login.LoginActivity;
-import com.muxistudio.jobs.ui.setting.SettingActiviy;
 import com.muxistudio.jobs.ui.setting.SettingFragment;
 import com.muxistudio.jobs.util.CircleTransformation;
 import com.muxistudio.jobs.util.Logger;
@@ -39,7 +36,6 @@ import com.muxistudio.jobs.util.PreferenceUtil;
 import com.muxistudio.jobs.widget.SelectSearchView;
 import com.squareup.picasso.Picasso;
 import hugo.weaving.DebugLog;
-import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 
@@ -80,6 +76,7 @@ public class MainActivity extends ToolbarActivity
     mSearchView = (SelectSearchView) findViewById(R.id.search_view);
     Logger.d("is setting show:" + PreferenceUtil.getBoolean(PreferenceUtil.IS_SETTING_SHOW));
     if (PreferenceUtil.getBoolean(PreferenceUtil.IS_SETTING_SHOW)) {
+      isSettingFragmentShow = true;
       showSetting();
       mToolbar.setTitle("设置");
     } else {
@@ -91,11 +88,12 @@ public class MainActivity extends ToolbarActivity
     View headerLayout = navView.getHeaderView(0);
     mAvatorView = (ImageView) headerLayout.findViewById(R.id.header_view);
 
-    mTvName = (TextView) headerLayout.findViewById(R.id.tv_name);
+    mTvName = (TextView) headerLayout.findViewById(R.id.ee);
     mAvatorView.setOnClickListener(v -> {
       mPresenter.onAccountClick();
     });
     isSettingFragmentShow = PreferenceUtil.getBoolean(PreferenceUtil.IS_SETTING_SHOW);
+    Logger.d("isSettingFragmentShow" + isSettingFragmentShow);
     if (isSettingFragmentShow){
       navView.setCheckedItem(R.id.action_setting);
     }
@@ -231,7 +229,7 @@ public class MainActivity extends ToolbarActivity
   @Override public void renderAccountAvator(String url) {
     if (TextUtils.isEmpty(url)) {
       Picasso.with(this)
-          .load(R.drawable.cat)
+          .load(R.drawable.default_avator)
           .transform(new CircleTransformation())
           .into(mAvatorView);
       return;

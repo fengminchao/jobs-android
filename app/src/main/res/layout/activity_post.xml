@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorWhite"
+    >
+
+  <include layout="@layout/view_toolbar"/>
+
+  <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginLeft="16dp"
+      android:layout_marginTop="8dp"
+      android:layout_marginRight="16dp"
+      android:text="标题"
+      android:textColor="?android:attr/textColorPrimary"
+      android:textSize="@dimen/textsize_medium"
+      />
+
+  <EditText
+      android:id="@+id/et_title"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginLeft="@dimen/activity_horizontal_margin"
+      android:layout_marginRight="@dimen/activity_horizontal_margin"
+      android:textSize="@dimen/textsize_medium"
+      tools:text="title"
+      />
+
+  <EditText
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_margin="@dimen/activity_horizontal_margin"
+      android:id="@+id/et_content"
+      android:hint="输入内容"
+      android:textSize="16sp"
+      android:gravity="top"
+      />
+
+</LinearLayout>

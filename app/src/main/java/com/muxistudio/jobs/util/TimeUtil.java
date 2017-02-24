@@ -24,6 +24,25 @@ public class TimeUtil {
     return format.format(date);
   }
 
+  /**
+   * 返回帖子中的几分钟前，几小时前的时间字符串
+   * @param date
+   * @return
+   */
+  public static String toTimeInPost(Date date){
+    Date now = new Date();
+    long dis = now.getTime() - date.getTime();
+    if (dis < 60){
+      return (dis + "秒前");
+    }else if(dis < 60 * 60){
+      return (dis / 60 + "分钟前");
+    }else if (dis < 60 * 60 * 24){
+      return (dis / 60 / 60 + "小时前");
+    }else {
+      return toDate(date);
+    }
+  }
+
   public static String parseDate(String s){
     try {
       String date = s.substring(0,10);

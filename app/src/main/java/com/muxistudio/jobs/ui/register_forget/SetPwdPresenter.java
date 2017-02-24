@@ -9,8 +9,10 @@ import com.muxistudio.jobs.db.User;
 import com.muxistudio.jobs.injector.PerActivity;
 import com.muxistudio.jobs.ui.SubscriptionPresenter;
 import com.muxistudio.jobs.util.Logger;
+import com.muxistudio.jobs.util.MD5Util;
 import com.muxistudio.jobs.util.RegexUtil;
 import com.muxistudio.jobs.util.ToastUtil;
+import java.security.NoSuchAlgorithmException;
 import javax.inject.Inject;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -90,7 +92,11 @@ import rx.schedulers.Schedulers;
     mView.showLoading();
     User user = new User();
     user.setMail(mail);
-    user.setPwd(pwd);
+    try {
+      user.setPwd(MD5Util.getMD5(pwd));
+    } catch (NoSuchAlgorithmException e) {
+      e.printStackTrace();
+    }
     user.setAuthCode(Integer.valueOf(auth));
     Subscription s = mUserApi.getUserService()
         .registerByAuth(user)
