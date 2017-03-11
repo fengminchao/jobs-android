@@ -2,6 +2,7 @@ package com.muxistudio.jobs.net;
 
 import android.text.TextUtils;
 
+import com.muxistudio.jobs.api.user.UserApi;
 import com.muxistudio.jobs.util.Logger;
 import com.muxistudio.jobs.api.UserStorge;
 
@@ -28,14 +29,17 @@ public class TokenInterceptor implements Interceptor {
     //Logger.d(mUserStorge.getToken());
     Request authorised = null;
     Logger.d(originRequest.url().host());
+    Response response = null;
     if (!originRequest.url().host().equals("api.haitou.cc") && mUserStorge.getToken() != null) {
       authorised =
           originRequest.newBuilder().header("Authorization", mUserStorge.getToken()).build();
       Logger.d("Authorization:" + mUserStorge.getToken());
-      return chain.proceed(authorised);
+      response = chain.proceed(authorised);
+      return response;
     }
 
-    return chain.proceed(originRequest);
+    response = chain.proceed(originRequest);
+    return response;
   }
 
   public boolean hasAuthorizationHeader(Request request) {
