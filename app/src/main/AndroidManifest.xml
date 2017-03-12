@@ -42,7 +42,7 @@
 
     <activity android:name=".ui.web.WebActivity"/>
 
-    <activity android:name=".ui.forum.NewPostActivity"/>
+    <activity android:name=".ui.forum.EditPostActivity"/>
 
     <activity android:name=".ui.forum.PostDetailActivity"/>
 

@@ -13,7 +13,7 @@ import dagger.Component;
 @Component(dependencies = ApplicationComponent.class)
 public interface ForumComponent {
 
-    void inject(NewPostActivity newPostActivity);
+    void inject(EditPostActivity editPostActivity);
 
     void inject(PostDetailActivity postDetailActivity);
 }

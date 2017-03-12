@@ -10,6 +10,7 @@ import com.muxistudio.jobs.R;
 import com.muxistudio.jobs.bean.PostData;
 import com.muxistudio.jobs.ui.BaseFragment;
 import com.muxistudio.jobs.ui.main.MainActivity;
+import com.muxistudio.jobs.util.Logger;
 import com.muxistudio.jobs.util.ToastUtil;
 
 import java.util.ArrayList;
@@ -53,9 +54,10 @@ public class ForumFragment extends BaseFragment implements ForumContract.View {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onResume() {
+        super.onResume();
         mForumPresenter.loadPostList();
+        Logger.d("onresume");
     }
 
     @Override
@@ -105,7 +107,7 @@ public class ForumFragment extends BaseFragment implements ForumContract.View {
     }
 
     public void showNewPostUi() {
-        NewPostActivity.start(getActivity(), true);
+        EditPostActivity.start(getActivity(), true,null);
     }
 
     @Override

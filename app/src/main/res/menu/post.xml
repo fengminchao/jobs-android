@@ -4,6 +4,7 @@
 
   <item
       android:id="@+id/action_ok"
+      android:title="ensure"
       android:icon="@drawable/ic_check_white_24dp"
       app:showAsAction="always"
       />

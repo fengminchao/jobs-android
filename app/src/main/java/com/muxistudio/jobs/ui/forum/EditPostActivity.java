@@ -2,7 +2,6 @@ package com.muxistudio.jobs.ui.forum;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -13,12 +12,15 @@ import com.muxistudio.jobs.R;
 import com.muxistudio.jobs.api.UserStorge;
 import com.muxistudio.jobs.api.user.UserApi;
 import com.muxistudio.jobs.bean.PostContent;
+import com.muxistudio.jobs.bean.PostData;
+import com.muxistudio.jobs.bean.PostDetailResult;
 import com.muxistudio.jobs.ui.ToolbarActivity;
 import com.muxistudio.jobs.util.ToastUtil;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -26,7 +28,7 @@ import rx.schedulers.Schedulers;
  * Created by ybao on 17/1/3.
  */
 
-public class NewPostActivity extends ToolbarActivity {
+public class EditPostActivity extends ToolbarActivity {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -40,11 +42,16 @@ public class NewPostActivity extends ToolbarActivity {
     @Inject
     UserApi mUserApi;
 
+    private PostContent mPostContent = new PostContent();
+
     private boolean isNewPost = false;
 
-    public static void start(Context context, boolean isNewPost) {
-        Intent starter = new Intent(context, NewPostActivity.class);
-        starter.putExtra("isNewPost", isNewPost);
+    public static void start(Context context, boolean isNewPost,PostData postData) {
+        Intent starter = new Intent(context, EditPostActivity.class);
+        starter.putExtra("is_new_post", isNewPost);
+        if (postData != null){
+            starter.putExtra("post_data",postData);
+        }
         context.startActivity(starter);
     }
 
@@ -57,11 +64,15 @@ public class NewPostActivity extends ToolbarActivity {
     @Override
     protected void initView() {
         setContentView(R.layout.activity_post);
-        isNewPost = getIntent().getBooleanExtra("isNewPost", false);
+        ButterKnife.bind(this);
+        isNewPost = getIntent().getBooleanExtra("is_new_post", false);
         setTitle(isNewPost ? "发布帖子" : "修改帖子");
         if (!isNewPost) {
-            mEtTitle.setText(getIntent().getStringExtra("title"));
-            mEtContent.setText(getIntent().getStringExtra("content"));
+            PostData postData = getIntent().getParcelableExtra("post_data");
+            mPostContent.title = postData.title;
+            mPostContent.content = postData.content;
+            mEtTitle.setText(mPostContent.title);
+            mEtContent.setText(mPostContent.content);
         }
         mToolbar.setNavigationIcon(R.drawable.ic_clear_white_24dp);
     }
@@ -73,11 +84,10 @@ public class NewPostActivity extends ToolbarActivity {
                 ToastUtil.showShort("请完善帖子信息");
                 return super.onOptionsItemSelected(item);
             }
-            PostContent content = new PostContent();
-            content.title = mEtTitle.getText().toString();
-            content.content = mEtContent.getText().toString();
+            mPostContent.title = mEtTitle.getText().toString();
+            mPostContent.content = mEtContent.getText().toString();
             if (isNewPost) {
-                mUserApi.getUserService().newPost(content)
+                mUserApi.getUserService().newPost(mPostContent)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(baseData -> {
@@ -90,7 +100,7 @@ public class NewPostActivity extends ToolbarActivity {
                             ToastUtil.showShort("请检查网络连接");
                         });
             } else {
-                mUserApi.getUserService().changePost(content)
+                mUserApi.getUserService().changePost(mPostContent)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(baseData -> {
@@ -109,7 +119,7 @@ public class NewPostActivity extends ToolbarActivity {
 
     @Override
     protected void initInjector() {
-
+        DaggerForumComponent.builder().applicationComponent(getApplicationComponent()).build().inject(this);
     }
 
 }

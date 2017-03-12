@@ -10,7 +10,7 @@ public class PostDetailResult extends BaseData {
 
     public PostData postData;
 
-    public class PostDetailData {
+    public static class PostDetailData {
 
         public PostData topic;
         public List<ReplyData> replys;
