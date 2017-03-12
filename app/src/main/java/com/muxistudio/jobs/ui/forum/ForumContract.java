@@ -1,10 +1,9 @@
 package com.muxistudio.jobs.ui.forum;
 
 import com.muxistudio.jobs.bean.PostData;
-import com.muxistudio.jobs.bean.PostListResult;
+import com.muxistudio.jobs.ui.BaseNormalView;
 import com.muxistudio.jobs.ui.BasePresenter;
-import com.muxistudio.jobs.ui.BaseView;
-import com.qiniu.android.http.PostArgs;
+
 import java.util.List;
 
 /**
@@ -13,19 +12,24 @@ import java.util.List;
 
 public class ForumContract {
 
-  interface View extends BaseView {
+    interface View extends BaseNormalView {
 
-    void renderPostList(List<PostData> postDatas,boolean clean);
+        void renderPostList(List<PostData> postDatas, boolean clean);
 
-    void showPostDetail(int pid);
+        void showPostDetail(int pid);
 
-    void showNewPostUi();
+        void showNewPostUi();
 
-  }
+        void showRefreshView();
 
-  interface Presenter extends BasePresenter<View>{
+        void hideRefreshView();
 
+    }
 
+    interface Presenter extends BasePresenter<View> {
 
-  }
+        void onPostItemClick(int position);
+
+        void loadPostList();
+    }
 }

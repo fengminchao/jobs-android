@@ -1,10 +1,10 @@
 package com.muxistudio.jobs.injector;
 
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
 import java.lang.annotation.Retention;
 
 import javax.inject.Scope;
-
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Created by ybao on 16/10/16.

@@ -1,8 +1,5 @@
 package com.muxistudio.jobs.bean;
 
-import android.os.Parcelable;
-import java.io.Serializable;
-
 /**
  * Created by ybao on 16/10/20.
  * 基本的返回值,返回 code 和 msg
@@ -11,7 +8,7 @@ import java.io.Serializable;
 
 public class BaseData {
 
-  public int code;
-  public String msg;
+    public int code;
+    public String msg;
 
 }

@@ -3,37 +3,38 @@ package com.muxistudio.jobs.ui.find;
 import com.muxistudio.jobs.bean.InfoData;
 import com.muxistudio.jobs.ui.BasePresenter;
 import com.muxistudio.jobs.ui.BaseView;
+
 import java.util.List;
 
 /**
  * Created by ybao on 16/11/10.
  */
 
-public class InfoContract{
+public class InfoContract {
 
-  interface View extends BaseView{
+    interface View extends BaseView {
 
-    void renderInfoList(List<InfoData> infoDatas);
+        void renderInfoList(List<InfoData> infoDatas);
 
-    void renderMoreData(List<InfoData> infoDatas);
+        void renderMoreData(List<InfoData> infoDatas);
 
-    void renderSearchData(List<InfoData> infoDatas);
+        void renderSearchData(List<InfoData> infoDatas);
 
-    void showEnd();
+        void showEnd();
 
-    void showLoading();
+        void showLoading();
 
-    void hideLoading();
+        void hideLoading();
 
-    void enterDetailPage(int id,int type);
-  }
+        void enterDetailPage(int id, int type);
+    }
 
-  interface Presenter extends BasePresenter<View>{
+    interface Presenter extends BasePresenter<View> {
 
-    void onItemClick(int id);
+        void onItemClick(int id);
 
-    void loadData(int page,int type,boolean clean);
+        void loadData(int page, int type, boolean clean);
 
-    void searchData(String query,int page,int type,boolean clean);
-  }
+        void searchData(String query, int page, int type, boolean clean);
+    }
 }

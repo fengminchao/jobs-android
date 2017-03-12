@@ -17,7 +17,7 @@ public class ApiModule {
 
     @Provides
     @Singleton
-    public UserApi provideUserApi(OkHttpClient client){
+    public UserApi provideUserApi(OkHttpClient client) {
         return new UserApi(client);
     }
 

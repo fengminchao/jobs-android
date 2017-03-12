@@ -6,6 +6,6 @@ package com.muxistudio.jobs.bean;
 
 public class PostContent {
 
-  public String title;
-  public String content;
+    public String title;
+    public String content;
 }

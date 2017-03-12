@@ -21,8 +21,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import butterknife.BindView;
-import butterknife.ButterKnife;
+
 import com.muxistudio.jobs.R;
 import com.muxistudio.jobs.injector.HasComponent;
 import com.muxistudio.jobs.ui.ToolbarActivity;
@@ -35,257 +34,292 @@ import com.muxistudio.jobs.util.Logger;
 import com.muxistudio.jobs.util.PreferenceUtil;
 import com.muxistudio.jobs.widget.SelectSearchView;
 import com.squareup.picasso.Picasso;
-import hugo.weaving.DebugLog;
+
 import java.util.List;
+
 import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import hugo.weaving.DebugLog;
 
 /**
  * Created by ybao on 16/11/1.
  */
 
 public class MainActivity extends ToolbarActivity
-    implements MainContract.View, HasComponent<MainComponent>,
-    NavigationView.OnNavigationItemSelectedListener {
+        implements MainContract.View, HasComponent<MainComponent>,
+        NavigationView.OnNavigationItemSelectedListener {
 
-  @BindView(R.id.content) FrameLayout content;
-  @BindView(R.id.nav_view) NavigationView navView;
-  @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
-  @BindView(R.id.toolbar) Toolbar mToolbar;
-  @BindView(R.id.tv_test) TextView mTvTest;
-  //@BindView(R.id.searchview) SelectSearchView mSearchview;
-  private SelectSearchView mSearchView;
+    @BindView(R.id.content)
+    FrameLayout content;
+    @BindView(R.id.nav_view)
+    NavigationView navView;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawerLayout;
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+    @BindView(R.id.tv_test)
+    TextView mTvTest;
+    @Inject
+    MainPresenter mPresenter;
+    //@BindView(R.id.searchview) SelectSearchView mSearchview;
+    private SelectSearchView mSearchView;
+    private ImageView mAvatorView;
+    private TextView mTvName;
+    //指示当前的 fragment 是否是findfragment
+    private boolean isFindFragment = true;
+    private boolean isSettingFragmentShow = false;
+    private MainComponent mMainComponent;
 
-  private ImageView mAvatorView;
-  private TextView mTvName;
-
-  //指示当前的 fragment 是否是findfragment
-  private boolean isFindFragment = true;
-  private boolean isSettingFragmentShow = false;
-
-  private MainComponent mMainComponent;
-  @Inject MainPresenter mPresenter;
-
-  public static void startActivity(Context context) {
-    Intent intent = new Intent(context, MainActivity.class);
-    context.startActivity(intent);
-  }
-
-  @Override protected void initView() {
-    setContentView(R.layout.activity_main);
-    ButterKnife.bind(this);
-    mSearchView = (SelectSearchView) findViewById(R.id.search_view);
-    Logger.d("is setting show:" + PreferenceUtil.getBoolean(PreferenceUtil.IS_SETTING_SHOW));
-    if (PreferenceUtil.getBoolean(PreferenceUtil.IS_SETTING_SHOW)) {
-      isSettingFragmentShow = true;
-      showSetting();
-      mToolbar.setTitle("设置");
-    } else {
-      showFragment(new FindFragment());
-      mToolbar.setTitle("招聘");
+    public static void startActivity(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        context.startActivity(intent);
     }
-    mToolbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
-    navView.setNavigationItemSelectedListener(this);
-    View headerLayout = navView.getHeaderView(0);
-    mAvatorView = (ImageView) headerLayout.findViewById(R.id.header_view);
 
-    mTvName = (TextView) headerLayout.findViewById(R.id.ee);
-    mAvatorView.setOnClickListener(v -> {
-      mPresenter.onAccountClick();
-    });
-    isSettingFragmentShow = PreferenceUtil.getBoolean(PreferenceUtil.IS_SETTING_SHOW);
-    Logger.d("isSettingFragmentShow" + isSettingFragmentShow);
-    if (isSettingFragmentShow){
-      navView.setCheckedItem(R.id.action_setting);
-    }
-    mPresenter.attachView(this);
+    @Override
+    protected void initView() {
+        setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
+        mSearchView = (SelectSearchView) findViewById(R.id.search_view);
+        Logger.d("is setting show:" + PreferenceUtil.getBoolean(PreferenceUtil.IS_SETTING_SHOW));
+        if (PreferenceUtil.getBoolean(PreferenceUtil.IS_SETTING_SHOW)) {
+            isSettingFragmentShow = true;
+            showSetting();
+            mToolbar.setTitle("设置");
+        } else {
+            showFragment(new FindFragment());
+            mToolbar.setTitle("招聘");
+        }
+        mToolbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
+        navView.setNavigationItemSelectedListener(this);
+        View headerLayout = navView.getHeaderView(0);
+        mAvatorView = (ImageView) headerLayout.findViewById(R.id.header_view);
 
-    checkPermissionIsGranted();
-    //if (isAppPermissionGranted()){
-    //  Logger.d("permission has granted");
-    //}
-
-  }
-
-  @Override protected void initInjector() {
-    mMainComponent =
-        DaggerMainComponent.builder().applicationComponent(getApplicationComponent()).build();
-    mMainComponent.inject(this);
-  }
-
-  @Override public boolean onPrepareOptionsMenu(Menu menu) {
-    menu.clear();
-    Logger.d("is findfragmnet? " + isFindFragment);
-    if (isFindFragment) {
-      getMenuInflater().inflate(R.menu.menu_search, menu);
-    }
-    return super.onPrepareOptionsMenu(menu);
-  }
-
-  @Override public boolean onOptionsItemSelected(MenuItem item) {
-    switch (item.getItemId()) {
-      case android.R.id.home:
-        drawerLayout.openDrawer(Gravity.LEFT);
-        return true;
-      case R.id.action_search:
-        mPresenter.onSearchClick();
-        mSearchView.showSearchView();
-        mSearchView.setOnSeachViewListener(query -> {
-          ((FindFragment) getSupportFragmentManager().findFragmentById(R.id.content)).loadQuery(
-              query);
-          mPresenter.insertHistory(mSearchView.getEditSearchText());
+        mTvName = (TextView) headerLayout.findViewById(R.id.ee);
+        mAvatorView.setOnClickListener(v -> {
+            mPresenter.onAccountClick();
         });
+        isSettingFragmentShow = PreferenceUtil.getBoolean(PreferenceUtil.IS_SETTING_SHOW);
+        Logger.d("isSettingFragmentShow" + isSettingFragmentShow);
+        if (isSettingFragmentShow) {
+            navView.setCheckedItem(R.id.action_setting);
+        }
+        mPresenter.attachView(this);
+
+        checkPermissionIsGranted();
+        //if (isAppPermissionGranted()){
+        //  Logger.d("permission has granted");
+        //}
+
+    }
+
+    @Override
+    protected void initInjector() {
+        mMainComponent =
+                DaggerMainComponent.builder().applicationComponent(
+                        getApplicationComponent()).build();
+        mMainComponent.inject(this);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.clear();
+        Logger.d("is findfragmnet? " + isFindFragment);
+        if (isFindFragment) {
+            getMenuInflater().inflate(R.menu.menu_search, menu);
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                drawerLayout.openDrawer(Gravity.LEFT);
+                return true;
+            case R.id.action_search:
+                mPresenter.onSearchClick();
+                mSearchView.showSearchView();
+                mSearchView.setOnSeachViewListener(query -> {
+                    ((FindFragment) getSupportFragmentManager().findFragmentById(
+                            R.id.content)).loadQuery(
+                            query);
+                    mPresenter.insertHistory(mSearchView.getEditSearchText());
+                });
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        drawerLayout.closeDrawer(Gravity.LEFT);
+        mPresenter.onNavigationItemClick(item);
         return true;
     }
-    return super.onOptionsItemSelected(item);
-  }
 
-  @Override public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-    drawerLayout.closeDrawer(Gravity.LEFT);
-    mPresenter.onNavigationItemClick(item);
-    return true;
-  }
-
-  @Override public void showAccountUi() {
-    AccountActivity.startActivity(this);
-  }
-
-  @Override public void showLoginUi() {
-    LoginActivity.startActivity(this);
-  }
-
-  @Override public void showSetting() {
-    //SettingActiviy.start(this);
-    //getFragmentManager().beginTransaction()
-    //    .replace(R.id.content, SettingFragment.newInstance(),"setting")
-    //    .commit();
-    //Transa= getFragmentManager().beginTransaction();
-    FragmentTransaction transaction = getFragmentManager().beginTransaction();
-    transaction.replace(R.id.content, SettingFragment.newInstance(), "setting");
-    transaction.addToBackStack(null);
-    transaction.commit();
-    isFindFragment = false;
-
-    if (isSettingFragmentShow == false) {
-      getSupportFragmentManager().beginTransaction()
-          .remove(getSupportFragmentManager().getFragments()
-              .get(getSupportFragmentManager().getFragments().size() - 1))
-          .commit();
-      Logger.d("setting sfm:" + getSupportFragmentManager().getBackStackEntryCount());
-      Logger.d("setting sfm: size " + getSupportFragmentManager().getFragments().size());
+    @Override
+    public void showAccountUi() {
+        AccountActivity.startActivity(this);
     }
 
-    isSettingFragmentShow = true;
-    invalidateOptionsMenu();
-  }
-
-  @Override public void updateFindFragment(String key) {
-
-  }
-
-  @Override public void showFragment(Fragment fragment) {
-    getSupportFragmentManager().beginTransaction().replace(R.id.content, fragment).commit();
-    //getSupportFragmentManager().beginTransaction().addToBackStack(null);
-    if (getSupportFragmentManager().getFragments() != null) {
-      Logger.d("frag sfm:" + getSupportFragmentManager().getFragments().size());
+    @Override
+    public void showLoginUi() {
+        LoginActivity.startActivity(this);
     }
-    Logger.d((fragment instanceof FindFragment) + "");
-    if (fragment instanceof FindFragment) {
-      isFindFragment = true;
-    } else {
-      isFindFragment = false;
+
+    @Override
+    public void showSetting() {
+        //SettingActiviy.start(this);
+        //getFragmentManager().beginTransaction()
+        //    .replace(R.id.content, SettingFragment.newInstance(),"setting")
+        //    .commit();
+        //Transa= getFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.content, SettingFragment.newInstance(), "setting");
+        transaction.addToBackStack(null);
+        transaction.commit();
+        isFindFragment = false;
+
+        if (isSettingFragmentShow == false) {
+            getSupportFragmentManager().beginTransaction()
+                    .remove(getSupportFragmentManager().getFragments()
+                            .get(getSupportFragmentManager().getFragments().size() - 1))
+                    .commit();
+            Logger.d("setting sfm:" + getSupportFragmentManager().getBackStackEntryCount());
+            Logger.d("setting sfm: size " + getSupportFragmentManager().getFragments().size());
+        }
+
+        isSettingFragmentShow = true;
+        invalidateOptionsMenu();
     }
-    if (isSettingFragmentShow) {
-      getFragmentManager().beginTransaction()
-          .remove(getFragmentManager().findFragmentByTag("setting"))
-          .commit();
-      PreferenceUtil.putBoolean(PreferenceUtil.IS_SETTING_SHOW, false);
-      Logger.d("frag fm: " + getFragmentManager().getBackStackEntryCount());
+
+    @Override
+    public void updateFindFragment(String key) {
+
     }
-    isSettingFragmentShow = false;
-    invalidateOptionsMenu();
-  }
 
-  @Override public void showSearchView() {
-
-  }
-
-  @DebugLog @Override public void renderTags(List<String> tagList, List<String> historyList) {
-    mSearchView.setSearchTag(tagList);
-    mSearchView.setSearchHistory(historyList);
-  }
-
-  @Override public void setTitle(String title) {
-    mToolbar.setTitle(title);
-  }
-
-  @Override public void renderAccountName(String name) {
-    mTvName.setText(name);
-  }
-
-  @Override public void closeNavView() {
-    drawerLayout.closeDrawer(Gravity.LEFT);
-  }
-
-  @Override public void renderAccountAvator(String url) {
-    if (TextUtils.isEmpty(url)) {
-      Picasso.with(this)
-          .load(R.drawable.default_avator)
-          .transform(new CircleTransformation())
-          .into(mAvatorView);
-      return;
+    @Override
+    public void showFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction().replace(R.id.content, fragment).commit();
+        //getSupportFragmentManager().beginTransaction().addToBackStack(null);
+        if (getSupportFragmentManager().getFragments() != null) {
+            Logger.d("frag sfm:" + getSupportFragmentManager().getFragments().size());
+        }
+        Logger.d((fragment instanceof FindFragment) + "");
+        if (fragment instanceof FindFragment) {
+            isFindFragment = true;
+        } else {
+            isFindFragment = false;
+        }
+        if (isSettingFragmentShow) {
+            getFragmentManager().beginTransaction()
+                    .remove(getFragmentManager().findFragmentByTag("setting"))
+                    .commit();
+            PreferenceUtil.putBoolean(PreferenceUtil.IS_SETTING_SHOW, false);
+            Logger.d("frag fm: " + getFragmentManager().getBackStackEntryCount());
+        }
+        isSettingFragmentShow = false;
+        invalidateOptionsMenu();
     }
-    Picasso.with(this).load(Uri.parse(url)).transform(new CircleTransformation()).into(mAvatorView);
-  }
 
-  @Override protected void onResume() {
-    super.onResume();
-    mPresenter.loadUserInfo();
-  }
+    @Override
+    public void showSearchView() {
 
-  public void checkPermissionIsGranted() {
-    if (Build.VERSION.SDK_INT >= 23) {
-      if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
-          && checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-          != PackageManager.PERMISSION_GRANTED) {
-        ActivityCompat.requestPermissions(this,
-            new String[] { Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE },
-            1);
-        return;
-      }
-      if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-        ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.CAMERA }, 2);
-        return;
-      }
-      if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-          != PackageManager.PERMISSION_GRANTED) {
-        ActivityCompat.requestPermissions(this,
-            new String[] { Manifest.permission.READ_EXTERNAL_STORAGE }, 3);
-        return;
-      }
     }
-  }
 
-  @Override public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-      @NonNull int[] grantResults) {
-    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    boolean isGrandted = true;
-    for (int result : grantResults) {
-      if (result != PackageManager.PERMISSION_GRANTED) {
-        isGrandted = false;
-        break;
-      }
+    @DebugLog
+    @Override
+    public void renderTags(List<String> tagList, List<String> historyList) {
+        mSearchView.setSearchTag(tagList);
+        mSearchView.setSearchHistory(historyList);
     }
-    if (!isGrandted) {
-      this.finish();
+
+    @Override
+    public void setTitle(String title) {
+        mToolbar.setTitle(title);
     }
-  }
 
-  @Override protected void onDestroy() {
-    super.onDestroy();
-    mPresenter.detachView();
-  }
+    @Override
+    public void renderAccountName(String name) {
+        mTvName.setText(name);
+    }
 
-  @Override public MainComponent getComponent() {
-    return mMainComponent;
-  }
+    @Override
+    public void closeNavView() {
+        drawerLayout.closeDrawer(Gravity.LEFT);
+    }
+
+    @Override
+    public void renderAccountAvator(String url) {
+        if (TextUtils.isEmpty(url)) {
+            Picasso.with(this)
+                    .load(R.drawable.default_avator)
+                    .transform(new CircleTransformation())
+                    .into(mAvatorView);
+            return;
+        }
+        Picasso.with(this).load(Uri.parse(url)).transform(new CircleTransformation()).into(
+                mAvatorView);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mPresenter.loadUserInfo();
+    }
+
+    public void checkPermissionIsGranted() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+                    && checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.CAMERA,
+                                Manifest.permission.READ_EXTERNAL_STORAGE},
+                        1);
+                return;
+            }
+            if (checkSelfPermission(Manifest.permission.CAMERA)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},
+                        2);
+                return;
+            }
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 3);
+                return;
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+            @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        boolean isGrandted = true;
+        for (int result : grantResults) {
+            if (result != PackageManager.PERMISSION_GRANTED) {
+                isGrandted = false;
+                break;
+            }
+        }
+        if (!isGrandted) {
+            this.finish();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.detachView();
+    }
+
+    @Override
+    public MainComponent getComponent() {
+        return mMainComponent;
+    }
 }

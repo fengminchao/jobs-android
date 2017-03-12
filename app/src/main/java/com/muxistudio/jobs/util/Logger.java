@@ -1,7 +1,7 @@
 package com.muxistudio.jobs.util;
 
-import android.content.res.Resources;
 import android.util.Log;
+
 import com.muxistudio.jobs.BuildConfig;
 
 /**
@@ -10,18 +10,16 @@ import com.muxistudio.jobs.BuildConfig;
 
 public class Logger {
 
-    private static String className;
-    private static String methodName;
-    private static int lineNumber;
-
     public static final int VERBOSE = 1;
     public static final int DEBUG = 2;
     public static final int INFO = 3;
     public static final int WARN = 4;
     public static final int ERROR = 5;
     public static final int NOTHING = 6;
-
     public static final int LEVEL = VERBOSE;
+    private static String className;
+    private static String methodName;
+    private static int lineNumber;
 
     private Logger() {
     }

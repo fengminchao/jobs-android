@@ -2,6 +2,7 @@ package com.muxistudio.jobs.ui.accout;
 
 import com.muxistudio.jobs.injector.PerActivity;
 import com.muxistudio.jobs.injector.components.ApplicationComponent;
+
 import dagger.Component;
 
 /**
@@ -12,5 +13,5 @@ import dagger.Component;
 @Component(dependencies = ApplicationComponent.class)
 public interface AccountComponent {
 
-  void inject(AccountActivity accountActivity);
+    void inject(AccountActivity accountActivity);
 }

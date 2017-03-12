@@ -12,14 +12,14 @@ import com.muxistudio.jobs.ui.setting.SettingActiviy;
  * Created by ybao on 16/11/1.
  */
 
-public class SplashActivity extends BaseActivity{
+public class SplashActivity extends BaseActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         new Handler().postDelayed(() -> {
             startActivity(new Intent(this, SettingActiviy.class));
-        },1000);
+        }, 1000);
     }
 
     @Override

@@ -6,14 +6,14 @@ package com.muxistudio.jobs.bean;
 
 public class UserResult extends BaseData {
 
-  public Data data;
+    public Data data;
 
-  public class Data{
+    public class Data {
 
-    public String mail;
-    public String pwd;
-    public String token;
-    public int authCode;
+        public String mail;
+        public String pwd;
+        public String token;
+        public int authCode;
 
-  }
+    }
 }

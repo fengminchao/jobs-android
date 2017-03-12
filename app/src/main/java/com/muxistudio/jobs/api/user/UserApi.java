@@ -1,7 +1,5 @@
 package com.muxistudio.jobs.api.user;
 
-import com.muxistudio.jobs.net.TokenAuthenticator;
-
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -14,13 +12,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class UserApi {
 
-    private UserService mUserService;
-
     private static final String BASE_USER_URL = "http://182.254.247.206:3000/api/";
+    private UserService mUserService;
 
     public UserApi() {
         OkHttpClient client = new OkHttpClient.Builder()
-                .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                .addInterceptor(
+                        new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .build();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_USER_URL)

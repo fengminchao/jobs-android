@@ -2,8 +2,10 @@ package com.muxistudio.jobs.ui.main;
 
 import android.support.v4.app.Fragment;
 import android.view.MenuItem;
+
 import com.muxistudio.jobs.ui.BasePresenter;
 import com.muxistudio.jobs.ui.BaseView;
+
 import java.util.List;
 
 /**
@@ -12,46 +14,46 @@ import java.util.List;
 
 public class MainContract {
 
-  interface View extends BaseView{
+    interface View extends BaseView {
 
-    void showLoginUi();
+        void showLoginUi();
 
-    void showAccountUi();
+        void showAccountUi();
 
-    void showFragment(Fragment fragment);
+        void showFragment(Fragment fragment);
 
-    void showSetting();
+        void showSetting();
 
-    void showSearchView();
+        void showSearchView();
 
-    void reload();
+        void reload();
 
-    void setTitle(String title);
+        void setTitle(String title);
 
-    void renderAccountName(String name);
+        void renderAccountName(String name);
 
-    void updateFindFragment(String key);
+        void updateFindFragment(String key);
 
-    void closeNavView();
+        void closeNavView();
 
-    void renderAccountAvator(String url);
+        void renderAccountAvator(String url);
 
-    void renderTags(List<String> tagList,List<String> historyList);
-  }
+        void renderTags(List<String> tagList, List<String> historyList);
+    }
 
-  interface Presenter extends BasePresenter<View>{
+    interface Presenter extends BasePresenter<View> {
 
-    void onAccountClick();
+        void onAccountClick();
 
-    void onSearchClick();
+        void onSearchClick();
 
-    void onNavigationItemClick(MenuItem item);
+        void onNavigationItemClick(MenuItem item);
 
-    void exist();
+        void exist();
 
-    void insertHistory(String query);
+        void insertHistory(String query);
 
-    void loadUserInfo();
-  }
+        void loadUserInfo();
+    }
 
 }

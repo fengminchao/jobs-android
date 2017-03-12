@@ -17,6 +17,7 @@ import com.muxistudio.jobs.ui.SubscriptionPresenter;
 import com.muxistudio.jobs.ui.about.AboutFragment;
 import com.muxistudio.jobs.ui.collection.CollectionFragment;
 import com.muxistudio.jobs.ui.find.FindFragment;
+import com.muxistudio.jobs.ui.forum.ForumFragment;
 import com.muxistudio.jobs.ui.schedule.ScheduleFragment;
 import com.muxistudio.jobs.util.Logger;
 
@@ -53,7 +54,7 @@ public class MainPresenter extends SubscriptionPresenter
 
     @Inject
     public MainPresenter(UserStorge userStorge, UserDao userDao, Context context,
-            HistoryDao historyDao,UserApi userApi) {
+            HistoryDao historyDao, UserApi userApi) {
         mUserStorge = userStorge;
         mUserDao = userDao;
         mContext = context;
@@ -75,7 +76,7 @@ public class MainPresenter extends SubscriptionPresenter
     @Override
     public void onSearchClick() {
         //if (mTagList != null && !mTagList.isEmpty() && mHistoryList != null && !mHistoryList
-      // .isEmpty()){
+        // .isEmpty()){
 
         //}
         if (mTagList == null) {
@@ -118,9 +119,9 @@ public class MainPresenter extends SubscriptionPresenter
                 mMainView.showFragment(CollectionFragment.newInstance());
                 break;
             case R.id.action_discuss:
+                mMainView.showFragment(ForumFragment.newInstance());
                 break;
             case R.id.action_setting:
-                //mMainView.showFragment(SettingFragment.newInstance());
                 mMainView.showSetting();
                 break;
             case R.id.action_about:
@@ -148,7 +149,7 @@ public class MainPresenter extends SubscriptionPresenter
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(tokenResult -> {
                     mUserStorge.setToken(tokenResult.token);
-                },throwable -> throwable.printStackTrace());
+                }, throwable -> throwable.printStackTrace());
     }
 
     @Override

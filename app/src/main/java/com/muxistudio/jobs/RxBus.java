@@ -28,14 +28,14 @@ public class RxBus {
                 }
             }
         }
-        return defaultInstance ;
+        return defaultInstance;
     }
 
-    public void send (Object o) {
+    public void send(Object o) {
         bus.onNext(o);
     }
 
-    public <T> Observable<T> toObservable (Class<T> eventType) {
+    public <T> Observable<T> toObservable(Class<T> eventType) {
         return bus.ofType(eventType);
     }
 }

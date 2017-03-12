@@ -50,6 +50,7 @@ public interface UserService {
 
     @POST("user/login")
     Call<TokenResult> loginSync(@Body User user);
+
     /**
      * {mail}
      */
@@ -103,23 +104,14 @@ public interface UserService {
     Observable<BaseData> changePost(@Body PostContent postContent);
 
     @DELETE("posts/{pid}")
-    Observable<BaseData> deletePost(@Header("Authorization") String auth);
-
-    @POST("posts/collections/{pid}")
-    Observable<BaseData> collectPost(@Header("Authorization") String auth, @Body PostData postData);
-
-    @DELETE("posts/collections/{pid}")
-    Observable<BaseData> deletePostCollection(@Header("Authorization") String auth);
-
-    @GET("posts/collections")
-    Observable<PostListResult> getPostCollections(@Header("Authorization") String auth);
+    Observable<BaseData> deletePost();
 
     @POST("posts/{pid}/reply")
-    Observable<BaseData> replyPost(@Header("Authorization") String auth, @Body String content,
+    Observable<BaseData> replyPost(@Body String content,
             @Path("pid") int pid);
 
     @DELETE("posts/{pid}/reply/{rid}")
-    Observable<BaseData> deletePostReply(@Header("Authorization") String auth, @Path("pid") int pid,
+    Observable<BaseData> deletePostReply(@Path("pid") int pid,
             @Path("rid") int rid);
 
     @GET("posts")
@@ -128,5 +120,13 @@ public interface UserService {
     @GET("posts/{pid}")
     Observable<PostDetailResult> getPostDetail(@Path("pid") int pid);
 
+    @POST("posts/collections/{pid}")
+    Observable<BaseData> collectPost(@Body PostData postData);
+
+    @DELETE("posts/collections/{pid}")
+    Observable<BaseData> deletePostCollection();
+
+    @GET("posts/collections")
+    Observable<PostListResult> getPostCollections();
 
 }

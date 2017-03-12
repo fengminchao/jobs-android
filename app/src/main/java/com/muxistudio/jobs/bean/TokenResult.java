@@ -6,5 +6,5 @@ package com.muxistudio.jobs.bean;
 
 public class TokenResult extends BaseData {
 
-  public String token;
+    public String token;
 }

@@ -8,18 +8,18 @@ import java.util.List;
 
 public class EmployList {
 
-  public List<EmployData> data;
+    public List<EmployData> data;
 
-  public class EmployData {
-    public int id;
-    public String title;
-    public String holdtime;
-    public String detailtime;
-    public String venueName;
-    public int totalClicks;
+    public class EmployData {
+        public int id;
+        public String title;
+        public String holdtime;
+        public String detailtime;
+        public String venueName;
+        public int totalClicks;
 
-    public String getTime(){
-      return holdtime + " " + detailtime;
+        public String getTime() {
+            return holdtime + " " + detailtime;
+        }
     }
-  }
 }

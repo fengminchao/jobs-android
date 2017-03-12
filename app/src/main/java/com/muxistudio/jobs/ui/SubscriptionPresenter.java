@@ -9,18 +9,18 @@ import rx.subscriptions.CompositeSubscription;
 
 public class SubscriptionPresenter {
 
-  private CompositeSubscription mCompositeSubscription;
+    private CompositeSubscription mCompositeSubscription;
 
-  public void addSubscription(Subscription subscription){
-    if (mCompositeSubscription == null){
-      mCompositeSubscription = new CompositeSubscription();
+    public void addSubscription(Subscription subscription) {
+        if (mCompositeSubscription == null) {
+            mCompositeSubscription = new CompositeSubscription();
+        }
+        mCompositeSubscription.add(subscription);
     }
-    mCompositeSubscription.add(subscription);
-  }
 
-  public void detachView(){
-    if (mCompositeSubscription != null && !mCompositeSubscription.isUnsubscribed()) {
-      mCompositeSubscription.unsubscribe();
+    public void detachView() {
+        if (mCompositeSubscription != null && !mCompositeSubscription.isUnsubscribed()) {
+            mCompositeSubscription.unsubscribe();
+        }
     }
-  }
 }

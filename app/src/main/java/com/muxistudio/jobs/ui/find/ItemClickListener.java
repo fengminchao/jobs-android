@@ -6,5 +6,5 @@ package com.muxistudio.jobs.ui.find;
 
 public interface ItemClickListener {
 
-  void onItemClick(int id);
+    void onItemClick(int id);
 }

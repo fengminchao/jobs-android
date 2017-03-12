@@ -11,37 +11,41 @@ import android.widget.TextView;
 
 public class TagView extends TextView implements Checkable {
 
-  private boolean isChecked;
-  private static final int[] CHECKED_STATE = new int[]{android.R.attr.state_checked};
+    private static final int[] CHECKED_STATE = new int[]{android.R.attr.state_checked};
+    private boolean isChecked;
 
-  public TagView(Context context) {
-    super(context);
-  }
-
-  public TagView(Context context, AttributeSet attrs) {
-    super(context, attrs);
-  }
-
-  @Override protected int[] onCreateDrawableState(int extraSpace) {
-    int[] states = super.onCreateDrawableState(extraSpace + 1);
-    if (isChecked()){
-      mergeDrawableStates(states,CHECKED_STATE);
+    public TagView(Context context) {
+        super(context);
     }
-    return states;
-  }
 
-  @Override public void setChecked(boolean b) {
-    if (isChecked != b){
-      isChecked = b;
-      refreshDrawableState();
+    public TagView(Context context, AttributeSet attrs) {
+        super(context, attrs);
     }
-  }
 
-  @Override public boolean isChecked() {
-    return isChecked;
-  }
+    @Override
+    protected int[] onCreateDrawableState(int extraSpace) {
+        int[] states = super.onCreateDrawableState(extraSpace + 1);
+        if (isChecked()) {
+            mergeDrawableStates(states, CHECKED_STATE);
+        }
+        return states;
+    }
 
-  @Override public void toggle() {
-    setChecked(!isChecked);
-  }
+    @Override
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    @Override
+    public void setChecked(boolean b) {
+        if (isChecked != b) {
+            isChecked = b;
+            refreshDrawableState();
+        }
+    }
+
+    @Override
+    public void toggle() {
+        setChecked(!isChecked);
+    }
 }

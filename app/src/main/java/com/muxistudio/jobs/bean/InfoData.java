@@ -6,10 +6,10 @@ package com.muxistudio.jobs.bean;
 
 public class InfoData {
 
-  public Integer id;
-  public String logoUrl;
-  public String title;
-  public String time;
-  public String place;
-  public int clicks;
+    public Integer id;
+    public String logoUrl;
+    public String title;
+    public String time;
+    public String place;
+    public int clicks;
 }

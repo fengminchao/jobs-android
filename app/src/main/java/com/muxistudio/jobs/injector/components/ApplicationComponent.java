@@ -24,28 +24,29 @@ import dagger.Component;
  * Created by ybao on 16/10/15.
  */
 
-@Singleton @Component(modules = { ApplicationModule.class, ApiModule.class, DBModule.class })
+@Singleton
+@Component(modules = {ApplicationModule.class, ApiModule.class, DBModule.class})
 public interface ApplicationComponent {
 
-  Context getContext();
+    Context getContext();
 
-  UserApi getUserApi();
+    UserApi getUserApi();
 
-  JobsApi getJobsApi();
+    JobsApi getJobsApi();
 
-  UserStorge getUserStorge();
+    UserStorge getUserStorge();
 
-  UserDao getUserDao();
+    UserDao getUserDao();
 
-  JobsDao getJobsDao();
+    JobsDao getJobsDao();
 
-  UserInfoDao getInfoDao();
+    UserInfoDao getInfoDao();
 
-  CollectionDao getCollectionDao();
+    CollectionDao getCollectionDao();
 
-  HistoryDao getHistoryDao();
+    HistoryDao getHistoryDao();
 
-  void inject(App application);
+    void inject(App application);
 
-  void inject(BaseActivity baseActivity);
+    void inject(BaseActivity baseActivity);
 }

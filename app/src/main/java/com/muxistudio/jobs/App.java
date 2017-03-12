@@ -5,16 +5,13 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.muxistudio.jobs.api.UserStorge;
-import com.muxistudio.jobs.api.user.UserApi;
 import com.muxistudio.jobs.db.User;
 import com.muxistudio.jobs.db.UserDao;
 import com.muxistudio.jobs.db.UserInfo;
 import com.muxistudio.jobs.db.UserInfoDao;
-import com.muxistudio.jobs.event.RefreshTokenEvent;
 import com.muxistudio.jobs.injector.components.ApplicationComponent;
 import com.muxistudio.jobs.injector.components.DaggerApplicationComponent;
 import com.muxistudio.jobs.injector.modules.ApplicationModule;
-import com.muxistudio.jobs.ui.login.LoginActivity;
 import com.muxistudio.jobs.util.Logger;
 import com.muxistudio.jobs.util.PreferenceUtil;
 
@@ -32,16 +29,15 @@ import okhttp3.OkHttpClient;
 public class App extends Application {
 
     public static Context sContext;
-    private ApplicationComponent mApplicationComponent;
-
     @Inject
     OkHttpClient mOkHttpClient;
     @Inject
-     UserStorge mUserStorge;
+    UserStorge mUserStorge;
     @Inject
     UserInfoDao mUserInfoDao;
     @Inject
     UserDao userDao;
+    private ApplicationComponent mApplicationComponent;
 
     @Override
     public void onCreate() {

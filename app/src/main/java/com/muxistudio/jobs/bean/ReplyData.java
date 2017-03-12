@@ -6,9 +6,9 @@ package com.muxistudio.jobs.bean;
 
 public class ReplyData {
 
-  public int pid;
-  public String name;
-  public String avator;
-  public String content;
-  public int time;
+    public int pid;
+    public String name;
+    public String avator;
+    public String content;
+    public int time;
 }

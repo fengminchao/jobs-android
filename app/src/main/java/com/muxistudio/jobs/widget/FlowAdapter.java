@@ -8,40 +8,40 @@ import java.util.List;
 
 public class FlowAdapter {
 
-  private OnSelectedListener mOnSelectedListener;
+    private OnSelectedListener mOnSelectedListener;
 
-  private List<String> tagList;
-  private List<String> selectedList;
+    private List<String> tagList;
+    private List<String> selectedList;
 
-  public FlowAdapter(List<String> tagList) {
-    this.tagList = tagList;
-  }
-
-  public int getCount() {
-    return tagList.size();
-  }
-
-  public Object getItem(int i) {
-    return i;
-  }
-
-  public long getItemId(int i) {
-    return i;
-  }
-
-  public String getStr(int position){
-    return tagList.get(position);
-  }
-
-
-  public void setOnSelectedListener(OnSelectedListener onSelectedListener){
-    if (onSelectedListener != null){
-      mOnSelectedListener = onSelectedListener;
+    public FlowAdapter(List<String> tagList) {
+        this.tagList = tagList;
     }
-  }
 
-  public interface OnSelectedListener{
+    public int getCount() {
+        return tagList.size();
+    }
 
-    void onSelected(String s);
-  }
+    public Object getItem(int i) {
+        return i;
+    }
+
+    public long getItemId(int i) {
+        return i;
+    }
+
+    public String getStr(int position) {
+        return tagList.get(position);
+    }
+
+
+    public void setOnSelectedListener(OnSelectedListener onSelectedListener) {
+        if (onSelectedListener != null) {
+            mOnSelectedListener = onSelectedListener;
+        }
+    }
+
+    public interface OnSelectedListener {
+
+        void onSelected(String s);
+    }
 }

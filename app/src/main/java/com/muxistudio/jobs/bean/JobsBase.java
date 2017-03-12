@@ -7,5 +7,5 @@ package com.muxistudio.jobs.bean;
 
 public class JobsBase {
 
-  public String status;
+    public String status;
 }

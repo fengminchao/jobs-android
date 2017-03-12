@@ -5,4 +5,5 @@ package com.muxistudio.jobs.ui;
  */
 
 public interface BaseView {
+
 }
