@@ -47,8 +47,7 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.mTvTitle.setText(mPostDataList.get(position).title);
         holder.mTvContent.setText(mPostDataList.get(position).content);
-        holder.mTvClick.setText(mPostDataList.get(position).click + "");
-        holder.mTvReply.setText(mPostDataList.get(position).reply + "");
+        holder.mTvReply.setText(String.format("回复：%d",mPostDataList.get(position).reply));
         holder.mTvTime.setText(TimeUtil.toTimeInPost(new Date(mPostDataList.get(position).time)));
         holder.mTvName.setText(mPostDataList.get(position).name);
         if (TextUtils.isEmpty(mPostDataList.get(position).avator)) {
@@ -90,8 +89,6 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.ViewHo
         ImageView mIvAvator;
         @BindView(R.id.tv_name)
         TextView mTvName;
-        @BindView(R.id.tv_click)
-        TextView mTvClick;
         @BindView(R.id.tv_reply)
         TextView mTvReply;
         @BindView(R.id.tv_time)

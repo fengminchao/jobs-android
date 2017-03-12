@@ -30,8 +30,6 @@ public class NewPostActivity extends ToolbarActivity {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @BindView(R.id.appbar_layout)
-    AppBarLayout mAppbarLayout;
     @BindView(R.id.et_title)
     EditText mEtTitle;
     @BindView(R.id.et_content)
