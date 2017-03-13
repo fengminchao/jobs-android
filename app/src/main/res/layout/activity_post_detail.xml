@@ -1,15 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
 
-  <include layout="@layout/view_toolbar"/>
+    <include layout="@layout/view_toolbar"/>
 
-  <android.support.v7.widget.RecyclerView
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:id="@+id/recycler_view"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="56dp"
+        android:layout_marginBottom="42dp"
     />
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_gravity="bottom"
+        android:id="@+id/layout_reply"
+        android:orientation="horizontal"
+        android:background="?attr/widgetBackground"
+        android:elevation="4dp"
+        android:gravity="right"
+        >
+
+        <EditText
+            android:id="@+id/et_reply"
+            android:layout_width="match_parent"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="50dp"
+            android:hint="添加回复"
+            android:layout_height="match_parent"/>
+
+        <ImageView
+            android:id="@+id/iv_send"
+            android:layout_width="42dp"
+            android:scaleType="center"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_send_black_24dp"/>
+
+    </LinearLayout>
+
+</FrameLayout>

@@ -8,11 +8,11 @@ import java.util.List;
 
 public class PostDetailResult extends BaseData {
 
-    public PostData postData;
+    public DataBean data;
 
-    public static class PostDetailData {
-
+    public static class DataBean {
         public PostData topic;
         public List<ReplyData> replys;
+
     }
 }

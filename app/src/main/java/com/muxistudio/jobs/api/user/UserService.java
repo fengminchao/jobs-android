@@ -101,18 +101,16 @@ public interface UserService {
     Observable<BaseData> newPost(@Body PostContent postContent);
 
     @PUT("posts/{pid}")
-    Observable<BaseData> changePost(@Body PostContent postContent);
+    Observable<BaseData> changePost(@Path("pid") int pid, @Body PostContent postContent);
 
     @DELETE("posts/{pid}")
-    Observable<BaseData> deletePost();
+    Observable<BaseData> deletePost(@Path("pid") int pid);
 
     @POST("posts/{pid}/reply")
-    Observable<BaseData> replyPost(@Body String content,
-            @Path("pid") int pid);
+    Observable<BaseData> replyPost(@Body String content, @Path("pid") int pid);
 
     @DELETE("posts/{pid}/reply/{rid}")
-    Observable<BaseData> deletePostReply(@Path("pid") int pid,
-            @Path("rid") int rid);
+    Observable<BaseData> deletePostReply(@Path("pid") int pid, @Path("rid") int rid);
 
     @GET("posts")
     Observable<PostListResult> getPostList();
@@ -121,10 +119,10 @@ public interface UserService {
     Observable<PostDetailResult> getPostDetail(@Path("pid") int pid);
 
     @POST("posts/collections/{pid}")
-    Observable<BaseData> collectPost(@Body PostData postData);
+    Observable<BaseData> collectPost(@Path("pid") int pid,@Body PostData postData);
 
     @DELETE("posts/collections/{pid}")
-    Observable<BaseData> deletePostCollection();
+    Observable<BaseData> deletePostCollection(@Path("pid")int pid);
 
     @GET("posts/collections")
     Observable<PostListResult> getPostCollections();

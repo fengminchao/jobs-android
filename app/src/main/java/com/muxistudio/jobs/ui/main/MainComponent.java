@@ -25,4 +25,5 @@ public interface MainComponent {
     void inject(AboutFragment aboutFragment);
 
     void inject(ForumFragment forumFragment);
+
 }

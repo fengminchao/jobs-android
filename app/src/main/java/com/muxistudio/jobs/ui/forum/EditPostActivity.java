@@ -9,11 +9,13 @@ import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.muxistudio.jobs.R;
+import com.muxistudio.jobs.RxBus;
 import com.muxistudio.jobs.api.UserStorge;
 import com.muxistudio.jobs.api.user.UserApi;
 import com.muxistudio.jobs.bean.PostContent;
 import com.muxistudio.jobs.bean.PostData;
 import com.muxistudio.jobs.bean.PostDetailResult;
+import com.muxistudio.jobs.event.PostDetailUpdateEvent;
 import com.muxistudio.jobs.ui.ToolbarActivity;
 import com.muxistudio.jobs.util.ToastUtil;
 
@@ -43,14 +45,16 @@ public class EditPostActivity extends ToolbarActivity {
     UserApi mUserApi;
 
     private PostContent mPostContent = new PostContent();
+    private int pid;
 
     private boolean isNewPost = false;
 
-    public static void start(Context context, boolean isNewPost,PostData postData) {
+    public static void start(Context context, boolean isNewPost,PostData postData,int pid) {
         Intent starter = new Intent(context, EditPostActivity.class);
         starter.putExtra("is_new_post", isNewPost);
         if (postData != null){
             starter.putExtra("post_data",postData);
+            starter.putExtra("pid",pid);
         }
         context.startActivity(starter);
     }
@@ -69,6 +73,7 @@ public class EditPostActivity extends ToolbarActivity {
         setTitle(isNewPost ? "发布帖子" : "修改帖子");
         if (!isNewPost) {
             PostData postData = getIntent().getParcelableExtra("post_data");
+            pid = getIntent().getIntExtra("pid",0);
             mPostContent.title = postData.title;
             mPostContent.content = postData.content;
             mEtTitle.setText(mPostContent.title);
@@ -100,13 +105,14 @@ public class EditPostActivity extends ToolbarActivity {
                             ToastUtil.showShort("请检查网络连接");
                         });
             } else {
-                mUserApi.getUserService().changePost(mPostContent)
+                mUserApi.getUserService().changePost(pid,mPostContent)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(baseData -> {
                             if (baseData.code == 0) {
                                 ToastUtil.showShort("更改成功");
                                 this.finish();
+                                RxBus.getDefault().send(new PostDetailUpdateEvent());
                             }
                         }, throwable -> {
                             throwable.printStackTrace();

@@ -107,7 +107,7 @@ public class ForumFragment extends BaseFragment implements ForumContract.View {
     }
 
     public void showNewPostUi() {
-        EditPostActivity.start(getActivity(), true,null);
+        EditPostActivity.start(getActivity(), true,null,-1);
     }
 
     @Override
