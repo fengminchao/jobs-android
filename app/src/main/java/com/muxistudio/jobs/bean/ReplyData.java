@@ -11,5 +11,5 @@ public class ReplyData {
     public String name;
     public String avator;
     public String content;
-    public int time;
+    public long time;
 }

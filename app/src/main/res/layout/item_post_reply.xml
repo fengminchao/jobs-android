@@ -3,7 +3,10 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:background="?attr/widgetBackground"
-                android:padding="16dp">
+                android:paddingTop="16dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                >
 
     <ImageView
         android:id="@+id/iv_avatar"
@@ -42,5 +45,14 @@
         tools:text="02-22"
         android:layout_marginTop="8dp"
         android:layout_below="@+id/tv_content"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_below="@+id/tv_time"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/shape_divider"
+        android:layout_marginLeft="-16dp"
+        android:layout_marginRight="-16dp"
+          android:layout_height="10dp"/>
 
 </RelativeLayout>

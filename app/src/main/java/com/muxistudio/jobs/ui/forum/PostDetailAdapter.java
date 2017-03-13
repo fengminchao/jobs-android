@@ -58,7 +58,7 @@ public class PostDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                 parent, false));
             case ITEM_TYPE_REPLY:
             default:
-                return new TopicViewHolder(
+                return new ReplyViewHolder(
                         LayoutInflater.from(parent.getContext()).inflate(R.layout.item_post_reply,
                                 parent, false));
         }

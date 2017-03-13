@@ -6,6 +6,7 @@ import com.muxistudio.jobs.bean.PostContent;
 import com.muxistudio.jobs.bean.PostData;
 import com.muxistudio.jobs.bean.PostDetailResult;
 import com.muxistudio.jobs.bean.PostListResult;
+import com.muxistudio.jobs.bean.ReplyBean;
 import com.muxistudio.jobs.bean.TokenResult;
 import com.muxistudio.jobs.bean.UserInfoResult;
 import com.muxistudio.jobs.db.Collection;
@@ -16,6 +17,7 @@ import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
@@ -107,7 +109,7 @@ public interface UserService {
     Observable<BaseData> deletePost(@Path("pid") int pid);
 
     @POST("posts/{pid}/reply")
-    Observable<BaseData> replyPost(@Body String content, @Path("pid") int pid);
+    Observable<BaseData> replyPost(@Body ReplyBean replyBean, @Path("pid") int pid);
 
     @DELETE("posts/{pid}/reply/{rid}")
     Observable<BaseData> deletePostReply(@Path("pid") int pid, @Path("rid") int rid);

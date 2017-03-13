@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,6 +17,7 @@ import com.muxistudio.jobs.R;
 import com.muxistudio.jobs.RxBus;
 import com.muxistudio.jobs.api.user.UserApi;
 import com.muxistudio.jobs.bean.PostDetailResult;
+import com.muxistudio.jobs.bean.ReplyBean;
 import com.muxistudio.jobs.event.PostDetailUpdateEvent;
 import com.muxistudio.jobs.injector.PerActivity;
 import com.muxistudio.jobs.ui.ToolbarActivity;
@@ -63,8 +65,7 @@ public class PostDetailActivity extends ToolbarActivity {
         setContentView(R.layout.activity_post_detail);
         ButterKnife.bind(this);
         mToolbar.setTitle("详情");
-        mEtReply.setFocusable(false);
-        this.pid = getIntent().getIntExtra("pid",0);
+        this.pid = getIntent().getIntExtra("pid", 0);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mPostDetailData = new PostDetailResult.DataBean();
@@ -76,24 +77,52 @@ public class PostDetailActivity extends ToolbarActivity {
         RxBus.getDefault().toObservable(PostDetailUpdateEvent.class)
                 .subscribe(postDetailUpdateEvent -> {
                     loadPostDetail();
-                },throwable -> throwable.printStackTrace());
+                }, throwable -> throwable.printStackTrace());
+        mIvSend.setOnClickListener(v -> {
+            sendReply();
+        });
+    }
+
+    public void sendReply() {
+        mUserApi.getUserService().replyPost(new ReplyBean(mEtReply.getText().toString()), pid)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(baseData -> {
+                    if (baseData.code < 300) {
+                        loadPostDetail();
+                        mEtReply.setText("");
+                        hideKeyBoard();
+                    } else {
+                        throw new Error();
+                    }
+                }, throwable -> {
+                    throwable.printStackTrace();
+                    ToastUtil.showShort(R.string.err_request);
+                });
+    }
+
+    public void hideKeyBoard() {
+        InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService(
+                Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(mEtReply.getWindowToken(), 0);
     }
 
     @Override
     protected void initInjector() {
-        DaggerForumComponent.builder().applicationComponent(getApplicationComponent()).build().inject(this);
+        DaggerForumComponent.builder().applicationComponent(
+                getApplicationComponent()).build().inject(this);
     }
 
-    public void loadPostDetail(){
+    public void loadPostDetail() {
         mUserApi.getUserService().getPostDetail(pid)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(postDetailResult -> {
-                    if (postDetailResult.code == 0){
+                    if (postDetailResult.code == 0) {
                         mPostDetailData.topic = postDetailResult.data.topic;
                         mPostDetailData.replys = postDetailResult.data.replys;
                         mPostDetailAdapter.notifyDataSetChanged();
-                    }else {
+                    } else {
                         throw new IllegalArgumentException();
                     }
                 });
@@ -126,7 +155,7 @@ public class PostDetailActivity extends ToolbarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_edit:
-                EditPostActivity.start(App.sContext, false, mPostDetailData.topic,pid);
+                EditPostActivity.start(App.sContext, false, mPostDetailData.topic, pid);
                 break;
             case R.id.action_delete:
                 deletePost();

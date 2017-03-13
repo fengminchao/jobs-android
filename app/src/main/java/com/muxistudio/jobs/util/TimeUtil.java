@@ -27,7 +27,7 @@ public class TimeUtil {
      */
     public static String toTimeInPost(Date date) {
         Date now = new Date();
-        long dis = now.getTime() - date.getTime();
+        long dis = (now.getTime() - date.getTime()) / 1000;
         if (dis < 60) {
             return (dis + "秒前");
         } else if (dis < 60 * 60) {
