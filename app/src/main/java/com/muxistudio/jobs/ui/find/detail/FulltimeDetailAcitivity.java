@@ -21,6 +21,8 @@ import com.muxistudio.jobs.bean.FulltimeDetail;
 import com.muxistudio.jobs.db.Collection;
 import com.muxistudio.jobs.db.CollectionDao;
 import com.muxistudio.jobs.ui.ToolbarActivity;
+import com.muxistudio.jobs.util.CollectionsUtil;
+import com.muxistudio.jobs.util.PreferenceUtil;
 import com.muxistudio.jobs.util.ToastUtil;
 
 import javax.inject.Inject;
@@ -114,7 +116,7 @@ public class FulltimeDetailAcitivity extends ToolbarActivity {
         mCollection.setSchool("");
         mCollection.setTitle(fulltimeDetail.data.title);
         mCollection.setType(getString(R.string.find_fulltime));
-        mCollection.setId(mId);
+        mCollection.setId((long) mId);
     }
 
     private void showEmptyView() {
@@ -137,11 +139,10 @@ public class FulltimeDetailAcitivity extends ToolbarActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if (mCollectionDao.queryBuilder().where(CollectionDao.Properties.Id.eq(mId)).list().size()
-                > 0) {
-            getMenuInflater().inflate(R.menu.full_detail_collected, menu);
+        if (PreferenceUtil.getString(PreferenceUtil.COLLECTION_IDS).contains(String.valueOf(mId))) {
+            getMenuInflater().inflate(R.menu.info_detail_collected, menu);
         } else {
-            getMenuInflater().inflate(R.menu.full_detail, menu);
+            getMenuInflater().inflate(R.menu.info_detail, menu);
         }
         return super.onPrepareOptionsMenu(menu);
     }
@@ -150,9 +151,7 @@ public class FulltimeDetailAcitivity extends ToolbarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_star:
-                if (mCollection != null) {
-                    mCollectionDao.insert(mCollection);
-                }
+                CollectionsUtil.addCollectionId(String.valueOf(mId));
                 mUserApi.getUserService().addCollection(mCollection)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
@@ -166,10 +165,8 @@ public class FulltimeDetailAcitivity extends ToolbarActivity {
                         });
                 break;
             case R.id.action_unstar:
-                if (mCollection != null) {
-                    mCollectionDao.delete(mCollection);
-                }
-                mUserApi.getUserService().removeCollection(mCollection.getId())
+                CollectionsUtil.removeCollectionId(String.valueOf(mId));
+                mUserApi.getUserService().removeCollection(mId)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(baseData -> {

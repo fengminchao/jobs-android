@@ -8,6 +8,7 @@ import com.muxistudio.jobs.db.Collection;
 import com.muxistudio.jobs.db.CollectionDao;
 import com.muxistudio.jobs.injector.PerActivity;
 import com.muxistudio.jobs.ui.SubscriptionPresenter;
+import com.muxistudio.jobs.util.CollectionsUtil;
 import com.muxistudio.jobs.util.Logger;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -46,68 +48,37 @@ public class CollectionPresenter extends SubscriptionPresenter
 
     @Override
     public void loadCollections() {
-        mCollections = mCollectionDao.queryBuilder()
-                .where(CollectionDao.Properties.Mail.eq(mUserStorge.getUser().getMail()))
-                .build()
-                .list();
-        mView.renderCollection(mCollections);
         Subscription s = mUserApi.getUserService()
                 .getCollections()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(collectionResult -> {
-                    if (collectionResult.code != 0) {
-                        mView.showEmptyView();
-
-                        Logger.d("collection");
-
-                        return;
-                    }
-                    if (!mCollections.equals(collectionResult.data)) {
-                        Logger.d("add collection");
-                        mCollections = collectionResult.data;
-                        mCollectionDao.deleteAll();
-                        mCollectionDao.insertInTx(mCollections);
-                    }
+                .map(collectionResult -> {
                     mView.renderCollection(collectionResult.data);
-                }, throwable -> throwable.printStackTrace());
+                    return collectionResult.data;
+                })
+                .flatMap(Observable::from)
+                .map(collection -> {
+                    return collection.getId().intValue();
+                })
+                .toList()
+                .subscribe(ids -> {
+                    CollectionsUtil.putCollectionList(ids);
+                }, throwable -> {
+                    throwable.printStackTrace();
+                    mView.showEmptyView();
+                });
         addSubscription(s);
     }
 
     @Override
     public void onItemRemoved(Collection collection) {
         removedCollections.add(collection);
-        //Subscription s = mUserApi.getUserService().removeCollection(collection.getId())
-        //    .subscribeOn(Schedulers.io())
-        //    .observeOn(AndroidSchedulers.mainThread())
-        //    .subscribe(baseData -> {
-        //      if (baseData.code == 0){
-        //        mView.showSnackerbar("收藏信息删除成功");
-        //      }
-        //    },throwable -> {
-        //      throwable.printStackTrace();
-        //      mView.insertItem(collection);
-        //      mView.showError("收藏信息删除失败");
-        //    });
-        //addSubscription(s);
 
     }
 
     @Override
     public void onUndoClick(Collection collection) {
         removedCollections.remove(collection);
-        //Subscription s = mUserApi.getUserService().addCollection(collection)
-        //    .subscribeOn(Schedulers.io())
-        //    .observeOn(AndroidSchedulers.mainThread())
-        //    .subscribe(baseData -> {
-        //      if (baseData.code == 0){
-        //        mView.insertItem(collection);
-        //      }
-        //    },throwable -> {
-        //      throwable.printStackTrace();
-        //      mView.showError("发生未知错误");
-        //    });
-        //addSubscription(s);
     }
 
     @Override
@@ -128,7 +99,6 @@ public class CollectionPresenter extends SubscriptionPresenter
                     .subscribe(baseData -> {
                         if (baseData.code == 0) {
                             Logger.d("remove collection success");
-                            mCollectionDao.delete(removedCollections.get(pos));
                         }
                     }, throwable -> throwable.printStackTrace());
         }

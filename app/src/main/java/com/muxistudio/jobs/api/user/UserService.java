@@ -97,7 +97,7 @@ public interface UserService {
     Observable<BaseData> addCollection(@Body Collection collection);
 
     @DELETE("collection/{id}/")
-    Observable<BaseData> removeCollection(@Path("id") int id);
+    Observable<BaseData> removeCollection(@Path("id") long id);
 
     @POST("posts")
     Observable<BaseData> newPost(@Body PostContent postContent);

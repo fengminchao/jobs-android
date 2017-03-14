@@ -18,11 +18,14 @@ import com.muxistudio.jobs.api.UserStorge;
 import com.muxistudio.jobs.api.jobs.JobsApi;
 import com.muxistudio.jobs.api.user.UserApi;
 import com.muxistudio.jobs.bean.CareerDetail;
+import com.muxistudio.jobs.bean.EmployDetail;
 import com.muxistudio.jobs.db.Collection;
 import com.muxistudio.jobs.db.CollectionDao;
 import com.muxistudio.jobs.injector.PerActivity;
 import com.muxistudio.jobs.ui.ToolbarActivity;
+import com.muxistudio.jobs.util.CollectionsUtil;
 import com.muxistudio.jobs.util.Logger;
+import com.muxistudio.jobs.util.PreferenceUtil;
 import com.muxistudio.jobs.util.TimeUtil;
 import com.muxistudio.jobs.util.ToastUtil;
 
@@ -64,7 +67,7 @@ public class CareerDetailActivity extends ToolbarActivity {
     UserStorge mUserStorge;
     @Inject
     CollectionDao mCollectionDao;
-    private Collection mCollection;
+    private Collection mCollection = new Collection();
     private int mId;
 
     public static void start(Context context, int id) {
@@ -77,6 +80,7 @@ public class CareerDetailActivity extends ToolbarActivity {
     protected void initView() {
         setContentView(R.layout.activity_career_detail);
         ButterKnife.bind(this);
+        mCollection.setId((long)getIntent().getIntExtra("id",0));
         initToolbar();
         setTitle(getString(R.string.find_career));
         if (getIntent().hasExtra("id")) {
@@ -116,7 +120,7 @@ public class CareerDetailActivity extends ToolbarActivity {
         mCollection.setTitle(careerDetail.data.title);
         mCollection.setTime(TimeUtil.parseTime(careerDetail.data.holdtime));
         mCollection.setType(getString(R.string.find_career));
-        mCollection.setId(careerDetail.data.id);
+        mCollection.setId((long)careerDetail.data.id);
     }
 
     private void showEmptyView() {
@@ -139,13 +143,10 @@ public class CareerDetailActivity extends ToolbarActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if (mCollectionDao.queryBuilder().where(CollectionDao.Properties.Id.eq(mId)).list().size()
-                > 0) {
-            getMenuInflater().inflate(R.menu.info_detail_collected, menu);
-            Logger.d("collected menu inflate");
-        } else {
-            getMenuInflater().inflate(R.menu.info_detail, menu);
-            Logger.d("collect menu inflate");
+        if (PreferenceUtil.getString(PreferenceUtil.COLLECTION_IDS).contains(String.valueOf(mCollection.getId()))){
+            getMenuInflater().inflate(R.menu.info_detail_collected,menu);
+        }else {
+            getMenuInflater().inflate(R.menu.info_detail,menu);
         }
         return super.onPrepareOptionsMenu(menu);
     }
@@ -155,14 +156,14 @@ public class CareerDetailActivity extends ToolbarActivity {
         switch (item.getItemId()) {
             case R.id.action_star:
                 if (mCollection != null) {
-                    mCollectionDao.insert(mCollection);
+                    CollectionsUtil.addCollectionId(String.valueOf(mCollection.getId()));
                 }
                 mUserApi.getUserService().addCollection(mCollection)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(baseData -> {
                             if (baseData.code == 0) {
-                                //ToastUtil.showShort(getString(R.string.save_success));
+                                ToastUtil.showShort(getString(R.string.save_success));
                             }
                         }, throwable -> {
                             throwable.printStackTrace();
@@ -171,7 +172,7 @@ public class CareerDetailActivity extends ToolbarActivity {
                 break;
             case R.id.action_unstar:
                 if (mCollection != null) {
-                    mCollectionDao.delete(mCollection);
+                    CollectionsUtil.removeCollectionId(String.valueOf(mCollection.getId()));
                 }
                 mUserApi.getUserService().removeCollection(mCollection.getId())
                         .subscribeOn(Schedulers.io())

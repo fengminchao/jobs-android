@@ -56,7 +56,7 @@ public class CollectionDao extends AbstractDao<Collection, Void> {
             stmt.bindString(1, mail);
         }
 
-        Integer id = entity.getId();
+        Long id = entity.getId();
         if (id != null) {
             stmt.bindLong(2, id);
         }
@@ -101,7 +101,7 @@ public class CollectionDao extends AbstractDao<Collection, Void> {
             stmt.bindString(1, mail);
         }
 
-        Integer id = entity.getId();
+        Long id = entity.getId();
         if (id != null) {
             stmt.bindLong(2, id);
         }
@@ -146,7 +146,7 @@ public class CollectionDao extends AbstractDao<Collection, Void> {
     public Collection readEntity(Cursor cursor, int offset) {
         Collection entity = new Collection( //
                 cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // mail
-                cursor.isNull(offset + 1) ? null : cursor.getInt(offset + 1), // id
+                cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1), // id
                 cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // title
                 cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // place
                 cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // school
@@ -160,7 +160,7 @@ public class CollectionDao extends AbstractDao<Collection, Void> {
     @Override
     public void readEntity(Cursor cursor, Collection entity, int offset) {
         entity.setMail(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
-        entity.setId(cursor.isNull(offset + 1) ? null : cursor.getInt(offset + 1));
+        entity.setId(cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1));
         entity.setTitle(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setPlace(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
         entity.setSchool(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));

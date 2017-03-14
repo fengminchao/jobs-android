@@ -29,6 +29,7 @@ import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Observable;
 import java.util.Set;
 import java.util.TimeZone;
 
@@ -36,6 +37,8 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by ybao on 16/12/8.
@@ -79,17 +82,18 @@ public class ScheduleFragment extends BaseFragment {
     protected void initView(View view) {
         ButterKnife.bind(this, view);
         loadCollection();
-        initCalendar();
         mRv.setHasFixedSize(true);
         mRv.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     private void loadCollection() {
-        mCollections = mCollectionDao.queryBuilder()
-                .where(CollectionDao.Properties.Mail.eq(mUserStorge.getUser().getMail()))
-                .build()
-                .list();
-        Logger.d(mCollections != null ? mCollections.size() + "" : "collection is null");
+        mUserApi.getUserService().getCollections()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(collectionResult -> {
+                    mCollections = collectionResult.data;
+                    initCalendar();
+                });
     }
 
     private void initCalendar() {
@@ -220,13 +224,13 @@ public class ScheduleFragment extends BaseFragment {
         mAdapter.setOnItemClickListener((type, id) -> {
             switch (type) {
                 case Constant.TYPE_XJH:
-                    CareerDetailActivity.start(getActivity(), id);
+                    CareerDetailActivity.start(getActivity(), (int)id);
                     break;
                 case Constant.TYPE_ZP:
-                    EmployDetailActivity.start(getActivity(), id);
+                    EmployDetailActivity.start(getActivity(), (int)id);
                     break;
                 case Constant.TYPE_XZ:
-                    FulltimeDetailAcitivity.start(getActivity(), id);
+                    FulltimeDetailAcitivity.start(getActivity(), (int)id);
                     break;
             }
         });

@@ -74,7 +74,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Vi
 
     public interface OnItemClickListener {
 
-        void onItemClick(int type, int id);
+        void onItemClick(int type, long id);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

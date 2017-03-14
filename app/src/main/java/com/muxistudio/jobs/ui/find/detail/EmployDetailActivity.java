@@ -21,6 +21,8 @@ import com.muxistudio.jobs.bean.EmployDetail;
 import com.muxistudio.jobs.db.Collection;
 import com.muxistudio.jobs.db.CollectionDao;
 import com.muxistudio.jobs.ui.ToolbarActivity;
+import com.muxistudio.jobs.util.CollectionsUtil;
+import com.muxistudio.jobs.util.PreferenceUtil;
 import com.muxistudio.jobs.util.TimeUtil;
 import com.muxistudio.jobs.util.ToastUtil;
 
@@ -113,7 +115,7 @@ public class EmployDetailActivity extends ToolbarActivity {
         mCollection.setTitle(employDetail.data.title);
         mCollection.setTime(TimeUtil.parseTime(employDetail.data.detailtime));
         mCollection.setType(getString(R.string.find_employ));
-        mCollection.setId(mId);
+        mCollection.setId((long) mId);
     }
 
     private void showEmptyView() {
@@ -136,8 +138,8 @@ public class EmployDetailActivity extends ToolbarActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if (mCollectionDao.queryBuilder().where(CollectionDao.Properties.Id.eq(mId)).list().size()
-                > 0) {
+        if (PreferenceUtil.getString(PreferenceUtil.COLLECTION_IDS).contains(
+                String.valueOf(mId))) {
             getMenuInflater().inflate(R.menu.info_detail_collected, menu);
         } else {
             getMenuInflater().inflate(R.menu.info_detail, menu);
@@ -149,9 +151,7 @@ public class EmployDetailActivity extends ToolbarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_star:
-                if (mCollection != null) {
-                    mCollectionDao.insert(mCollection);
-                }
+                CollectionsUtil.addCollectionId(String.valueOf(mId));
                 mUserApi.getUserService().addCollection(mCollection)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
@@ -165,9 +165,7 @@ public class EmployDetailActivity extends ToolbarActivity {
                         });
                 break;
             case R.id.action_unstar:
-                if (mCollection != null) {
-                    mCollectionDao.delete(mCollection);
-                }
+                    CollectionsUtil.removeCollectionId(String.valueOf(mId));
                 mUserApi.getUserService().removeCollection(mCollection.getId())
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())

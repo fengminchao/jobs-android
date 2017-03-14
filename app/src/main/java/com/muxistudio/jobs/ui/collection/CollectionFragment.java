@@ -106,7 +106,7 @@ public class CollectionFragment extends BaseFragment implements CollectionContra
             //    FulltimeDetailAcitivity.start(getActivity(), id);
             //    break;
             //}
-            showInfoDetailUi(type, id);
+            showInfoDetailUi(type, (int)id);
         }));
     }
 
