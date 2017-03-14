@@ -95,18 +95,7 @@ public class CollectionFragment extends BaseFragment implements CollectionContra
         mAdapter = new CollectionAdapter(mCollections);
         mRv.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(((type, id) -> {
-            //switch (type) {
-            //  case Constant.TYPE_XJH:
-            //    CareerDetailActivity.start(getActivity(), id);
-            //    break;
-            //  case Constant.TYPE_ZP:
-            //    EmployDetailActivity.start(getActivity(), id);
-            //    break;
-            //  case Constant.TYPE_XZ:
-            //    FulltimeDetailAcitivity.start(getActivity(), id);
-            //    break;
-            //}
-            showInfoDetailUi(type, (int)id);
+            showInfoDetailUi(type, (int) id);
         }));
     }
 
@@ -140,8 +129,6 @@ public class CollectionFragment extends BaseFragment implements CollectionContra
     public void onDestroyView() {
         super.onDestroyView();
         mPresenter.detachView();
-        Logger.d("collectionfragment destory");
-        //mCollections
     }
 
     @Override

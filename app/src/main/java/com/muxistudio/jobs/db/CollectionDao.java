@@ -182,7 +182,6 @@ public class CollectionDao extends AbstractDao<Collection, Void> {
 
     @Override
     public boolean hasKey(Collection entity) {
-        // TODO
         return false;
     }
 

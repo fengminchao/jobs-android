@@ -48,7 +48,7 @@ public class CollectionPresenter extends SubscriptionPresenter
 
     @Override
     public void loadCollections() {
-        Subscription s = mUserApi.getUserService()
+         mUserApi.getUserService()
                 .getCollections()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -67,13 +67,11 @@ public class CollectionPresenter extends SubscriptionPresenter
                     throwable.printStackTrace();
                     mView.showEmptyView();
                 });
-        addSubscription(s);
     }
 
     @Override
     public void onItemRemoved(Collection collection) {
         removedCollections.add(collection);
-
     }
 
     @Override
@@ -89,7 +87,6 @@ public class CollectionPresenter extends SubscriptionPresenter
 
     @Override
     public void detachView() {
-        Logger.d("detach view");
         for (int i = 0; i < removedCollections.size(); i++) {
             final int pos = i;
             mUserApi.getUserService()

@@ -108,10 +108,6 @@ public class MainActivity extends ToolbarActivity
         mPresenter.attachView(this);
 
         checkPermissionIsGranted();
-        //if (isAppPermissionGranted()){
-        //  Logger.d("permission has granted");
-        //}
-
     }
 
     @Override
@@ -171,11 +167,6 @@ public class MainActivity extends ToolbarActivity
 
     @Override
     public void showSetting() {
-        //SettingActiviy.start(this);
-        //getFragmentManager().beginTransaction()
-        //    .replace(R.id.content, SettingFragment.newInstance(),"setting")
-        //    .commit();
-        //Transa= getFragmentManager().beginTransaction();
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.content, SettingFragment.newInstance(), "setting");
         transaction.addToBackStack(null);
@@ -203,11 +194,6 @@ public class MainActivity extends ToolbarActivity
     @Override
     public void showFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction().replace(R.id.content, fragment).commit();
-        //getSupportFragmentManager().beginTransaction().addToBackStack(null);
-        if (getSupportFragmentManager().getFragments() != null) {
-            Logger.d("frag sfm:" + getSupportFragmentManager().getFragments().size());
-        }
-        Logger.d((fragment instanceof FindFragment) + "");
         if (fragment instanceof FindFragment) {
             isFindFragment = true;
         } else {
@@ -218,7 +204,6 @@ public class MainActivity extends ToolbarActivity
                     .remove(getFragmentManager().findFragmentByTag("setting"))
                     .commit();
             PreferenceUtil.putBoolean(PreferenceUtil.IS_SETTING_SHOW, false);
-            Logger.d("frag fm: " + getFragmentManager().getBackStackEntryCount());
         }
         isSettingFragmentShow = false;
         invalidateOptionsMenu();

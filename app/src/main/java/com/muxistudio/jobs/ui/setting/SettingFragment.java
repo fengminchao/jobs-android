@@ -22,6 +22,8 @@ import com.muxistudio.jobs.util.PreferenceUtil;
 public class SettingFragment extends PreferenceFragment
         implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener {
 
+    // TODO: 17/3/14 logout the userstorge
+
     private SwitchPreference themePreference;
     private SwitchPreference notifyPreference;
     private Preference cachePreference;
