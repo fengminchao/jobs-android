@@ -80,6 +80,7 @@ public class CollectionFragment extends BaseFragment implements CollectionContra
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                 int pos = viewHolder.getAdapterPosition();
                 mPresenter.onItemRemoved(mCollections.get(pos));
+                showSnackerbar("已删除收藏");
                 lastRmCollection = mCollections.get(pos);
                 lastRmCollectionPos = pos;
                 mCollections.remove(pos);
@@ -144,6 +145,7 @@ public class CollectionFragment extends BaseFragment implements CollectionContra
     public void showSnackerbar(String msg) {
         Snackbar.make(mRv, msg, Snackbar.LENGTH_LONG).setAction("撤销", v -> {
             mPresenter.onUndoClick(lastRmCollection);
+            insertItem(lastRmCollection);
         }).show();
     }
 }

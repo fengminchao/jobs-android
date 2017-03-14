@@ -6,6 +6,8 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
+    <dimen name="elevation_card">2dp</dimen>
+
     <dimen name="login_input_height">84dp</dimen>
 
     <dimen name="search_item_height">48dp</dimen>

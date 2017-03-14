@@ -20,9 +20,8 @@
         android:id="@+id/layout_reply"
         android:orientation="horizontal"
         android:background="?attr/widgetBackground"
-        android:elevation="4dp"
-        android:gravity="right"
-        >
+        android:elevation="6dp"
+        android:gravity="right">
 
         <EditText
             android:id="@+id/et_reply"

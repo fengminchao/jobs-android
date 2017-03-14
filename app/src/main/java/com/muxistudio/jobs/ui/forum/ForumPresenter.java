@@ -7,6 +7,8 @@ import com.muxistudio.jobs.R;
 import com.muxistudio.jobs.api.user.UserApi;
 import com.muxistudio.jobs.injector.PerActivity;
 
+import java.util.Collections;
+
 import javax.inject.Inject;
 
 import rx.android.schedulers.AndroidSchedulers;
@@ -50,6 +52,7 @@ public class ForumPresenter implements ForumContract.Presenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(postListResult -> {
+                    Collections.reverse(postListResult.data);
                     forumView.renderPostList(postListResult.data, true);
                 }, throwable -> {
                     throwable.printStackTrace();

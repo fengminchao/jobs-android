@@ -9,7 +9,7 @@
     android:layout_marginLeft="8dp"
     android:layout_marginRight="8dp"
     android:layout_marginTop="4dp"
-    app:cardElevation="4dp"
+    app:cardElevation="@dimen/elevation_card"
     >
 
   <RelativeLayout

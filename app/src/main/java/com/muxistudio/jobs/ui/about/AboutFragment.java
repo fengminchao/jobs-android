@@ -46,7 +46,7 @@ public class AboutFragment extends BaseFragment {
     @Override
     protected void initView(View view) {
         ButterKnife.bind(this, view);
-        mTvVersion.setText("Version:" + BuildConfig.VERSION_NAME);
+        mTvVersion.setText("Jobs " + BuildConfig.VERSION_NAME);
     }
 
 }

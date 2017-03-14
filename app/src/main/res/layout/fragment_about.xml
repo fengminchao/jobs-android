@@ -7,10 +7,10 @@
     >
 
   <ImageView
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:src="@drawable/ic_launcher"
+      android:layout_width="100dp"
+      android:layout_height="100dp"
       android:id="@+id/iv_logo"
+      android:src="@drawable/ic_launcher"
       android:layout_above="@+id/tv_version"
       android:layout_centerHorizontal="true"
       />
@@ -20,8 +20,10 @@
       android:layout_height="wrap_content"
       android:id="@+id/tv_version"
       android:layout_marginTop="12dp"
+      android:textSize="24sp"
+      android:textColor="?android:textColorPrimary"
       android:layout_centerInParent="true"
-      tools:text="Version: 1.0"
+      tools:text="Jobs 1.0"
       />
 
   <TextView
@@ -29,8 +31,10 @@
       android:layout_height="wrap_content"
       android:layout_alignParentBottom="true"
       android:id="@+id/tv_team"
+      android:textColor="?android:textColorPrimary"
       android:layout_centerHorizontal="true"
-      android:layout_marginBottom="64dp"
+      android:textSize="18sp"
+      android:layout_marginBottom="36dp"
       android:text="百分百火箭队"
       />
 

@@ -14,6 +14,7 @@ import com.muxistudio.jobs.injector.components.DaggerApplicationComponent;
 import com.muxistudio.jobs.injector.modules.ApplicationModule;
 import com.muxistudio.jobs.util.Logger;
 import com.muxistudio.jobs.util.PreferenceUtil;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import org.greenrobot.greendao.query.Query;
 
@@ -43,6 +44,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         sContext = this;
+        CrashReport.initCrashReport(getApplicationContext(), "0dc17c3f82", false);
         initInjector();
         initUser();
     }

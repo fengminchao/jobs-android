@@ -53,6 +53,6 @@
         android:background="@drawable/shape_divider"
         android:layout_marginLeft="-16dp"
         android:layout_marginRight="-16dp"
-          android:layout_height="10dp"/>
+          android:layout_height="1dp"/>
 
 </RelativeLayout>
