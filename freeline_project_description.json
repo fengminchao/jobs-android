@@ -36,7 +36,7 @@
     "databinding_modules": [
         
     ],
-    "debug_package": "muxi.studio.jobsapp",
+    "debug_package": "com.muxistudio.jobsapp",
     "exclude_dep_res_paths": [
         
     ],

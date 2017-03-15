@@ -38,11 +38,6 @@ public class SettingFragment extends PreferenceFragment
 
     private Context mContext;
 
-    public static void start(Context context) {
-        Intent starter = new Intent(context, SettingActiviy.class);
-        context.startActivity(starter);
-    }
-
     public static SettingFragment newInstance() {
         Bundle args = new Bundle();
         SettingFragment fragment = new SettingFragment();
