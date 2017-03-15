@@ -9,7 +9,7 @@ android {
     buildToolsVersion "25.0.0"
 
     defaultConfig {
-        applicationId "muxi.studio.jobsapp"
+        applicationId "com.muxistudio.jobsapp"
         minSdkVersion 16
         targetSdkVersion 25
         versionCode 3

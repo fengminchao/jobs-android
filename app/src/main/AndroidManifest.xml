@@ -27,8 +27,6 @@
       </intent-filter>
     </activity>
 
-    <activity android:name=".ui.setting.SettingActiviy"/>
-
     <activity android:name=".ui.accout.AccountActivity"/>
 
     <activity android:name=".ui.accout.AccountEditActivity"/>
@@ -42,8 +40,6 @@
     <activity android:name=".ui.find.detail.FulltimeDetailAcitivity"/>
 
     <activity android:name=".ui.find.detail.EmployDetailActivity"/>
-
-    <activity android:name=".ui.web.WebActivity"/>
 
     <activity android:name=".ui.forum.EditPostActivity"/>
 
