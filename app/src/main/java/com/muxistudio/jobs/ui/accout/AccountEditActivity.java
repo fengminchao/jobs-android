@@ -91,14 +91,14 @@ public class AccountEditActivity extends ToolbarActivity {
     TextInputEditText mEtPhone;
     @BindView(R.id.phone_layout)
     TextInputLayout mPhoneLayout;
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
     @BindView(R.id.et_mail)
     TextInputEditText mEtMail;
     @BindView(R.id.mail_layout)
     TextInputLayout mMailLayout;
     @BindView(R.id.iv_avator)
     ImageView mIvAvator;
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
     @BindView(R.id.tv_date)
     TextView mTvDate;
     //暂存的 userinfo
@@ -298,7 +298,7 @@ public class AccountEditActivity extends ToolbarActivity {
 
     public void uploadAvator(String key, boolean isFirst) {
         Subscription s = mUserApi.getUserService()
-                .getUploadToken("avator/" + mUserStorge.getUser().getMail() + ".png",
+                .getUploadToken("avator/" + mUserStorge.getUser().getMail() + ".jpeg",
                         String.valueOf(isFirst))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

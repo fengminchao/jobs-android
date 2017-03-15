@@ -479,10 +479,6 @@ public static java.lang.String TABLENAME;
 }
 -keep class **$Properties
 
-# If you do not use SQLCipher:
--dontwarn org.greenrobot.greendao.database.**
-# If you do not use RxJava:
--dontwarn rx.**
 -keep class com.muxistudio.jobs.db.*{ *; }
 
 #七牛
