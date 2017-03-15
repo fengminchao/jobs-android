@@ -6,6 +6,7 @@ import com.muxistudio.jobs.ui.about.AboutFragment;
 import com.muxistudio.jobs.ui.collection.CollectionFragment;
 import com.muxistudio.jobs.ui.forum.ForumFragment;
 import com.muxistudio.jobs.ui.schedule.ScheduleFragment;
+import com.muxistudio.jobs.ui.setting.SettingFragment;
 
 import dagger.Component;
 
@@ -25,5 +26,7 @@ public interface MainComponent {
     void inject(AboutFragment aboutFragment);
 
     void inject(ForumFragment forumFragment);
+
+    void inject(SettingFragment settingFragment);
 
 }

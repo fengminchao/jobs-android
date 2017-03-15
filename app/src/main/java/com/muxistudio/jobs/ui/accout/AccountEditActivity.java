@@ -188,7 +188,7 @@ public class AccountEditActivity extends ToolbarActivity {
                         .into(mIvAvator);
             }
         } else {
-            Picasso.with(this).load(R.drawable.default_avator).transform(
+            Picasso.with(this).load(R.drawable.default_avatar).transform(
                     new CircleTransformation()).into(mIvAvator);
         }
     }

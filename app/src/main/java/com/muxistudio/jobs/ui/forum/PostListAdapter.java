@@ -51,7 +51,7 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.ViewHo
         holder.mTvTime.setText(TimeUtil.toTimeInPost(new Date(mPostDataList.get(position).time)));
         holder.mTvName.setText(mPostDataList.get(position).name);
         if (TextUtils.isEmpty(mPostDataList.get(position).avator)) {
-            Picasso.with(mContext).load(R.drawable.default_avator).transform(
+            Picasso.with(mContext).load(R.drawable.default_avatar).transform(
                     new CircleTransformation()).into(holder.mIvAvator);
         } else {
             Picasso.with(mContext).load(mPostDataList.get(position).avator).transform(

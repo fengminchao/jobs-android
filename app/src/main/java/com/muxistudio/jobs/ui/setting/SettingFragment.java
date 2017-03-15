@@ -9,25 +9,29 @@ import android.preference.SwitchPreference;
 
 import com.muxistudio.jobs.App;
 import com.muxistudio.jobs.R;
+import com.muxistudio.jobs.api.UserStorge;
+import com.muxistudio.jobs.injector.PerActivity;
 import com.muxistudio.jobs.ui.BaseActivity;
 import com.muxistudio.jobs.ui.find.FindFragment;
 import com.muxistudio.jobs.ui.login.LoginActivity;
 import com.muxistudio.jobs.ui.main.MainActivity;
 import com.muxistudio.jobs.util.PreferenceUtil;
 
+import javax.inject.Inject;
+
 /**
  * Created by ybao on 16/11/6.
  */
 
+@PerActivity
 public class SettingFragment extends PreferenceFragment
         implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener {
 
-    // TODO: 17/3/14 logout the userstorge
-
+    @Inject
+    UserStorge mUserStorge;
     private SwitchPreference themePreference;
     private SwitchPreference notifyPreference;
     private Preference cachePreference;
-    private Preference accountPreference;
     private Preference logoutPreference;
 
     private PreferenceUtil sp;
@@ -45,24 +49,12 @@ public class SettingFragment extends PreferenceFragment
         fragment.setArguments(args);
         return fragment;
     }
-    //
-    //@Override protected void onPostCreate(Bundle savedInstanceState) {
-    //  super.onPostCreate(savedInstanceState);
-    //  LinearLayout root = (LinearLayout) findViewById(android.R.id.list).getParent().getParent
-    // ().getParent();
-    //  Toolbar
-    //      toolbar = (Toolbar) LayoutInflater.from(this).inflate(R.layout.view_setting_bar,root,
-    // false);
-    //  root.addView(toolbar,0);
-    //  toolbar.setNavigationOnClickListener(v -> this.finish());
-    //  ((ListView) findViewById(android.R.id.list)).setDivider(App.sContext.getResources()
-    // .getDrawable(R.drawable.divider_list));
-    //}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = App.sContext;
+        initInjector();
         addPreferencesFromResource(R.xml.preference_setting);
         sp = new PreferenceUtil();
         themePreference = (SwitchPreference) findPreference(getString(R.string.key_theme));
@@ -71,10 +63,12 @@ public class SettingFragment extends PreferenceFragment
         notifyPreference.setOnPreferenceChangeListener(this);
         cachePreference = findPreference(getString(R.string.key_cache));
         cachePreference.setOnPreferenceClickListener(this);
-        accountPreference = findPreference(getString(R.string.key_account));
-        accountPreference.setOnPreferenceClickListener(this);
         logoutPreference = findPreference(getString(R.string.key_logout));
         logoutPreference.setOnPreferenceClickListener(this);
+    }
+
+    private void initInjector() {
+        ((MainActivity)getActivity()).getComponent().inject(this);
     }
 
     @Override
@@ -101,12 +95,10 @@ public class SettingFragment extends PreferenceFragment
         if (preference.getKey().equals(getString(R.string.key_cache))) {
             clearCache();
         } else if (preference.getKey().equals(getString(R.string.key_account))) {
-            //startActivity();
         } else if (preference.getKey().equals(getString(R.string.key_logout))) {
+            mUserStorge.logout();
+            ((MainActivity)getActivity()).reload();
             LoginActivity.startActivity(getActivity());
-            //((MainActivity) getActivity()).getFragmentManager().beginTransaction().remove(this).commit();
-            ((MainActivity) getActivity()).showFragment(FindFragment.newInstance());
-            //this.finish();
         }
         return true;
     }

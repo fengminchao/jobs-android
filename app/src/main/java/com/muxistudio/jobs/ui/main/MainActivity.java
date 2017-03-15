@@ -246,7 +246,7 @@ public class MainActivity extends ToolbarActivity
     public void renderAccountAvator(String url) {
         if (TextUtils.isEmpty(url)) {
             Picasso.with(this)
-                    .load(R.drawable.default_avator)
+                    .load(R.drawable.default_avatar)
                     .transform(new CircleTransformation())
                     .into(mAvatorView);
             return;
