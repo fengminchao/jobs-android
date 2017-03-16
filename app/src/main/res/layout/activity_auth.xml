@@ -4,11 +4,9 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-    <include android:id="@+id/view_toolbar"
-             layout="@layout/view_toolbar"/>
+    <include layout="@layout/view_toolbar"/>
 
     <include
-        android:id="@+id/view_account"
         layout="@layout/view_account"/>
 
     <EditText

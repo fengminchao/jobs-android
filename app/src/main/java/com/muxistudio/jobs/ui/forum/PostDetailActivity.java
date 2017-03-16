@@ -155,7 +155,7 @@ public class PostDetailActivity extends ToolbarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_edit:
-                EditPostActivity.start(App.sContext, false, mPostDetailData.topic, pid);
+                EditPostActivity.start(PostDetailActivity.this, false, mPostDetailData.topic, pid);
                 break;
             case R.id.action_delete:
                 deletePost();
