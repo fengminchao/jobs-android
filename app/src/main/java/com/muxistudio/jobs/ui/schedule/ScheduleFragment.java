@@ -2,6 +2,7 @@ package com.muxistudio.jobs.ui.schedule;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -23,6 +24,7 @@ import com.muxistudio.jobs.ui.find.detail.FulltimeDetailAcitivity;
 import com.muxistudio.jobs.ui.main.MainActivity;
 import com.muxistudio.jobs.util.Logger;
 import com.muxistudio.jobs.util.TimeUtil;
+import com.muxistudio.jobs.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -81,6 +83,9 @@ public class ScheduleFragment extends BaseFragment {
     @Override
     protected void initView(View view) {
         ButterKnife.bind(this, view);
+        if (TextUtils.isEmpty(mUserStorge.getToken())){
+            ToastUtil.showShort(R.string.tip_please_login);
+        }
         loadCollection();
         mRv.setHasFixedSize(true);
         mRv.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -125,19 +130,6 @@ public class ScheduleFragment extends BaseFragment {
             mEvents.add(event);
         }
         mCompactcalendarView.addEvents(mEvents);
-
-        //Date date1 = new Date(System.currentTimeMillis());
-        //date1.setDate(1);
-        //Date date2 = new Date(System.currentTimeMillis());
-        //date2.setDate(2);
-        //Event ev1 = new Event(Color.GREEN, date1.getTime());
-        //Event ev2 = new Event(Color.GRAY,date2.getTime());
-        //List<Event> events = new ArrayList<>();
-        //events.add(ev1);
-        //events.add(ev2);
-        ////mCompactcalendarView.addEvent(ev1, false);
-        //mCompactcalendarView.addEvents(events);
-
         mCompactcalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
 
             @Override
@@ -185,29 +177,6 @@ public class ScheduleFragment extends BaseFragment {
             mEvents.add(event);
         }
         mCompactcalendarView.addEvents(mEvents);
-        //Observable.from(mCollections)
-        //    .subscribeOn(Schedulers.io())
-        //    .map(mCollections -> mCollections.getDate())
-        //    .filter(s -> !TextUtils.isEmpty(s))
-        //    .map(s -> {
-        //      Date date = TimeUtil.parseDateStrToDate(s);
-        //      return date.getTime();
-        //    })
-        //    .toSortedList()
-        //    .observeOn(AndroidSchedulers.mainThread())
-        //    .subscribe(dateList -> {
-        //      for (long date : dateList) {
-        //        if (mEvents.size() > 0 && mEvents.get(mEvents.size() - 1).getTimeInMillis() ==
-        // date) {
-        //          continue;
-        //        }
-        //        Event event = new Event(App.sContext.getResources().getColor(R.color
-        // .colorPrimary), date);
-        //        mEvents.add(event);
-        //      }
-        //      Logger.d(mEvents.size() + "");
-        //      mCompactcalendarView.addEvents(mEvents);
-        //    }, throwable -> throwable.printStackTrace());
     }
 
     public void renderRecyclerView(Date date) {
@@ -234,11 +203,6 @@ public class ScheduleFragment extends BaseFragment {
                     break;
             }
         });
-        //Observable.from(mCollections)
-        //    .filter(collection -> collection.getDate().equals(date.getTime()))
-        //    .subscribeOn(Schedulers.immediate())
-        //    .observeOn(Schedulers.immediate())
-        //    .forEach();
     }
 
     private void hideRecyclerView() {

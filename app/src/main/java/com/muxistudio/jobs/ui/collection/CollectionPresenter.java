@@ -1,7 +1,9 @@
 package com.muxistudio.jobs.ui.collection;
 
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
+import com.muxistudio.jobs.R;
 import com.muxistudio.jobs.api.UserStorge;
 import com.muxistudio.jobs.api.user.UserApi;
 import com.muxistudio.jobs.db.Collection;
@@ -10,6 +12,7 @@ import com.muxistudio.jobs.injector.PerActivity;
 import com.muxistudio.jobs.ui.SubscriptionPresenter;
 import com.muxistudio.jobs.util.CollectionsUtil;
 import com.muxistudio.jobs.util.Logger;
+import com.muxistudio.jobs.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,6 +85,9 @@ public class CollectionPresenter extends SubscriptionPresenter
     @Override
     public void attachView(@NonNull CollectionContract.View view) {
         mView = view;
+        if (TextUtils.isEmpty(mUserStorge.getToken())){
+            ToastUtil.showShort(R.string.tip_please_login);
+        }
         loadCollections();
     }
 
