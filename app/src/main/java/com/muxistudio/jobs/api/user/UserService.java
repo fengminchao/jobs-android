@@ -31,10 +31,6 @@ import rx.Observable;
 
 public interface UserService {
 
-    //登录版块
-
-    //用户注册验证
-
     /**
      * {mail}
      */

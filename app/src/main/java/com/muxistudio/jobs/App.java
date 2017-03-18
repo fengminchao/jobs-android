@@ -64,9 +64,6 @@ public class App extends Application {
             }
         }
 
-        Logger.d(mUserStorge.getUser().getMail());
-        Logger.d(mUserStorge.getToken());
-        Logger.d(mUserStorge.getUserInfo().getAvator());
     }
 
     private void initInjector() {
