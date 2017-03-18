@@ -6,7 +6,7 @@ Jobs 是一款汇集了湖北各大高校的招聘宣讲信息，帮助用户管
 
 ## 下载
 
-[apk文件下载](http://ognz3v7yx.bkt.clouddn.com/jobs1.2.apk)
+[apk文件下载](http://ognz3v7yx.bkt.clouddn.com/jobs.apk)
 
 [应用商店下载](http://www.anzhi.com/soft_2769847.html)
 
